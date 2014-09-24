@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Morris测试</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<style>
+		#holder{
+			margin: 30px auto 0;
+			width: 600px;
+            height: 400px;
+			overflow: hidden;
+            background: #ddf1e4;
+            position:relative;
+            border-radius: 7px;
+		}
+	</style>
+
+	<div id="holder" data-grid-color="#8cac99">
+		
+	</div>	
+
+<script>
+	require(["morris"],function(){
+
+		Morris.Line({
+		element: 'holder',
+			data: [
+				{ y: '2006', a: 100, b: 90 },
+				{ y: '2007', a: 75,  b: 65 },
+				{ y: '2008', a: 50,  b: 40 },
+				{ y: '2009', a: 75,  b: 65 },
+				{ y: '2010', a: 50,  b: 40 },
+				{ y: '2011', a: 75,  b: 65 },
+				{ y: '2012', a: 100, b: 90 }
+			],
+			xkey: 'y',
+			ykeys: ['a', 'b'],
+			labels: ['Series A', 'Series B'],
+			lineColors: ['#f00','#00f']
+		});
+
+	});
+</script>
+</body>
+</html>

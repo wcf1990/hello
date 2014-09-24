@@ -1,0 +1,67 @@
+{
+    "page": {
+        "content": [
+            {
+                "id": 7,
+                "new": false,
+                "receiveUser": {
+                    "admin": false,
+                    "blogUrl": "xxxxx",
+                    "deleted": false,
+                    "displayOrganizationJobs": {},
+                    "email": "xxxxx@xxxx.comx",
+                    "id": 1,
+                    "new": false,
+                    "organizationJobs": [],
+                    "password": "ec21fa1738f39d5312c6df46002d403d",
+                    "realname": "xxx",
+                    "salt": "yDd1956wn1",
+                    "sex": "male",
+                    "status": "normal",
+                    "username": "admin",
+                    "weiboUrl": "w"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "unread",
+                "text": {
+                    "body": "sys recycle",
+                    "createDate": 1394467200000,
+                    "id": 6,
+                    "new": false
+                },
+                "type": "sys"
+            },
+            {
+                "id": 6,
+                "new": false,
+                "receiveUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "recycle",
+                "text": {
+                    "body": "user recycle",
+                    "createDate": 1393948800000,
+                    "id": 5,
+                    "new": false
+                },
+                "type": "user"
+            }
+        ],
+        "currentPage": 1,
+        "firstPage": true,
+        "lastPage": true,
+        "number": 0,
+        "numberOfElements": 2,
+        "size": 5,
+        "sort": {},
+        "totalElements": 2,
+        "totalPages": 1
+    }
+}

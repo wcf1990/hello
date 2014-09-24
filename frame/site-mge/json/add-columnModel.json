@@ -1,0 +1,15 @@
+{
+	"code":200,
+	"content":{  "id":"18",
+				"name":"政治",
+				"url":"www.mews.cn",
+				"clmPrefix":"api.hong.com",
+				"contPrefix":"api.hong.com",
+				"titPicWidth":"110",
+				"titPicHeight":"90",
+				"contPicWidth":"110",
+				"conticHeight":"84",
+				"contIf":false
+
+		}	
+}

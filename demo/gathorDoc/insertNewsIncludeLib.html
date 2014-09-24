@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>加工集成文档</title>
+	<link rel="stylesheet" href="../../css/insertnews.include1.css"/>
+	<link rel="stylesheet" href="../../css/form-style.css"/>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<div class="warpper clearfix">
+		<div class="search-news">
+			<div class="nav-523">
+				<dl class="addbg">
+				    <dt>
+					    <h4>搜索新闻</h4>
+					    <p>输入关键字，按题材类型搜索新闻</p>
+				    </dt>
+				    <dd>1</dd>
+			    </dl>
+			    <div class="arrow addbg-arrow"></div>
+			    <dl>
+				    <dt>
+					    <h4>设置集成文档</h4>
+					    <p>设置各新闻体裁的置顶新闻</p>
+				    </dt>
+				    <dd>2</dd>
+			    </dl>
+			</div>
+			<div class="select-526 select-610 clearfix">
+				<div class="select-526-left">
+					<div class="select-item clearfix" id="genreSeach">
+						
+					</div>
+					<script id="genre" type="text/x-handlebars-template">
+						<strong>稿件体裁:</strong>
+							<select id="attributes_genre" class="select0">
+								<option value="0">全部</option>
+								{{#each origin}}
+									<option value="{{id}}">{{name}}</option>
+								{{/each}}
+							</select>
+							
+					</script>
+					<script id="genreItem" type="text/x-handlebars-template">
+						<select id="integration_attributes" class="select1">
+						<option value="0">全部体裁</option>
+							{{#each typelist}}
+								<option value="{{id}}" parentId="{{parentId}}">{{name}}</option>
+							{{/each}}
+						</select>
+					</script>
+				</div>
+				<div class="select-526-right">
+					<div class="select-item clearfix" id="conType">
+						<strong>内容类型:</strong>
+						
+					</div>
+					<script id="contentList" type="text/x-handlebars-template">
+						<select id="attributes_type" class="select2">
+								<option value=0>全部类型</option>
+							{{#each typeList}}
+								<option value="{{id}}">{{name}}</option>
+							{{/each}}
+						</select>
+					</script>
+				</div>
+			</div>
+
+			<div class="select-526 select-610 clearfix">
+				<div class="select-item clearfix">
+						<strong>标签:</strong>
+						<div class="tags-content">
+							<input class="seach-tags" type="button" value="查看稿件">
+						</div>
+				</div>
+			</div>
+
+			<div class="select-526 clearfix">
+				<div class="select-item clearfix">
+					<strong>搜索关键词:</strong>
+					<div class="txt">
+						<input id="keyword" type="text" value="">
+						<input id="search" type="button">
+					</div>
+				</div>
+			</div>
+			<div class="news-content clearfix">
+				<div class="result-lists">
+				</div>
+				<script id="choosedList" type="text/x-handlebars-template">
+					{{#each content}}
+						<div class="search-one searched" data-id="{{docId}}" data-choosed="{{topLevel}}" data-type="{{docCategory}}" data-score="{{docScore}}" data-origin="{{docType}}">
+							<a target="_blank" title="{{docName}}" data-href="{{docUrl}}">{{docName}}</a><span class="chooseTag">取消选择</span><span class="news_tip_ding">{{ding}}</span>
+						</div>
+					{{/each}}
+				</script>
+				<script id="searchList" type="text/x-handlebars-template">
+					{{#each content}}
+						<div class="search-one" data-id="{{docId}}" data-choosed=0 data-type="{{docCategory}}" data-score="{{docScore}}" data-origin="{{docType}}">
+							<a target="_blank" title="{{docName}}" data-href="{{docUrl}}">{{docName}}</a><span class="chooseTag">选择</span><span class="news_tip_ding">{{ding}}</span>
+						</div>
+					{{/each}}
+					<a id="loadMore" class="searchMore" style="display:none">加载更多...</a>
+					<label id="noMore" class="searchMore" style="">没有更多搜索</label>
+				</script>
+				<div class="news-detail"></div>
+			</div>
+		</div>
+		<a class="nextBox" href="insertNewsIncludeLib1.html">下一步</a>
+	</div>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/require.js"></script>
+<script src="../../js/require-config.js"></script>
+<script src="../../../xhcms0.4/js/comman.js"></script>
+
+<script type="text/javascript">
+(function(){
+	var url={
+			save:"../../../../xhadmin/document/v_save.do",
+			constant:"../../../xhadmin/integration/constant.do",
+			edit:"../../../xhadmin/document/v_edit.do",
+			search:"../../../../xhCNS/searchByAttr.htm"
+		}
+	require(["form-style","template"],function(){
+		$(".select3").toSelect({
+			width:264
+		});
+		$(".checkbox").toCheckbox();
+
+
+		/*体裁数据化*/
+		$.nGetJSON(url.constant,function(res){
+			var obj={};
+			obj.origin=[];
+			obj.typelist=[];
+			for(var key in res.type){
+				if(res.type[key].parentId==0){
+					obj.origin.push(res.type[key])
+				}else{
+					obj.typelist.push(res.type[key])
+				}
+			}
+			var sourceGenre=$("#genre").html();
+			var templateGenre=Handlebars.compile(sourceGenre);
+			$("#genreSeach").append(templateGenre(obj));
+
+			var sourceItem=$("#genreItem").html();
+			var templateItem=Handlebars.compile(sourceItem);
+			$("#genreSeach").append(templateItem(obj))
+			$(".select0").toSelect({
+				width:100
+			});
+			$(".select1").toSelect({
+				width:100
+			});
+			$("#attributes_genre").on("change",function(){
+				var obj={};
+				obj.origin=[];
+				obj.typelist=[];
+				if($(this).val()!=0){
+					for(var key in res.type){
+						if(res.type[key].parentId==$(this).val()){
+							obj.typelist.push(res.type[key])
+						}
+					}
+				}else{
+					for(var key in res.type){
+						obj.typelist.push(res.type[key])
+					}
+				}
+				$("#genreSeach .fm-select").filter(":last").remove();
+				var sourceItem=$("#genreItem").html();
+				var templateItem=Handlebars.compile(sourceItem);
+				$("#genreSeach").append(templateItem(obj));
+				if($(this).val()!=0){
+					$("#integration_attributes option").filter(":first").remove();
+				}	
+				$(".select1").toSelect({
+					width:100
+				});
+			})
+		})
+		
+
+
+		/*内容类型数据化*/
+		var source=$("#contentList").html();
+		var obj={};
+		obj.typeList=window.parent.typeList;
+		var template=Handlebars.compile(source);
+		$(".select-526-right .select-item").append(template(obj));
+		$(".select2").toSelect({
+			width:264
+		});
+
+	})
+	require(["alerts","form-style"],function(){
+		/*已选稿件回显*/
+		if(window.parent.back!==true){
+			$.nGetJSON(url.constant,function(res){
+				$.nGetJSON(url.edit,{contentId:$.Request("contentId")},function(data){
+					if(data.success){
+						for(var key in res.type){
+							for(var item in data.content){
+								if(res.type[key].id==data.content[item].docCategory){
+									data.content[item].docCategory=res.type[key].name;
+								}
+							}
+							
+						}
+						var source  = $("#choosedList").html();  
+					    var template = Handlebars.compile(source); 
+					    $(".result-lists").html(template(data)); 
+					}
+				});
+			});
+		}else{
+			var source  = $("#choosedList").html();  
+		    var template = Handlebars.compile(source); 
+		    $(".result-lists").html(template(window.parent.backData)); 
+		}
+
+		/*标签显示*/
+		var tagAndContent = parent.window.tagAndContent;
+		var innerHtml="";
+		if(tagAndContent.tags.tags.length){
+			$.each(tagAndContent.tags.tags,function(n,v){
+				innerHtml+=('<div class="tag-item"><input type="checkbox" name="checkbox" class="checkbox tagCheck"  value="0"> <label for="checkbox0">'+v.name+'</label></div>');
+			});
+			$(".seach-tags").before(innerHtml);
+			$(".checkbox").toCheckbox();
+		}else{
+			$(".seach-tags").hide();
+		}
+	})
+	$(function(){
+
+			/*搜索*/
+			var typeSelect = "",  //类型下拉框
+			    page = 1;
+			//var reg = /(http.*?)cloudnews(.*?)\d+\/(.*)_c\.html/g;
+			//var strreg = "$1cloudapi$2$3.htm?tpl=/red/content/cloudRead_share.html";  
+			var getList = function(){
+				var type_id,
+				    sttr_name,
+				    tags=[];
+				$("#keyword").val()&&tags.push($("#keyword").val());
+				$(".tagCheck:checked").each(function(){
+					tags.push($(this).parent().next().text());
+				});
+				$("#attributes_type").val()!="0"?type_id=$("#attributes_type").val():type_id="";
+				$("#genreSeach .value-holder").filter(":last").html()!="全部体裁"?sttr_name=$("#genreSeach .value-holder").filter(":last").html():sttr_name="";
+				if(sttr_name==""&&!tags[0]){
+					jTip( '体裁,关键字,标签,必填一项', 1000 );
+				}else{
+					$.nGetJSON(url.search,{keyword:tags.join(),pageNo:page,pageSize:20,typeId:type_id,attrName:encodeURI(sttr_name)
+					},function(res){
+						for(var i=0; i<res.content.length; i++){
+							//res.content[i].docUrl=res.content[i].docUrl.replace(reg, strreg);
+							for(var j=0;j<$(".result-lists .searched").length; j++){
+								if(res.content[i].docId==$(".result-lists .searched").eq(j).attr("data-id")){
+									res.content.splice(i,1);
+								}
+							}
+						}
+
+						var innerHtml="";
+						if(res.content){
+							var source=$("#searchList").html();  
+							var template=Handlebars.compile(source);
+							$(".result-lists").append(template(res));
+							page++;
+								if(res.content.length<20){
+								$("#noMore").show();
+								$("#loadMore").hide();
+							}
+							else{
+								$("#noMore").hide();
+								$("#loadMore").show();
+							}
+						}
+						else{
+							$("#noMore").show();
+							$("#loadMore").hide();
+						}
+					})
+				}	
+
+			}
+
+			$("#search, .seach-tags").on("click",function(){
+				$(".search-one").each(function(){
+					!$(this).hasClass("searched")?$(this).remove():$(this);
+				})
+				$(".searchMore").remove();
+				page = 1;
+				getList();
+			});
+			$(".result-lists").on("click","#loadMore",function(){
+				$(".searchMore").remove();
+				getList();
+			});
+			$(".result-lists").on("click",".chooseTag",function(){
+				if(!$(this).parent().hasClass("searched")&&$(".result-lists .searched").is("div[data-id='"+$(this).parent().attr("data-id")+"']")){
+					jTip( '稿件已经选择', 1500 );
+					
+				}else{
+					$(this).parent().toggleClass("searched");
+					$(this).parent().hasClass("searched")?$(this).html("取消选择"):$(this).html("选择");
+				}
+			})
+			$(".result-lists").on("click","a", function(){
+				$(".news-detail").html("");
+				var frame='<iframe id="show-frame" width="100%" height="100%" style="border:0px;" src='+$(this).attr("data-href")+'>';
+				$(".news-detail").append(frame);
+			})
+		})
+	$(".nextBox").on("click",function(){
+		var obj=[];
+		$(".result-lists .search-one").each(function(){
+			if($(this).hasClass("searched")){
+				var item={}
+				item.dataId=$(this).attr("data-id");
+				item.docType=$(this).attr("data-origin");
+				item.dataScore=$(this).attr("data-score");
+				item.docCategory=$(this).attr("data-type");
+				item.dataChoosed=$(this).attr("data-choosed");
+				item.dataName=$(this).find("a").html();
+				item.url=$(this).find("a").attr("data-href");
+				obj.push(item);
+			}
+		})
+		window.parent.integrationArticles= obj;
+	})
+
+	$('.ui-dialog-titlebar-close', window.parent.document).click(function(){
+		delete window.parent.back;
+	});
+	
+
+})();
+</script>	
+</body>
+</html>

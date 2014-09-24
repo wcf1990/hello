@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>timeline-index2</title>
+    <link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/my-timeline.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/require.js"></script>
+    <script src="../../js/require-config.js"></script>
+    <style> 
+    #timeline-embed h2.tips{height:30px;text-align:center;padding:30px;font-family:微软雅黑;font-size:16px; color:#CCC;}
+    </style>
+  </head>
+  <body>
+    <!--wrapper 开始-->
+  	<div class="wrapper">
+
+      <!--tabnum 点击换背景部分 开始-->
+  		<div class="tabnum">
+        <a href="timeline.html">
+  			<dl class="addbg add-opa">
+  				<dt>
+  					<h4>搜索新闻</h4>
+					  <P>可指定时间段，输入关键 词搜索新闻</P>  					
+  				</dt>
+  				<dd class="addbg2">1</dd>
+  			</dl>
+        </a>
+        <div class="arrow"></div>
+
+        <dl class="addbg">
+          <dt>
+            <h4>设置时间轴</h4>
+            <P>调整、设置时间轴样式， 预览时间轴</P>           
+          </dt>
+          <dd class="addbg2">2</dd>
+        </dl>   
+  		</div><!--tabnum 点击换背景部分 结束-->
+
+      <!--center 开始-->
+      <div class="select-all">
+        <div class="time_name" id="time_name">
+          <label>时间轴名称：</label>
+            <input type="text" placeholder="" name="tname" />
+        </div>
+
+        <!--排序方式 开始-->
+        <div class="rank">
+          <div class="rank_l">
+            <label>稿件排序方式：</label>
+            <ul id="grank_rank">
+                <li class="cur" data-value="occur"><a href="javascript:void(0)" >按发生时间</a></li>
+                <li data-value="release"><a href="javascript:void(0)" >按发布时间</a></li>
+            </ul>
+         </div>
+          <div class="rank_r">
+            <label>默认时间位置：</label>
+            <ul id="trank_rank">
+                <li class="cur" data-value="oldest"><a href="javascript:void(0)">定位到最旧</a></li>
+                <li data-value="newest"><a href="javascript:void(0)">定位到最新</a></li>
+            </ul>
+          </div>
+        </div><!--排序方式 结束-->
+
+        <!--时间 开始-->
+        <div class="timescale">
+          <div class="timescale_l">
+            <label>时间刻度：</label>
+            <ul id="timel_rank">
+                <li data-value="0"><a href="javascript:void(0)">年</a></li>
+                <li data-value="1"><a href="javascript:void(0)">月</a></li>
+                <li data-value="2" class="cur"><a href="javascript:void(0)">日</a></li>
+                <li data-value="3"><a href="javascript:void(0)">时</a></li>
+                <li data-value="4"><a href="javascript:void(0)">分</a></li>
+            </ul>
+         </div>
+          <div class="timescale_r">
+            <label>时间轴样式：</label>
+            <ul id="timer_rank">
+                <li class="cur" data-value="title"><a href="javascript:void(0)">标题横轴式</a></li>
+                <li data-value="imgtxt"><a href="javascript:void(0)">图文横轴式</a></li>
+            </ul>
+          </div>
+        </div><!--时间 结束-->
+      </div><!--center 结束-->
+
+
+      <!--时间轴切换 开始-->
+        <div id="my-timeline" class="my-timeline">
+        </div><!--时间轴切换 结束-->
+
+      
+      <div class="prev-next">
+        <a href="timeline.html" id="back">上一步</a>
+        <a href="javascript:void(0)" id="complete">完成</a>
+        <a href="javascript:void(0)" id="cancel">取消</a>
+      </div>
+      
+  	</div> <!--wrapper 结束-->
+
+    <script type="text/javascript" src="js/my-timeline2.js"></script>
+  </body>
+</html>  

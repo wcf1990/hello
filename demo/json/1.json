@@ -1,0 +1,78 @@
+{
+    "content": [
+        {
+            "answer": "2014年第一财季的超预期亏损并没有影响王雪红的好心情。在接受《经济参考报》采访时，作为H T C的掌门人王雪红信心满满地说，H T C“已经度过了谷底”，预期将在今年第二财季实现盈利。从王雪红透露给记者的信息看，似乎是新机D esire 816的热卖，以及最新旗舰H T C O ne(M 8)的一机难求，给了她这样的底气",
+            "answerContentId": 1,
+            "createDate": "2014-05-28 16:16:44",
+            "priority": 1,
+            "question": "abc",
+            "refContentId": [
+                1171623
+            ],
+            "type": 0,
+            "uuid": "415aef9060a042bb8f9f260d7cfe05ec"
+        },
+        {
+            "answer": "多元化营销\n　　对于手机这样的消费电子产品来说，好的营销策略在促进产品销售上至关重要。正面教材有三星的广告战略、小米的“互联网化销售”；而很多市场人士，都将一向低调的H T C看做反面教材。例如，H T C的上一代旗舰H T C O ne尽管在业内和用户中备受好评，并且斩获无数业内奖项，但这并没有给H T C带来骄人的业绩。",
+            "answerContentId": 2,
+            "createDate": "2014-05-28 16:16:44",
+            "priority": 1,
+            "question": "aaa",
+            "refContentId": [
+                1171623
+            ],
+            "type": 0,
+            "uuid": "2cb10578a6fe405d9a7ca59e65188f2f"
+        },
+        {
+            "answer": "",
+            "answerContentId": 3,
+            "createDate": "2014-05-28 16:16:44",
+            "priority": 1,
+            "question": "234",
+            "refContentId": [
+                1171623
+            ],
+            "type": 0,
+            "uuid": "4bd73ec699b6491aa3ddfb07c7a21ab8"
+        },
+        {
+            "answer": "中低端手机，外界更关注H T C重回中低端的全新战略。在王雪红告诉《经济参考报》，重回中低端对H T C而言至关重要，这将关系着H T C能否在今年第二季度如期实现盈利，能否在今年打一个漂亮的翻身仗",
+            "answerContentId": 4,
+            "createDate": "2014-05-28 16:16:44",
+            "priority": 1,
+            "question": "56789",
+            "refContentId": [
+                1171623
+            ],
+            "type": 0,
+            "uuid": "a3ab4b693c414c22a04b84a59c474bfc"
+        },
+        {
+            "answer": "",
+            "answerContentId": 5,
+            "createDate": "2014-05-28 16:16:44",
+            "priority": 1,
+            "question": "惆怅长岑长",
+            "refContentId": [
+                1171623
+            ],
+            "type": 1,
+            "uuid": "ced187356e674671806a66fb64f0c500"
+        },
+        {
+            "answer": "",
+            "answerContentId": 6,
+            "createDate": "2014-05-28 16:16:44",
+            "priority": 1,
+            "question": "222",
+            "refContentId": [
+                700997,
+                1171623
+            ],
+            "type": 1,
+            "uuid": "c5325cd7943146d28ff2983a360b35d8"
+        }
+    ],
+    "success": true
+}

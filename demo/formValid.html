@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>formValid</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<style>
+		#form-content{
+			width: 840px;
+			background: #fff;
+			margin: 30px auto;
+		}
+		#form-content .fm-item{
+			line-height: 30px;
+			padding-left: 150px;
+			height: 30px;
+			overflow: visible;
+			position: relative;
+		}
+		#form-content .fm-item .i-label{
+			display: block;
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 150px;
+			height: 30px;
+			text-align: right;
+		}
+		#form-content .fm-item .i-text{
+			width: 170px;
+		}
+
+		#form-content .fm-item .i-radio{
+			margin-left: 10px;
+		}
+
+		.tip-error{
+			font-size: 12px;
+			padding-left: 8px;
+			color: #c00;
+		}
+		.tip-default{
+			font-size: 12px;
+			padding-left: 8px;
+			color: #666;
+		}
+		.title{
+			text-align: center;
+			line-height: 60px;
+			font-family: 'Microsoft Yahei';
+		}
+	</style>
+
+	<div id="form-content">
+		<h2 class="title">身份证验证</h2>
+ 		<form id="form0">
+ 			<div class="fm-item">
+ 				<label class="i-label">姓名：</label>
+ 				<input class="i-text" name="name" id="name">
+ 				<span class='tip tip-default'></span>
+ 			</div>
+ 			<div class="fm-item">
+ 				<label class="i-label">身份证号：</label>	<!--  610402198509239239,  440703198104021240  -->
+ 				<input class="i-text" name="idCard" id="idCard" value="610402198509239239">
+ 				<span class='tip tip-default'></span>
+ 			</div>
+ 			<div class="fm-item">
+ 				<label class="i-label">性别：</label>
+ 				<input class="i-radio sex" type="radio" name="sex" id="sex_1" value="1" ><label for="sex_1">男</label>
+ 				<input class="i-radio sex" type="radio" name="sex" id="sex_0" value="0"><label for="sex_0">女</label>
+ 				<span class='tip tip-default'></span>
+ 			</div>
+ 			<div class="fm-item">
+ 				<label class="i-label">籍贯：</label>
+ 				<input class="i-text" name="from" id="from" value="">
+ 				<span class='tip tip-default'></span>
+ 			</div>
+ 			<div class="fm-item">
+ 				<label class="i-label">出生日期：</label>
+ 				<input class="i-text" name="birth" id="birth" value="1988-2">
+ 				<span class='tip tip-default'></span>
+ 			</div>
+ 			<div class="fm-item">
+ 				<input type="submit" value="提交" id="submit">
+ 			</div>
+ 		</form>
+	</div>
+
+<script>
+(function($){
+	require(["data/area.min","selectors"],function(){
+		$("#from").selectors({
+			o:window.Area["亚洲_1"]["中国_156"],
+			chainSpliter: ',',
+			hiddenEmpty: false
+		});
+		$("#birth").selectors({ 
+			beginDate : new Date("1900/1/1") 
+		});
+
+		var ChinaAreaMap = window.ChinaAreaMap;
+		delete window.ChinaAreaMap	//清除 ChinaAreaMap 后 idCard-valid将使用籍贯的非严格验证, 防止部分身份证查询不到数据
+
+		require(["formValid","idCard-valid"],function(){
+
+			//初始化验证效果
+			$.form.settings = {
+				initTip:function(input,defaultTip){
+					input.focus(function(){ $(this).nextAll('.tip').removeClass('tip-error').addClass("tip-default").text(defaultTip || ""); }).nextAll('.tip').text(defaultTip || "");
+				},
+				validTip : function(input,errorInfo, defaultTip){
+					if(errorInfo){
+						for(var i=0; i<10; i+=2)input.animate({marginLeft:10-i,marginRight:i-10},20).animate({marginLeft:0,marginRight:0},20);
+						input.nextAll('.tip').removeClass('tip-default').addClass("tip-error").text(errorInfo);
+					}else{
+						input.nextAll('.tip').removeClass('tip-error').addClass("tip-default").text(defaultTip || "");
+					}
+				}
+		
+			};
+
+
+			$.form.render({
+				"#name":{
+					defaultTip: "请输入真实姓名",
+					type:'chinese',
+					option: 'blur',
+					stringCtoh : true
+				},
+				"#idCard":{
+					option: 'blur',
+					defaultTip:"请输入正确的18位身份证号码,性别/籍贯/出生日期将由系统自动计算.",
+					type: 'IdCard',
+					success: function(input,validReturn){
+						$( '.sex' ).filter('[value="' + validReturn.sex + '"]').attr({checked:true}).change();
+						$( '#from' ).selectValue( input.val().substring(0,6) ).change();
+						$( '#birth' ).selectValue( validReturn.birth.year+"-"+validReturn.birth.month+"-"+validReturn.birth.day  ).change();
+					}
+				},
+				".sex":{
+					option:'change',
+					begin: function(input){
+						return input.parent().find( "[name='" + input.attr('name') + "']" ).filter(":checked").val();
+					}
+				},
+				"#from,#birth":{
+					option:'change'
+				}
+			},{
+				option: "blur change",
+				required: true
+			});
+
+			$("#form0").submit(function(){
+				return $("#form0").formValid();
+			});
+		});
+
+	});
+})(jQuery);
+	
+</script>
+</body>
+</html>

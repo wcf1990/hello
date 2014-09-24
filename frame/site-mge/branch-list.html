@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>站点设置列表</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="outter-frame">
+	<div class="mainRight">
+		<div id="list-branch">
+
+		</div>
+		<script type="template/html" id="branch-site-list" data-target="#list-branch" data-mothod="post">
+			<a class="fm-button add-top"  href="branch-edit.html?add=add">添加站点</a>
+			<table class="table station_table">
+				<tr>
+					<th width="8%">ID</th>
+					<th>站点名称</th>
+					<th>上次修改时间</th>
+					<th>操作</th>
+				</tr>
+				{{#each list}}
+				<tr>
+					<td id="cb-{{id}}">{{id}}</td>
+					<td class="nameColor">{{name}}</td>
+					<td>{{edit_time}}</td>
+					<td class="nameColor"><a class="branchEdit" href="branch-edit.html" data-id="{{id}}" data-name="{{name}}" >修改</a> | <a class="branchDelete" data-id="{{id}}">删除</a></td>
+				</tr>
+				{{/each}}
+
+			</table>
+		</script>
+
+		<script type="template/html" id="branch-center-list" data-target="#list-branch" data-mothod="post">
+			<a class="fm-button add-top" href="branch-edit.html?add=add&up={{up}}">添加中心</a>
+			<table class="table station_table">
+				<tr>
+					<th width="8%">ID</th>
+					<th>中心名称</th>
+					<th>上级部门</th>
+					<th>上次修改时间</th>
+					<th>操作</th>
+				</tr>
+				{{#each list}}
+				<tr>
+					<td id="cb-{{id}}">{{id}}</td>
+					<td class="nameColor">{{name}}</td>
+					<td>{{up}}</td>
+					<td>{{edit_time}}</td>
+					<td class="nameColor"><a class="branchEdit" href="branch-edit.html" data-id="{{id}}" data-name="{{name}}" >修改</a> | <a class="branchDelete" data-id="{{id}}">删除</a></td>
+				</tr>
+				{{/each}}
+
+			</table>
+		</script>
+
+		<script type="template/html" id="branch-depart-list" data-target="#list-branch" data-mothod="post">
+			<a class="fm-button add-top" href="branch-edit.html?add=add&up={{up}}">添加部门</a>
+			<table class="table station_table">
+				<tr>
+					<th width="8%">ID</th>
+					<th>部门名称</th>
+					<th>上级部门</th>
+					<th>上次修改时间</th>
+					<th>操作</th>
+				</tr>
+				{{#each list}}
+				<tr>
+					<td id="cb-{{id}}">{{id}}</td>
+					<td class="nameColor">{{name}}</td>
+					<td>{{up}}</td>
+					<td>{{edit_time}}</td>
+					<td class="nameColor"><a class="branchEdit" href="branch-edit.html" data-id="{{id}}" data-name="{{name}}" >修改</a> | <a class="branchDelete" data-id="{{id}}">删除</a></td>
+				</tr>
+				{{/each}}
+
+			</table>
+		</script>
+
+		<script type="template/html" id="branch-channel-list" data-target="#list-branch" data-mothod="post">
+			<a class="fm-button add-top" href="branch-edit.html?add=add&up={{up}}">添加频道</a>
+			<table class="table station_table">
+				<tr>
+					<th width="8%">ID</th>
+					<th>频道名称</th>
+					<th>上级部门</th>
+					<th>上次修改时间</th>
+					<th>操作</th>
+				</tr>
+				{{#each list}}
+				<tr>
+					<td id="cb-{{id}}">{{id}}</td>
+					<td class="nameColor">{{name}}</td>
+					<td>{{up}}</td>
+					<td>{{edit_time}}</td>
+					<td class="nameColor"><a class="branchEdit" href="branch-edit.html" data-id="{{id}}" data-name="{{name}}" >修改</a> | <a class="branchDelete" href="javascript:void(0)" data-id="{{id}}">删除</a></td>
+				</tr>
+				{{/each}}
+
+			</table>
+		</script>
+	</div>
+</body>
+<script src="../js/frame.js"></script>
+<script type="text/javascript">
+(function($){
+	var URL = $.initFrame('branchManage').URL;
+	require(["template-init","form-style","alerts"],function(T){
+		var tmplModel
+		switch(top.treeLevel){
+			case 1000:
+				tmplModel="#branch-site-list";
+				break;
+			case 0:
+				tmplModel="#branch-center-list";
+				break;
+			case 1:
+				tmplModel="#branch-depart-list";
+				break;
+			default:
+			 	tmplModel="#branch-channel-list";
+			 	break;
+		}
+
+		T.init({
+			tmpl:tmplModel,
+			sourceUrl:URL.branchList,
+			sourceData: function(){
+                return {
+                	id:top.treeId
+                }
+            },
+            begin:function(o){
+            	o.source.up=o.source.list[0].up;
+            	console.log(o.source)
+            }
+		});
+		$("#list-branch").on("click",".branchEdit, .add-top",function(){
+			top.treeName=$(this).attr("data-name");
+			top.treeId=$(this).attr("data-id")||top.treeId;
+			if(top.treeLevel!=1000){
+				++top.treeLevel;
+			}else{
+				top.treeLevel=0
+			}
+		});
+		$("#list-branch").on("click",".branchDelete",function(){
+			var _this=this;
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					T.init({
+						tmpl:tmplModel,
+						sourceUrl:URL.branchList,
+						sourceData: function(){
+			                return {
+			                	id:top.treeId,
+			                	deleteId:$(_this).attr("data-id")
+			                }
+			            }
+					});
+				}
+			});	
+		})
+	});
+})(jQuery)
+</script>
+</html>

@@ -1,0 +1,48 @@
+.head{background-image:url("{{head_bg}}");}
+.headIcon{background-image:url("{{head_icon}}");}
+.head_nav{background-image:url("{{head_logo}}");}
+
+.head .nav ul li,.headleft .cont_entrance .entrance,.stage_volume .current .title{background-color:{{style_normal}};}
+.head .nav ul li .Tmenu,.head .nav ul li .Tmenu a{ background-color:{{style_lighter}};}
+.head .nav ul li .Tmenu a:hover{background-color:{{style_normal}}; }
+
+.tree-nav{background-color: {{tree_nav_bg}};}
+.tree-nav dt:before{border: 4px solid {{tree_nav_bg}}; border-left: 4px solid #555;}
+.tree-nav dt.dt-open:before{border-left: 4px solid {{tree_nav_bg}};}
+.tree-nav dd a.selected,.tree-nav dd a:hover{background-color: {{tree_nav_hover}};}
+.tree-nav dt.without-sub a.selected{background-color: {{tree_nav_hover}};}
+.tree-module{background-color: {{tree_container}};}
+.tree-module .ztree li a.curSelectedNode{background-color: {{treeNav}};}
+.tree-module .ztree li a.curSelectedNode span{color: {{treeSelect}};}
+
+
+.mainBody .tree-target .loading{background-image: url("{{loading_image}}")}
+
+
+.list-move{ border-color: {{list_move_color}};}
+.list-move span{ background: {{list_move_color}};}
+
+.fm-select.colorful .option-holder a:hover, .ui-tabs .ui-tabs-nav li.ui-tabs-active, table.table tr:hover, table.table tr.hover {background-color: {{style_lighter}};}
+
+a,.ui-tabs .ui-tabs-nav li a,.head .nav ul li:hover a{color:{{style_normal}};}
+.fm-button{background-color: {{style_normal}}; border-color:{{style_normal}};}
+.fm-select.colorful .option-holder,.fm-label-item label,#popup_title{background-color: {{style_normal}};}
+.fm-pager .pagination-curr,.fm-pager a:hover {background-color: {{style_normal}};}
+
+.ui-tabs .ui-tabs-nav {border-left: 1px solid {{style_normal}}; border-bottom: 1px solid {{style_normal}};}
+.ui-tabs .ui-tabs-nav li {border: 1px solid {{style_normal}}; border-left: 0;border-bottom: 0;}
+
+.fm-button,.fm-item,.fm-search{background-image: url("{{form_icons}}");}
+
+.fm-select.colorful{ background-color: {{tree_select}}; }
+
+.nameColor{color:{{nameColor}};}
+.tree-nav dd a.tree-link:after {
+    background:url("{{treelink}}") no-repeat 0 -60px
+}
+.tree-module .ztree > li span.button.center_open, .tree-module .ztree > li span.button.bottom_open, .tree-module .ztree > li span.button.root_open {
+    background:url("{{treelink}}") 0 -30px no-repeat
+}
+.tree-module .ztree > li span.button.center_close, .tree-module .ztree > li span.button.bottom_close, .tree-module .ztree > li span.button.root_close {
+    background:url("{{treelink}}") 0 0 no-repeat
+}

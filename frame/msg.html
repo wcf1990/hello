@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body class="inner-frame">
+	<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">写信</a></li>
+		<li><a href="#tabs-2">发信箱</a></li>
+		<li><a href="#tabs-3">收信箱<span id="unread-msg">?</span></a></li>
+		<li><a href="#tabs-4">回收站</a></li>
+	</ul>
+	<div id="tabs-1">
+		<form id="write_form">
+			<div class="form_write">
+				<div class="item clearfix">
+					<span class="lable">收件人:</span>
+					<div class="text">
+						<input type="radio" class="radio" name="typeReceive" id="radio0" value="user" checked="checked"> <label for="radio0">个人</label>
+						<input type="text" placeholder="个人姓名" id="to-person" name="name0"/>
+						<input type="radio" class="radio" name="typeReceive" id="radio1" value="sys"> <label for="radio1">会员组</label>
+						<select name="group" class="select1" id="to-group">
+							<option value="">请选择</option>
+						</select>
+						<script type="html/template" id="group-options" data-target=".select1" data-append="true">
+							{{#each content}}
+							<option value="{{code}}">{{name}}</option>
+							{{/each}}
+						</script>
+						<input type="hidden" name="receiveUsername" id="user_name">
+						<input type="hidden" name="receiveUser" id="receiveUser">
+						<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">主题:</span>
+					<div class="text">
+						<input type="text" name="text.title" class="theme" id="txt-title"/>
+						<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="item item_details clearfix" >
+					<span class="lable">内容:</span>
+					<div class="text">
+						<textarea type="text" name="text.body" id="txt-body"></textarea>
+						<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<input type="hidden" name="type" value="user">
+				<div class="info_submit">
+					<input type="submit" class="fm-button" value="提交">
+				</div>
+			
+			</div>
+		</form>
+	</div>
+	<div id="tabs-2">
+		<form id="send_mail" onsubmit="" method="">
+			<div class="form_send">
+				<a href="#" class="fm-button btn-delete round">删除</a>
+				<div class="msg_lists send_lists"></div>
+				<div class="pager-line">
+					<p id="pager_send_lists" class="fm-pager"></p>
+				</div>
+				<script type="html/template" id="temp_send_lists" data-target=".send_lists" data-pagination="#pager_send_lists" data-method="get">
+					{{#with page}}
+					<table class="table">
+					{{#each content}}
+						<tr class="">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="cb1-{{id}}" value="0"></td>
+							<td class="from_name">{{receiveUser/username}}</td>
+							<td>{{text/title}}</td>
+							<td>{{text/body}}</td>
+							<td class="send_time">{{{Date text/createDate}}}</td>
+						</tr>
+					{{/each}}
+					</table>
+					<span class="currentPage">{{currentPage}}</span>
+					<span class="totalPage">{{totalPages}}</span>
+					{{/with}}
+				</script>
+			</div>
+		</form>
+	</div>
+	<div id="tabs-3">
+		<form id="receive_mail" onsubmit="" method="">
+			<div class="form_send">
+				<a href="#" class="fm-button btn-delete  round">删除</a>
+				<div class="msg_lists receive_lists"></div>
+				<div class="pager-line">
+					<p id="pager_receive_lists" class="fm-pager"></p>
+				</div>
+				<script type="html/template" id="temp_receive_lists" data-target=".receive_lists" data-pagination="#pager_receive_lists" data-method="get">
+					{{#with page}}
+					<table class="table">
+					{{#each content}}
+						<tr class="{{{Switch status}}}">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="cb1-{{id}}" value="0"></td>
+							<td class="from_name">{{receiveUser/username}}</td>
+							<td><a href="read-letter.html?id={{id}}">{{text/title}}</a></td>
+							<td>{{text/body}}</td>
+							<td class="send_time">{{{Date text/createDate}}}</td>
+						</tr>
+					{{/each}}
+					</table>
+					<span class="currentPage">{{currentPage}}</span>
+					<span class="totalPage">{{totalPages}}</span>
+					{{/with}}
+				</script>
+			</div>
+		</form>
+	</div>
+	<div id="tabs-4">
+		<form id="recycle_bin" onsubmit="" method="">
+			<div class="form_recycle">
+				<div class="form_recycletop clearfix">
+					<select name="transferTo"  class="select2" id="moveTo" value=1>
+						<option value="1">转移至</option>
+						<option value="2">收件箱</option>
+						<option value="3">发件箱</option>
+					</select>
+					<a href="#" class="fm-button btn-delete  round">删除</a>
+				</div>
+				<div class="msg_lists recycle_lists"></div>
+				<div class="pager-line">
+					<p id="pager_recycle_lists" class="fm-pager"></p>
+				</div>
+				<script type="html/template" id="temp_recycle_lists" data-target=".recycle_lists" data-pagination="#pager_recycle_lists" data-method="get">
+					{{#with page}}
+					<table class="table">
+					{{#each content}}
+						<tr class="">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="cb1-{{id}}" value="0"></td>
+							<td class="from_name">{{receiveUser/username}}</td>
+							<td>{{text/title}}</td>
+							<td>{{text/body}}</td>
+							<td class="send_time">{{{Date text/createDate}}}</td>
+						</tr>
+					{{/each}}
+					</table>
+					<span class="currentPage">{{currentPage}}</span>
+					<span class="totalPage">{{totalPages}}</span>
+					{{/with}}
+				</script>
+
+			</div>
+		</form>
+	</div>
+</div>
+<script src="js/frame.js"></script>
+<script>
+(function(){
+	var letterURL=$.initFrame('letterContent').URL;
+	var URL = $.initFrame('msg').URL;
+	var writeForm=$("#write_form");
+	var receiveUser;
+
+	require(["template-init","dateUtil","queryparam","alerts"],function(T,DateUtil,Q){
+
+		Handlebars.registerHelper('Date', function(t) {
+			if( !t ) return t;
+			var d = new Date(); d.setTime(t);
+	        return DateUtil.format(d,"yy-MM-dd hh:mm:ss");
+	    });
+
+	    Handlebars.registerHelper('Switch', function(key) {
+			switch(key){
+				case "unread": return "unread";
+				default: return "";
+			}
+	    });
+
+		//会员组加载和美化
+		T.init({
+			tmpl:"#group-options",
+			sourceUrl:URL.groups,
+			callback:function(){
+				var user_name = $("#user_name"), 
+					person = $("#to-person"), 
+					group = $("#to-group"),
+					radio0 = $("#radio0"),
+					radio1 = $("#radio1");
+
+				group.toSelect();
+				$(".radio", writeForm).toRadio();
+				if(window.top.transpond||window.top.reply_read){
+					var id = Q("id");
+					$.ajax({
+						url:letterURL.letterContent.replace("{{id}}",id),
+						dataType:"json",
+						success:function(data){
+							if(window.top.transpond){
+								$("input[name='title']", writeForm).val(data.m.text.title);
+								$("textarea[name='body']", writeForm).val(data.m.text.body);
+								delete window.top.transpond;
+							}else if(window.top.reply_read){
+								if(data.m.sendUser.admin){
+									radio0.trigger("click");
+									person.val(data.m.sendUser.username);
+								}else{
+									radio1.trigger("click");
+									group.val(data.m.sendUser.username).trigger('selectVal');
+								}
+								delete window.top.reply_read;
+								user_name.val(data.m.sendUser.username);
+							}
+						}
+					});
+				}
+
+				radio0.on("click",function(){
+					user_name.val(person.val());
+				}).trigger('click');
+				radio1.on("click",function(){
+					user_name.val(group.val());
+				});
+				// person.on("blur change",function(){
+				// 	if(radio0.is(":checked"))user_name.val( this.value );
+				// 	$.ajax({
+				// 		url:"http://172.18.11.80/web/admin/validate/user/admin.json",
+				// 		data:this.value,
+				// 		type:"GET",
+				// 		success:function(data){
+				// 			if(data["m"]["admin"]){
+
+				// 			}
+				// 		}
+				// 	})
+				// });
+				group.on("change",function(){
+					if(radio1.is(":checked"))user_name.val( this.value );
+				});
+				
+			}
+		});
+		
+		require(["formValid","alerts"],function(){
+			//初始化验证效果
+			$.form.settings = {
+				initTip:function(input,defaultTip){
+					input.parents(".text").children('.tip').html(defaultTip || "");
+					input.on('focus',function(){
+						input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+					});
+				},
+				validTip : function(input,errorInfo, defaultTip){
+					if(errorInfo){
+						input.parents(".text").children('.tip').removeClass('tip-default').addClass("tip-error").html(errorInfo);
+					}else{
+						input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+					}
+				}
+			};
+
+			$.form.render({
+				"#to-person":{
+					option:"change",
+					validFun:function(value){
+						var v = {errorInfo:""};
+						if( $("#radio0").is(":checked") ){
+							$("#user_name").val( value );
+							$.ajax({
+								url:"http://172.18.11.80/web/admin/validate/user/"+value+".json",
+								type:"GET",
+								async: false,
+								success:function(data){
+									if(!data["m"]){
+										v.errorInfo = "收件人不存在";
+									}else{
+										$("#receiveUser").val(data["m"]["id"]);
+									}
+
+								},
+								error:function(){
+									v.errorInfo = "服务数据异常";
+								}
+							});
+						}
+						return v;
+					}
+				},
+				"#user_name":{
+					requiredTip : "请填写收件人信息"
+				},
+				"#txt-title":{
+					requiredTip : "站内信标题需要填写",
+					defaultTip: "请填写站内信标题",
+					maxlen: 30,
+					lenTip: "站内信标题过长",
+					regexp: /^[^+~!@#$%\^&*"{};'<>]+$/,
+					errorTip : "标题不能含有( +~!@#$%^&*\"{};'<>] ) 等字符。"
+				},
+				"#txt-body":{
+					requiredTip : "内容需要填写",
+					defaultTip: "填写站内信"
+				}
+			},{
+				required: true,
+				option:"change blur"
+			});
+
+			$("#write_form").on('submit',function(e){
+				if( $(this).formValid('input',{interrupt:true}) ){
+					$.ajax({
+						url: URL.submit_form,
+						type:"POST",
+						data: $(this).serialize(),
+						dataType: "json",
+						success: function(data){
+							jAlert("提交成功","信息");
+						}
+					})
+				}else{
+					//jAlert("验证失败");
+				}
+				e.preventDefault();
+			});
+		});
+
+
+		//发信箱列表加载
+		T.init({
+			tmpl:"#temp_send_lists",
+			sourceUrl:URL.send_lists,
+			callback:function(){
+				$(".checkbox").toCheckbox();	
+			}
+		});
+
+		//收件箱列表加载
+		T.init({
+			tmpl:"#temp_receive_lists",
+			sourceUrl:URL.receive_lists,
+			callback:function(data){
+				$(".checkbox").toCheckbox();	
+				var unread = $(".receive_lists .unread").length;
+				$("#unread-msg").html(unread)[ unread ? "show" : "hide" ]();
+			}
+		});
+
+		//回收站列表加载
+		T.init({
+			tmpl:"#temp_recycle_lists",
+			sourceUrl:URL.recycle_lists,
+			callback:function(){
+				$(".checkbox").toCheckbox();	
+			}
+		});
+		
+		$(".select2").toSelect();
+		
+
+	});
+	require(["tabs"],function(){
+		$("#tabs").tabs();
+	})
+
+	require(["template-init","alerts","form-style"],function(T){
+		
+
+		$("#moveTo").on("change",function(){
+			var arr=[];
+			var checkboxs=$("#recycle_bin").find(".checkbox");
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			};
+			if(arr[0]){
+				
+				T.refresh({
+					tmpl:"#temp_recycle_lists",
+					type:"post",
+					sourceUrl:URL.recycle_lists,
+					callback:function(){
+						$(".checkbox").toCheckbox();	
+					},
+					sourceData:function(){
+						if(this.value=="2"){
+							return {
+								idTo:"2",
+								Ids:arr.join(",")
+							};
+						}else{
+							return {
+								idTo:"3",
+								Ids:arr.join(",")
+							};
+						}
+					}
+				});
+			}
+			
+		});
+
+		
+		/*发信箱列表删除*/
+		$("#send_mail").find(".btn-delete").on("click",function(){
+
+			var checkboxs=$("#send_mail").find(".checkbox");
+			var arr=[];
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			}
+			if(arr[0]&&!arr[1]){
+				jConfirm('<h2 class="title"></h2> <p>是否删除该条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						var id=arr.join(",").replace(/cb1-/g,"").split(",")
+						$.ajax({
+							url:URL.deleteMsg.replace("{{id}}",id),
+							type:"POST",
+							success:function(){
+								T.init({
+									tmpl:"#temp_send_lists",
+									sourceUrl:URL.send_lists,
+									callback:function(){
+										$(".checkbox").toCheckbox();	
+									}
+								});
+							}
+						})
+					}
+				});	
+			}else if(arr[1]){
+					jConfirm('<h2 class="title"></h2> <p>是否删除多条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						var id=arr.join(",").replace(/cb1-/g,"").split(",");
+						$.ajax({
+							url:URL.deleteMsgs,
+							type:"POST",
+							data:"ids"+id,
+							success:function(){
+								T.init({
+									tmpl:"#temp_send_lists",
+									sourceUrl:URL.send_lists,
+									callback:function(){
+										$(".checkbox").toCheckbox();	
+									}
+								});
+							}
+						})
+					}
+				});	
+			}else if(!arr[0]){
+			
+				jAlert("请选择要删除的数据");
+			}			
+		})
+		
+
+		/*收件箱删除*/
+		$("#receive_mail").find(".btn-delete").on("click",function(){
+			var checkboxs=$("#receive_mail").find(".checkbox");	
+			var arr=[];
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			}
+			if(arr[0]&&!arr[1]){
+				 jConfirm('<h2 class="title"></h2> <p>是否删除该条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					var id=arr[0];
+					if(result ){
+						var id=arr.join(",").replace(/cb1-/g,"").split(",");
+						$.ajax({
+							url:URL.deleteMsg.replace("{{id}}",id),
+							type:"POST",
+							success:function(){
+								T.init({
+									tmpl:"#temp_receive_lists",
+									sourceUrl:URL.receive_lists,
+									callback:function(){
+										$(".checkbox").toCheckbox();	
+									}
+								});
+							}
+						})
+					}
+				});	
+			}else if(arr[1]){
+					jConfirm('<h2 class="title"></h2> <p>是否删除多条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						var id=arr.join(",").replace(/cb1-/g,"").split(",");
+						$.ajax({
+							url:URL.deleteMsgs,
+							type:"POST",
+							data:"ids="+id,
+							success:function(){
+								T.init({
+									tmpl:"#temp_receive_lists",
+									sourceUrl:URL.receive_lists,
+									callback:function(){
+										$(".checkbox").toCheckbox();	
+									}
+								});
+							}
+						})
+					}
+				});	
+			}else if(!arr[0]){
+			
+				jAlert("请选择要删除的数据");
+			}			
+		})
+		
+
+		/*回收站删除*/
+		$("#recycle_bin").find(".btn-delete").on("click",function(){
+			var arr=[];
+			var checkboxs=$("#recycle_bin").find(".checkbox");
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			}
+			if(arr[0]&&!arr[1]){
+				jConfirm('<h2 class="title"></h2> <p>是否删除该条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						var id=arr[0].substring(4);
+						$.ajax({
+							url:URL.deleteRecycle.replace("{{id}}",id),
+							type:"POST",
+							success:function(){
+								T.init({
+									tmpl:"#temp_recycle_lists",
+									sourceUrl:URL.recycle_lists,
+									callback:function(){
+										$(".checkbox").toCheckbox();	
+									}
+								});
+							}
+						})
+					}
+				});	
+			}else if(arr[1]){
+				jConfirm('<h2 class="title"></h2> <p>是否删除多条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						var id=arr.join(",").replace(/cb1-/g,"").split(",");
+						$.ajax({
+							url:URL.deleteMsgs,
+							type:"POST",
+							data:"ids="+id,
+							success:function(){
+								T.init({
+									tmpl:"#temp_recycle_lists",
+									sourceUrl:URL.recycle_lists,
+									callback:function(){
+										$(".checkbox").toCheckbox();	
+									}
+								});
+							}
+						})
+					}
+				});	
+			}else if(!arr[0]){
+			
+				jAlert("请选择要删除的数据");
+			}		
+		})
+	});
+})();
+</script>
+</body>
+</html>

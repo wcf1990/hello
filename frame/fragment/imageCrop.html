@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>imageCrop</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+	<style>
+		#preview{
+			float: left;
+			margin-left: 10px;
+			overflow: hidden;
+			width: 450px;
+			height: 300px;
+			position: relative;
+			border:1px solid #000; 
+		}
+		#preview img{
+			position: absolute;
+			width: 100%;
+			left: 0;
+			top: 0;
+			display: block;
+		}
+		.photoContent{
+			float: left;
+			width: 750px;
+			height: 500px;
+			border:1px solid #000; 
+		}
+		#photo{ max-width: 750px; max-height: 500px;}
+		#btn-sure{ position: absolute; left:1150px; top:470px; }
+		.mask { 
+			position:absolute;
+			top:0px; left: 0px;
+			width: 100%; height: 100%;
+			background: #fff;  opacity: 0.4;
+			filter: alpha(opacity=40);
+		}
+		.mask img{ 
+			display: block;
+    		margin: auto;
+    		position: relative;
+    		top: 50%;
+    	}
+	</style>
+</head>
+<body>
+	<div class="photoContent">
+		<img id="photo" src="../images/img.png" alt="image">
+	</div>
+	<div id="preview"><img src="../images/img.png" alt="image"></div>
+	<a href="javascript:void(0);" class="fm-button" id="btn-sure">确定</a>
+
+<script>
+    $("#photo, #preview img").attr("src",window.opener.imgPath);
+   	$("#photo, #preview img").on('load',function(){
+    	var photoWidth=$("#photo").width(), 
+		photoHeight=$("#photo").height(),
+		realWidth=$("#uploadIMG",window.opener.document).width(),
+		realHeight=$("#uploadIMG",window.opener.document).height(),
+		ratio;
+		if(realWidth>750||realHeight>500){
+			photoWidth/photoHeight>=1.5?ratio=realWidth/750:ratio=realHeight/500;
+		}else{
+			ratio=1;
+		};
+		require(['imageAreaSelector'],function(){
+
+			var $ = jQuery, preview = $("#preview").children();
+			$('#photo').imgAreaSelect({
+		        handles: true,
+		        aspectRatio: '1.5:1',
+		        onSelectEnd: function(img,selection){
+		        	window.position=selection;
+		        	for(var key in window.position){
+		        		window.position[key]=Math.round(window.position[key]*ratio);
+		        	}
+		        	window.position.url=$("#photo").attr("src");
+		        },
+		        onSelectChange:function(img,selection){
+		        	var p = selection;
+		        	var width = ( photoWidth / p.width ) * 450;
+		        	preview.css({
+		        		width: width,
+		        		left : -p.x1 * width / photoWidth,
+		        		top : -p.y1 * width / photoWidth
+		        	});
+		        }
+		    });
+
+		    $("#btn-sure").click(function(){
+		    	if(!window.position){
+		    		window.close();
+		    	}else{
+			    	$(document.body).append('<div class="mask"><img src="../../images/loading.gif"><div>')
+			    	$.ajax({
+			    		url:"../../../xhadmin/ueditor/cutPics.do",
+			    		type:"post",
+			    		data:window.position,
+			    		success:function(data){
+			    			$("#uploadIMG, .uploadIMG",window.opener.document).attr("src",data.bigImage);
+			    			$("#bigImage",window.opener.document).val(data.bigImage);
+			    			$("#smallImage",window.opener.document).val(data.smallImage);
+			    			$("#uploadIMG, .uploadIMG",window.opener.document).on("load",function(){
+			    				$(".mask").remove();
+			    				delete window.position;
+			    				window.close();
+			    			})
+			    		}
+			    	})
+			    }
+		    })
+
+		});
+    })
+	
+	$(function(){
+		
+
+		
+	})()
+</script>
+</body>
+</html>

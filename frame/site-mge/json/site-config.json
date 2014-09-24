@@ -1,0 +1,193 @@
+{	"news" : [
+		{
+			"id" : "3240",
+			"name" : "政治",
+			"classify" : "国情咨文、各种皮书集中于此。如需按内容细为",
+			"community" : "时政论坛",
+			"visit" : "http://www.xinhuanet.com/",
+			"account" : "hfuighifdg"
+		},
+		{
+			"id" : "3241",
+			"name" : "政治",
+			"classify" : "国情咨文、各种皮书集中于此。如需按内容细为",
+			"community" : "",
+			"visit" : "",
+			"account" : ""
+
+		},
+		{
+			"id" : "3242",
+			"name" : "国家概况",
+			"classify" : "",
+			"community" : "",
+			"visit" : "",
+			"account" : ""
+		},
+		{
+			"id" : "3243",
+			"name" : "国旗徽歌",
+			"classify" : "",
+			"community" : "时政论坛",
+			"visit" : "http://www.xinhuanet.com/",
+			"account" : "hfuighifdg"
+		},
+		{
+			"id" : "3244",
+			"name" : "新华网",
+			"classify" : "国情咨文、各种皮书集中于此。如需按内容细为",
+			"community" : "",
+			"visit" : "",
+			"account" : ""
+		},
+		{
+			"id" : "3245",
+			"name" : "新华网",
+			"classify" : "国情咨文、各种皮书集中于此。如需按内容细为",
+			"community" : "时政论坛",
+			"visit" : "http://www.xinhuanet.com/",
+			"account" : "hfuighifdg"
+		},
+		{
+			"id" : "3246",
+			"name" : "新华网",
+			"classify" : "",
+			"community" : "时政论坛",
+			"visit" : "http://www.xinhuanet.com/",
+			"account" : "hfuighifdg"
+		},
+		{
+			"id" : "3247",
+			"name" : "新华网",
+			"classify" : "",
+			"community" : "时政论坛",
+			"visit" : "http://www.xinhuanet.com/",
+			"account" : "hfuighifdg"
+		},
+		{
+			"id" : "3248",
+			"name" : "新华网",
+			"classify" : "",
+			"community" : "时政论坛",
+			"visit" : "http://www.xinhuanet.com/",
+			"account" : "hfuighifdg"
+		}
+	],
+	"content" : [
+		{
+			"id" : "3230",
+			"name" : "普通",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : "",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":"checked"
+		},
+		{
+			"id" : "3231",
+			"name" : "图集",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"",
+			"default":"checked"
+		},
+		{
+			"id" : "3232",
+			"name" : "普通",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":""
+		},
+		{
+			"id" : "3233",
+			"name" : "图集",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":"checked"
+		},
+		{
+			"id" : "3234",
+			"name" : "普通",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":"checked"
+		},
+		{
+			"id" : "3235",
+			"name" : "图集",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":"checked"
+		},
+		{
+			"id" : "3236",
+			"name" : "普通",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":""
+		},
+		{
+			"id" : "3237",
+			"name" : "图集",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":"checked"
+		},
+		{
+			"id" : "3238",
+			"name" : "普通",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"",
+			"default":"checked"
+		}
+		,
+		{
+			"id" : "3239",
+			"name" : "图集",
+			"width" : "434",
+			"height" : "123",
+			"hasPic" : ".htm",
+			"isUsing" : ".html",
+			"handle": ".html",
+			"default-p":"checked",
+			"default":"checked"
+		}
+	],
+	"currentPage": 1,
+	"totalCount" : 50,
+	"pageSize"	 : 10
+	
+}

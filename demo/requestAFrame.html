@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>requestAFrame</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form-style.min.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<h2 id="timeout1"></h2>
+	<h2 id="timeout2"></h2>
+	<h3 id="now-time"></h3>
+<script>
+	require(['requestAFrame','dateUtil'],function(R,DateUtil){
+		var el1 = document.getElementById('timeout1'),
+			el2 = document.getElementById('now-time'),
+			el3 = document.getElementById('timeout2');
+
+		R.countdown({
+			el : el1,
+			timeout: 864000000,
+			attr: 'innerHTML'
+		});
+		R.countdown({
+			el : el3,
+			timeout: new Date('2014/6/1'),
+			attr: 'innerHTML'
+		});
+
+		R.addTimeout('now-time',function(){
+			el2.innerHTML = DateUtil.format(new Date(), "现在时间： yy年MM月dd日 hh:mm:ss $$");
+		},1000);
+	});
+</script>
+</body>
+</html>

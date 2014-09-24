@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AreaSelector</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+		.center{
+			margin: 40px 0 0 640px; 
+		}
+		#area-selector{
+			padding:0; 
+			line-height: 28px;
+			height: 28px;
+			border:  1px solid #d2d2d2;
+			float: left;
+			width: 240px;
+		}
+		.districtmap{position:absolute; left: 0px; top:20px; width:816px; display: none; z-index: 9999; background-color: #fff;border:1px solid gray;}
+		.districtmap .district-map-iframe { width:816px; height:481px;}
+		.districtmap h3{width:817px;background-color:#30A3E9; font-size:12px; font-family:"宋体"; color:#fff; line-height:24px; height: 24px;overflow:hidden;}
+		.districtmap .textMode,.districtmap .textMode_cancel{float: right; margin-top:0px;padding-right: 10px; font-weight: bold; cursor: pointer;}
+	</style>
+</head>
+<body>
+	
+	<div class="center">
+		<input type="text" id="area-selector" placeholder="点击选择地区">
+		<a href="javascript:void(0);" class="fm-button" id="show-map">地图</a>
+		<span id="show-location"></span>
+		<br>
+		<input type="text" id="world-selector" value="">
+	</div>
+
+	<div class="districtmap" >
+		<h3><span class="textMode_cancel">取消</span><span class="textMode">确定</span></h3>
+		<iframe id="map-iframe" name="map-iframe" class="district-map-iframe" width="100%" frameborder="0" scrolling="no"></iframe>
+	</div>
+
+<script>
+	AreaSelectorCALL_BACK = function(pos){
+		AreaSelectorCALL_BACK.data = pos.data;
+	};
+
+	require(['area-selector','autocomplete','data/world-location','underscore'],function(AreaSelector){
+		var show = $('#show-location');
+		var area = [];
+
+		
+
+		new AreaSelector({
+			el:'#area-selector',
+			onData:function(node,isLeaf){
+				$(this).val(node.name);
+				var pos = World_location[node.id];
+				show.html(pos.replace(/^([^,]+)[,]([^,]+)$/," lon:$1, lat:$2"));
+			},
+			ready:function(factory){
+
+				for (var i in World_location) {
+					var t = factory.getArea(i) || {};
+					area.push({
+						id: i,
+						lon_lat:World_location[i],
+						name: t.name,
+						value: t.name,
+						fullname: t.fullname
+					});
+				};
+
+				$('#area-selector').on('keyup',function(){
+					$('#area-selector-holder').hide();
+				}).autocomplete({
+					source: area,
+					minLength: 1,
+					select: function( event, ui ) {
+				        $(this).val( ui.item.name ),
+				        show.html( ui.item.lon_lat.replace(/^([^,]+)[,]([^,]+)$/," lon:$1, lat:$2") );
+				        return false;
+				    }
+				}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+			      	return $( "<li>" )
+			        	.append( "<a>" + item.name + " <em>"+item.fullname+"</em>" +"</a>" )
+			        	.appendTo( ul );
+			    };
+			}
+		});
+
+		$(document).on('mouseleave','#area-selector-holder',function(){
+			$(this).hide();
+		});
+
+
+		//地图弹出框确定取消
+		$('.districtmap').on('click','.textMode',function(){
+			$('.districtmap').hide();
+			var o = AreaSelectorCALL_BACK.data;
+			$('#area-selector').val( o.county );
+			show.html( "lon:"+o.lng+" ,lat:"+o.lat );
+		});
+		$('.districtmap').on('click','.textMode_cancel',function(){
+			$('.districtmap').hide();
+		});
+
+		$('#show-map').on('click',function(){
+			var _this = $(this), off = _this.offset();
+
+			$('#map-iframe').attr({
+				src : '../js/data/map.html?t='+new Date().getTime()+'#address='+$('#area-selector').val()+'&callback=AreaSelectorCALL_BACK'
+			});
+			
+			$('.districtmap').css({
+				left: off.left + _this.width() - 788,
+				top: off.top + _this.height() + 2
+			}).show();
+
+		});
+
+
+	});
+
+	require(['data/world-selector','selectors'],function(){
+		$('#world-selector').selectors({
+			o: window.Area,
+			hiddenEmpty: false,
+			brancheValue: true
+		});
+		console.log(window.Area)
+	});
+</script>
+</body>
+</html>

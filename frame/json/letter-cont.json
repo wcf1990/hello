@@ -1,0 +1,50 @@
+{
+    "m": {
+        "id": 2,
+        "new": false,
+        "receiveUser": {
+            "admin": false,
+            "blogUrl": "xxxxx",
+            "deleted": false,
+            "displayOrganizationJobs": {},
+            "email": "xxxxx@xxxx.comx",
+            "id": 1,
+            "new": false,
+            "organizationJobs": [],
+            "password": "ec21fa1738f39d5312c6df46002d403d",
+            "realname": "xxx",
+            "salt": "yDd1956wn1",
+            "sex": "male",
+            "status": "normal",
+            "username": "admin",
+            "weiboUrl": "w"
+        },
+        "sendStatus": "send",
+        "sendUser": {
+            "$ref": "$.m.receiveUser"
+        },
+        "status": "unread",
+        "text": {
+            "body": "sys unread",
+            "createDate": 1394035200000,
+            "id": 1,
+            "new": false,
+            "title": ""
+        },
+        "type": "sys"
+    },
+    "op": "查看",
+    "statusList": [
+        "unread",
+        "read",
+        "recycle",
+        "deleted",
+        "send",
+        "all"
+    ],
+    "typeList": [
+        "user",
+        "sys",
+        "all"
+    ]
+}

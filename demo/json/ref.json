@@ -1,0 +1,1 @@
+{"m":{"id":1,"leaf":false,"name":"channel1","new":false,"parentId":0,"parentIds":"0/","root":true,"show":true,"site":[{"channels":[{"$ref":"$.m"}],"friendlinks":[{"id":1,"name":"friend1","new":false,"show":true,"site":[{"$ref":"$.m.site[0]"}],"weight":1}],"id":9,"new":false,"siteName":"abc"}],"weight":1},"op":"查看"}

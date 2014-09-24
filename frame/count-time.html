@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style type="text/css">
+		
+		.index-main{position: relative; width:100%; height: auto; background: #fff; border-radius: 7px; overflow: visible;}
+		.index-main div{width:1160px;margin:0 auto;}
+		.chead{height:112px;}
+		.chead span{margin-top:46px;}
+		.margin-L30{margin-left:30px;}
+		.chart{height:592px;border:1px solid #ccc;}
+		.btn{
+			display: inline-block;
+			text-align: center;
+			border: 1px solid #2cac93;
+			color: #fff;
+			height: 28px;
+			line-height: 28px;
+			font-size: 14px;
+			padding: 0 1em;
+			border-radius: 3px;
+			opacity: .9;
+			filter: alpha(opacity=90);
+			background:100px 100px no-repeat #2cac93;
+		}
+		.Wdate{
+			font: normal 14px/28px "宋体";
+			border-radius: 3px 3px 3px 3px;
+			overflow: hidden;
+			z-index: 99;
+			min-width: 80px;
+			padding: 0 36px 0 6px;
+			border: 1px solid #cbcbcb;
+			background-position: right -272px;
+			background-color: #fff;
+			cursor: default;
+		}
+		.select-m-span{position:relative;top:10px;}
+		.fm-select.selecting{position:relative;top:-10px;}
+		.chart-pic-btn{
+			position:absolute;
+			top:200px;
+			display:inline-block;
+			width:40px;
+			height:50px;
+			text-align:center;
+			line-height:50px;
+			background-color:#ccc;
+			color:#FFF;
+			font-size: x-large;
+		}
+		.chart-pic-btn-R{right:0px;}
+		.chart-tab span{
+			width:60px;
+			height:32px;
+			border:1px solid #ccc;
+			display:inline-block;
+			margin:25px -25px 20px 35px;
+			text-align:center;
+			line-height:32px;
+		}
+		.chart-tab span:hover{background-color:#E5FAF7;color:#000;cursor:pointer;}
+		.chart-tab-active{border:1px solid #2CAC93;background-color:#2CAC93;color:#FFF;}
+		.chart-pic{width:1168px;position:relative;}
+		.chart-pic p{width:850px;height:470px;margin:20px auto;background-color:#eee;}
+		.data-table table{margin-top:50px;margin-bottom:0px;width:100%;font: normal 16px "微软雅黑";}
+		.data-table table tr{height:55px;}
+		.data-table table td{text-align:center;line-height:55px;border:1px solid #CCC;}
+		.head-line td{background: url(../images/head-line.png);}
+		.text-tjrq{color:#343539;}
+		.text-bfl{color:#F1168C}
+		.text-uv{color:#1C7DE9}
+		.text-pv{color:#F86E33}
+		.text-jgl{color:#33B734}
+
+		table tr:nth-child(odd){background:#F4F4F4;}
+		table tr:hover{background:#D9F4F2;}
+
+		.pager-line p{width:460px;margin:20px auto 30px;margin-bottom:30px;}
+		.table-title{font: 600 16px "微软雅黑";position:relative;color:#515151;}
+
+		.table-title span{position:absolute;margin-left:5px;color:#515151;height:12px;line-height:12px;width:12px;text-align:center;font-size: small;}
+		.table-title span:hover{cursor:pointer;}
+		.chart-tab-active:hover{cursor:pointer;}
+		.table-title .btn-up{top:14px;}
+		.table-title .btn-down{bottom:14px;}
+		.table-title .btn-ud-active{color:#41C3AA;}
+	</style>
+</head>
+<body>
+	<div class="index-main">
+		<div class="chead">
+			<span class="btn">返回</span>
+			<span class="select-m-span margin-L30">
+				<select name="sel1" id="select" class="select-m">
+					<option value="1">月度选择</option>
+					<option value="1">月度选择</option>
+					<option value="1">月度选择</option>
+				</select>
+			</span>
+			<span class="margin-L30">自定义时间段：</span>
+			<span class="aa">
+				<input type="text" class="Wdate" id="Wdate0" onfocus="if(window.WdatePicker)WdatePicker()" style="height: 28px;width:86px;">
+			</span>
+			<span class="aa">
+				<input type="text" class="Wdate" id="Wdate1" onfocus="if(window.WdatePicker)WdatePicker()" style="height: 28px;width:86px;">
+			</span>
+		</div>
+		<div id="" class="chart">
+			<div id="" class="chart-tab">
+				<span id="btn-bfl" class="btn-bfl chart-tab-active">编发量</span>
+				<span id="btn-uv" class="btn-uv">UV</span>
+				<span id="btn-pv" class="btn-pv">PV</span>
+				<span id="btn-jgl" class="btn-jgl">加工量</span>
+			</div>
+			<div id="" class="chart-pic">
+				<p class=""></p>
+				<span id="" class="chart-pic-btn chart-pic-btn-L"><</span>
+				<span id="" class="chart-pic-btn chart-pic-btn-R chart-tab-active">></span>
+			</div>
+		</div>
+
+		<div id="data-table" class="data-table"></div>
+		<script id="template-table" type="text/handlebars-template">
+			<table>
+				<colgroup style="width:20%"></colgroup>
+				<colgroup style="width:20%"></colgroup>
+				<colgroup style="width:20%"></colgroup>
+				<colgroup style="width:20%"></colgroup>
+				<colgroup style="width:20%"></colgroup>
+				<tr class="head-line">
+					<td class="table-title">统计日期<span class="btn-ud btn-up">▲</span><span class="btn-ud  btn-down">▼</span></td>
+					<td class="table-title">编发量<span class="btn-ud btn-up">▲</span><span class="btn-ud  btn-down">▼</span></td>
+					<td class="table-title">UV<span class="btn-ud btn-up">▲</span><span class="btn-ud  btn-down">▼</span></td>
+					<td class="table-title">PV<span class="btn-ud btn-up">▲</span><span class="btn-ud  btn-down">▼</span></td>
+					<td class="table-title">加工量<span class="btn-ud btn-up">▲</span><span class="btn-ud  btn-down">▼</span></td>
+				</tr>
+				<tr class="table-text">
+						<td class="text-tjrq">总计</td>
+						<td class="text-bfl text-bfl-total">2254896</td>
+						<td class="text-uv text-uv-total">8896447</td>
+						<td class="text-pv text-pv-total">8889672</td>
+						<td class="text-jgl text-jgl-total">6669899</td>
+					</tr>
+				{{#each data}}
+					<tr class="table-text">
+						<td class="text-tjrq">{{date}}</td>
+						<td class="text-bfl">{{a}}</td>
+						<td class="text-uv">{{b}}</td>
+						<td class="text-pv">{{c}}</td>
+						<td class="text-jgl">{{d}}</td>
+					</tr>
+				{{/each}}
+			</table>
+		</script>
+		<div class="pager-line">
+			<p id="pager" class="fm-pager"></p>
+		</div>
+	</div>
+<script src="js/frame.js"></script>
+<script>
+require(["form-style"],function(){
+		$(".select-m").toSelect({
+			width: 100,
+			colorful: false
+		}).on('change',function(){
+			//jAlert( this.value, "你选择的值为：" );
+		}).trigger("change");
+
+		$("#pager").toPager({
+			first: 1,
+			totalPage : 20,
+			currentPage: 1,
+			'switch':function(eve,e){
+				console.log( "你翻到了第 <span style='color:red;'>"+e.toPage+"</span> 页","提示" );
+			}
+		});
+	});
+require(["WdatePicker"],function(){});
+require(["template"],function(){
+	$.ajax({
+
+		data:{foo1:"bar1",foo2:"bar2"},
+		type: "get",
+		url: "json/countTmieTable.json",
+		success: function(data){
+			var source = $("#template-table").html();  
+			var template = Handlebars.compile(source); 
+			$("#data-table").html(template(data));
+		}
+	});
+});
+</script>
+
+</body>
+</html>
+
+<script type="text/javascript">
+$(".chart-tab span").on("click", function(){
+
+	$(".chart-tab span").removeClass("chart-tab-active");
+	$(this).addClass("chart-tab-active");
+
+	var thisIndex = $(".chart-tab span").index(this); 
+	var thisLength = $(".chart-tab span").length;
+
+	$(".chart-pic-btn").addClass("chart-tab-active");
+	if(thisIndex==0){
+		$(".chart-pic-btn-L").removeClass("chart-tab-active");
+	}else if(thisIndex==thisLength-1){
+		$(".chart-pic-btn-R").removeClass("chart-tab-active");
+	}
+
+	switch(this.id){
+		case "btn-bfl" :
+		  //console.log(this.id);
+		  break;
+		case "btn-uv":
+		  //console.log(2);
+		  break;
+		case "btn-pv":
+		  //console.log(3);
+		  break;
+		case "btn-jgl":
+		  //console.log(4);
+		  break;
+	}
+});
+
+
+$(".chart").on('click','.chart-pic-btn-L',function(){
+	var thisIndex = $(".chart-tab span").index($(".chart-tab-active")[0]);
+	if($($(".chart-tab span")[thisIndex]).prev().length){
+		console.log(1);
+		$($(".chart-tab span")[thisIndex]).prev().click();
+	}
+})
+
+$(".chart").on('click','.chart-pic-btn-R',function(){
+	var thisIndex = $(".chart-tab span").index($(".chart-tab-active")[0]);
+	if($($(".chart-tab span")[thisIndex]).next().length){
+		console.log(2);
+		$($(".chart-tab span")[thisIndex]).next().click();
+	}
+})
+
+$('#data-table').on('click','.btn-ud',function(){
+	$(".btn-ud").removeClass("btn-ud-active");
+	$(this).addClass("btn-ud-active");
+});
+
+</script>

@@ -1,0 +1,28 @@
+{
+    "booleanList": [
+        "TRUE", 
+        "FALSE"
+    ], 
+    "op": "修改个人资料", 
+    "statusList": [
+        "normal", 
+        "blocked"
+    ], 
+    "user": {
+        "admin": false, 
+        "blogUrl": "xxxxx", 
+        "deleted": false, 
+        "displayOrganizationJobs": { }, 
+        "email": "xxxxx@xxxx.com", 
+        "id": 1, 
+        "new": false, 
+        "organizationJobs": [ ], 
+        "password": "ec21fa1738f39d5312c6df46002d403d", 
+        "realname": "xxx", 
+        "salt": "yDd1956wn1", 
+        "sex": "male", 
+        "status": "normal", 
+        "username": "admin", 
+        "weiboUrl": "web"
+    }
+}

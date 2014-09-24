@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>栏目配置页面</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<!-- <link rel="stylesheet" href="../../res/cms/css/channel.css"> -->
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body class="inner-frame">
+	<div class="collocate-cont clear">
+		<form class="ropt clearfix">
+			<input type="hidden" id="root" name="root"/>
+			<select class="select1" name="modelId" onchange="if(this.options[this.selectedIndex].value!=''){this.form.action='v_add.do';this.form.submit();}">
+				<option>--添加子栏目--</option>
+			</select>
+			<input class="fm-button" type="button" value="返回列表" onclick="this.form.action='v_list.do';">
+			<script type="html/template" id="modelId-options" data-target=".select1" data-append="true">
+				{{#each content}}
+				<option value="{{code}}">{{name}}</option>
+				{{#each}}
+			</script>
+		</form>
+		<form id="jvForm" class="collocate-form clearfix" action="o_update.do" method="post">
+			<div class="collocate-left clearfix">
+				<div class="basis-collocate clearfix">
+					<h2>基本配置</h2>
+					<div class="basis-left">
+						<div class="basis-about clearfix">
+                            <span>栏目名称</span>
+                            <div><input type="text" value="" name="name"  class="required"/></div>
+                        </div>
+                         <div class="basis-about clearfix">
+                            <span>访问路径</span>
+                            <div><input type="text" value="" name="path" class="required" /></div>
+                        </div>
+                         <div class="basis-about clearfix">
+                            <span>上级栏目</span>
+                            <div id="parentId_input">
+								<input type="text" class="collocate_up"  value="" />
+								<div id="parentId_cont"></div>
+								<input type="hidden" class="upcollocate" name="parentId" value="">
+							</div>
+                        </div>
+                         <div class="basis-about clearfix">
+                            <span>栏目模型</span>
+                            <div>
+								<select class="select2" name="modelId">
+									<option>添加子栏目</option>
+								</select>
+								<script type="html/template" id="modelId-options" data-target=".select2" data-append="true">
+									{{#each content}}
+										<option value="{{code}}">{{name}}</option>
+									{{#each}}
+								</script>
+							</div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script>
+		(function(){
+			require(["template-init","form-style"],function(T){
+				$(".select1").toSelect({
+					width: 120,
+					colorful: false
+				});
+				$(".select2").toSelect({
+					width: 263,
+					colorful: false
+				})
+			})
+		})()
+	</script>
+</body>
+</html>

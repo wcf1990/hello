@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>新华新闻内容发布</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../xhcms0.4/css/base.css">
+	<link rel="stylesheet" href="../../xhcms0.4/css/main.css">
+	<link rel="stylesheet" href="../../xhcms0.4/js/zTree/zTreeStyle/zTreeStyle.css">
+	<link rel="stylesheet" href="../../xhcms0.4/css/icon.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<div  class="mainBox">
+		<div class="head">
+			<a href="../xhadmin/index.do" class="logo" target="_blank">首页</a>
+			<ul id="nav">
+				<li><a class="nav_btn" data-status="prepared" target="main" id="paper_origin">稿源库</a></li>
+				<li><a class="nav_btn" data-status="passed"   target="main" id="editor">编辑库</a></li>
+				<li><a class="nav_btn" data-status="checked"  target="main" id="public">签发库</a></li>
+			</ul>
+			<div id="video-queue">
+			</div>
+			<div class="login">
+				<span>编辑：<span id="editorName"></span></span>
+				<a id="setBtn">设置</a>
+				<a id="exit">退出</a>
+			</div>
+			<div class="hr"></div>
+		</div>
+		<div id="userSet"></div>
+		<div class="treeBox" id="treeBox" style="width:12%;float:left">
+			<div>
+				<div class="tree_search">
+					<input id="tree_search" type="text">
+					<a id="tree_btn" class="tree_btn icon_search"></a>
+				</div>
+				<div class="site_con">
+					<em class="icon_site"></em>
+					<a id="siteName">新华新闻主站</a>
+					<a class="refresh" href="javascript:void(0);" onclick="$('#tree_con_2').trigger('refresh')">
+						<em class="icon_em icon_refresh" title="刷新"></em>
+					</a>
+				</div>
+				<div id="treeContain">
+					<div>
+						<ul id="tree_con_2" class="ztree" style="position:relative;display:block;"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="main" style="width:88%;float:left;">
+			<iframe src="" name="main" id="main" frameborder="0" ></iframe>
+		</div>
+	</div>
+
+<script>
+	require(['zTree'],function(){
+		// /xhadmin/content/tree.do
+		
+		//加载zTree菜单
+		var tree = $("#tree_con_2"), zt = $.fn.zTree.init(tree, {
+			view: {
+				showLine: false,
+				showIcon: false
+			},
+			async: {
+				type:'get',
+				enable: true,
+				url: '../../xhadmin/content/tree.do',
+				autoParam:["id", "name=n", "level=lv"],
+				dataFilter:function(id, parent, data){
+					for (var i = 0; i < data.length; i++) {
+						(function(d){
+							d.target = "main";
+						})(data[i]);
+					};
+					return data;
+				}
+			}
+		});
+
+
+		//绑定栏目节点树的更新事件
+		tree.on('refresh',function(){
+			$(this).html("");
+			zt.reAsyncChildNodes();
+		});
+
+		$(window).on('resize',function(){
+			$('#treeContain').css({
+				height: $(this).height() - tree.offset().top
+			});
+		}).trigger('resize');
+
+	});
+
+
+</script>
+</body>
+</html>

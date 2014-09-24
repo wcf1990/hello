@@ -1,0 +1,113 @@
+$belong[temp/main.html]
+<div class="mainRight">
+	<h1>新闻分类管理</h1>
+	<p class="search-style">
+		<span>搜索：</span>
+		<span class="fm-search gray1">
+			<input type="text" name="kw2" id="kw2" placeholder="请输入搜索关键字">
+			<a href="javascript:void(0);" class="btn-search">搜索</a>
+		</span>
+	</p>
+	
+	<div id="list-sites">
+		<form id="tableForm">
+
+		</form>
+	</div>
+
+	<div class="pager-line page">
+		<p id="pager" class="fm-pager"></p>
+	</div>
+</div>
+<script type="template/html" id="md-list-sites">
+	<table class="table station_table">
+		<tr>
+			<th width="8%">ID</th>
+			<th>分类名称</th>
+			<th>分类描述</th>
+			<th>社区名称</th>
+			<th>访问路径</th>
+			<th>好友账号</th>
+			<th width="10%">操作</th>
+		</tr>
+		{{#each news}}
+		<tr>
+			<td><input type="checkbox" name="checkbox" class="checkbox ids" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+			<td style="color:#2cac93;">{{name}}</td>
+			<td>{{classify}}</td>
+			<td>{{community}}</td>
+			<td>{{visit}}</td>
+			<td>{{account}}</td>
+			<td style="color:#2cac93;"><a href="#" data-id="{{id}}" >修改</a> | <a class="delete" href="#" data-id="{{id}}">删除</a></td>
+		</tr>
+		{{/each}}
+	</table>
+</script>
+<script>
+(function($){
+	if( window.IE6 ){
+		alert( "IE6 or older browser is not supported!" );
+		return ;
+	}
+
+	require(["form-style","alerts","draggable","template"],function(){
+		var template = Handlebars.compile($("#md-list-sites").html()); //创建模板编译器
+
+		var refreshList = function(){
+			$.ajax({
+				url : "json/site-config.json",
+				dataType : "json",
+				success: function(data){
+					$("#list-sites").html( template(data) );
+					$("#list-sites").find(".ids").toCheckbox();
+				} 
+			});
+		};
+		refreshList();
+		$(".checkbox").toCheckbox();
+
+		/*全选*/
+		$(".station_menu").find(".checkbox").on("click",function(){
+			var _this = $(this);
+			$("#list-sites").find(".ids").each(function(){
+				if( $(this).is(":checked") !== _this.is(":checked") ){
+					$(this).trigger('click')
+				}
+			});
+		});
+
+		/*table  delete*/
+		$("#list-sites").on("click",".delete",function(){
+			var newIndex=$(".station_table").find(".delete").index(this);
+			var ID=$(".station_table").find(".delete").eq(newIndex).attr("data-id");
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					$.ajax({
+						url : "json/site-config.json",
+						data : ID,
+						dataType : "json",
+						success: function(data){
+							refreshList();
+						}
+					})
+				}
+			});	
+		});
+		
+
+		/*paging*/
+		$("#pager").toPager({
+			totalPage : 6,
+			currentPage: 2,
+			'switch':function(eve,e){
+				//jAlert( "你翻到了第 <span style='color:red;'>"+e.toPage+"</span> 页","提示" );
+			}
+		});
+	});
+})(jQuery);
+</script>
+</body>
+</html>

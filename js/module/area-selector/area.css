@@ -1,0 +1,130 @@
+html,body{
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background: #fff;
+	min-width: 200px;
+}
+#tabs, #tabs *{
+	margin: 0;
+	padding: 0;
+}
+#tabs > ul{
+	border: 1px solid #2cac93;
+	height: 26px;
+	overflow: hidden;
+}
+#tabs > ul:before, #tabs > ul:after{
+	display: none;
+}
+#tabs .ui-corner-top{
+	width: 50%;
+	_width: 49.9%;
+	border: 0;
+	height: 26px;
+	line-height: 26px;
+	overflow: hidden;
+}
+#tabs .ui-corner-top a{
+	display: block;
+	float: none;
+	outline: none;
+	text-align: center;
+	font-weight: normal;
+}
+#tabs .ui-tabs-panel{
+	position: relative;
+	height: 384px;
+	border: 1px solid #d2d2d2;
+	border-top: 0;
+	padding: 10px 10px 10px 54px;
+}
+#tabs .ui-tabs-panel .letter-select{
+	position: absolute;
+	top: 0px;
+	width: 24px;
+}
+.letter-select li.current{
+	background: #2cac93;
+	color: #fff;
+}
+.letter-select li, .letter-select li:first-child{
+	border: 1px solid #d2d2d2;
+	border-top: none;
+	background: #f2f2f2;
+	line-height: 14px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 12px;
+	color: #000;
+}
+.letter-select-1{
+	left: -1px;
+}
+.letter-select-2{
+	left: 22px;
+	display: none;
+}
+#tabs .ui-tabs-panel .pannel{
+	height: 100%;
+	overflow-y: scroll;
+}
+#tabs .ui-tabs-panel .pannel h3{
+	clear: both;
+	background: #f2f2f2;
+	font: normal 12px/20px "宋体";
+	padding-left: 10px;
+}
+#tabs .ui-tabs-panel .pannel .item-list{
+	padding: 8px 0 12px;
+	overflow: hidden;
+}
+#tabs .ui-tabs-panel .item-list a{
+	display: block;
+	float: left;
+	width: 80px;
+	font: normal 12px/20px "宋体";
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-indent: 4px;
+}
+#tabs .ui-tabs-panel .item-list a:hover{
+	color: #2cac93;
+}
+
+.item-list-2 h4{
+	font: normal 12px/30px "宋体";
+	cursor: pointer;
+	text-indent: 4px;
+}
+h4.expended {
+	color: #fff;
+	background: #f70;
+}
+.item-list-2 h4.has-child:after{
+	float: right;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	margin-right: .5em;
+	content: ">>";
+	-webkit-transform:rotate(90deg);
+    	-moz-transform:rotate(90deg);
+    	-ms-transform:rotate(90deg);
+    	-o-transform:rotate(90deg);
+    	transform:rotate(90deg);
+    	filter: progid:DXImageTransform.Microsoft.BasicImage(Rotation=1);
+}
+.item-list-2  h4.expended:after{
+	color: #fff;
+	-webkit-transform:rotate(-90deg);
+    	-moz-transform:rotate(-90deg);
+    	-ms-transform:rotate(-90deg);
+    	-o-transform:rotate(-90deg);
+    	transform:rotate(-90deg);
+    	filter: progid:DXImageTransform.Microsoft.BasicImage(Rotation=3);
+}
+.item-list-2 .item-list{
+	display: none;
+}

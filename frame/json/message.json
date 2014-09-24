@@ -1,0 +1,131 @@
+﻿{
+    "currRank": 0,
+    "groupList": [
+        {
+            "allowMaxFile": 0,
+            "allowPerDay": 0,
+            "allowSuffix": "",
+            "groupName": "管理员组",
+            "id": 4,
+            "isRegDef": false,
+            "isWhiteList": 0,
+            "needCaptcha": false,
+            "needCheck": false,
+            "new": false,
+            "priority": 10,
+            "rank": 8
+        }
+    ],
+    "jcSites": [
+        {
+            "channelIds": [],
+            "checkStep": 1,
+            "isAllChannel": true,
+            "jcSiteId": 1
+        },
+        {
+            "channelIds": [12,165,465],
+            "checkStep": 1,
+            "isAllChannel": false,
+            "jcSiteId": 2
+        }
+    ],
+    "jcUser": {
+        "email": "aa@aa.com",
+        "id": 290,
+        "xhFriendName":"12456",
+        "isAdmin": false,
+        "isDisabled": true,
+        "isSelfAdmin": false,
+        "isViewonlyAdmin": false,
+        "jcGroup": {
+            "allowMaxFile": 1024,
+            "allowPerDay": 4096,
+            "allowSuffix": "jpg,jpeg,gif,png,bmp",
+            "groupName": "普通会员组",
+            "id": 1,
+            "isRegDef": true,
+            "isWhiteList": 0,
+            "needCaptcha": true,
+            "needCheck": true,
+            "new": false,
+            "priority": 10,
+            "rank": 3
+        },
+        "lastLoginIp": "111.194.68.34",
+        "lastLoginTime": 1399544138000,
+        "loginCount": 572,
+        "new": false,
+        "rank": 0,
+        "registerIp": "202.84.17.41",
+        "registerTime": 1368674028000,
+        "sex": 0,
+        "uploadDate": 1368633600000,
+        "uploadSize": 0,
+        "uploadTotal": 0,
+        "userPrice": 0,
+        "username": "iphonetest0"
+    },
+    "queryDisabled": true,
+    "roleIds": [1,2],
+    "roleList": [
+        {
+            "RoleName": "管理员",
+            "id": 1
+        },
+        {
+            "RoleName": "普通编辑",
+            "id": 2
+        },
+        {
+            "RoleName": "自定义会员组",
+            "id": 3
+        },
+        {
+            "RoleName": "小管理员",
+            "id": 4
+        },
+        {
+            "RoleName": "炫知管理员",
+            "id": 5
+        },
+        {
+            "RoleName": "xuan_01",
+            "id": 9
+        },
+        {
+            "RoleName": "炫知相关属性编辑",
+            "id": 17
+        },
+        {
+            "RoleName": "炫知管理员[不可推送]",
+            "id": 23
+        },
+        {
+            "RoleName": "只读",
+            "id": 24
+        },
+        {
+            "RoleName": "社区互动部[不可推送]",
+            "id": 25
+        },
+        {
+            "RoleName": "政文编辑部[不可推送]",
+            "id": 26
+        }
+    ],
+    "siteList": [
+        {
+            "id": 1,
+            "siteName": "新华新闻"
+        },
+        {
+            "id": 2,
+            "siteName": "百科测试站"
+        },
+        {
+            "id": 3,
+            "siteName": "政府网"
+        }
+    ]
+}

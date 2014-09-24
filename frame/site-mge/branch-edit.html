@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>站点设置列表</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<style>
+
+
+</style>
+<body class="outter-frame">
+<div class="mainRight">
+	<form id="edit-branch">
+		<div class="clearfix channelName" style="display:none;">
+			<span class="leftName">频道ID:</span><input style="border:none" readOnly="true"  name="id" id="rootId">
+		</div>
+		<div class="upDiv clearfix">
+			<span class="upName leftName">上级站:</span><input type="text" name="upBranch" id="upBranch">
+		</div>
+		<div class="thisDiv clearfix">
+			<span class="thisName leftName">中心名称:</span><input type="text" name="editName" id="editName">
+		</div>
+		<div class="clearfix branch-button">
+			<span class="leftName"> </span><input type="submit" class="branch-submit" value="提交"><input type="button"  class="branch-cancel" value="取消">
+		</div>
+	</form>
+</div>
+<script src="../js/frame.js"></script>
+<script type="text/javascript">
+require(["queryparam","alerts"],function(queryparam){
+	var content = $("#edit-branch");
+	if(!top.treeLevel){
+		$(".upDiv").hide();
+		$(".thisName", content).html("站点名称");
+	}else if(top.treeLevel==1){
+		$(".upName", content).html("上级站点");
+		$(".thisName", content).html("中心名称");
+	}else if(top.treeLevel==2){
+		console.log(2)
+		$(".upName", content).html("上级部门");
+		$(".thisName", content).html("部门名称");
+	}else if(top.treeLevel==3){
+		$(".upName", content).html("上级部门");
+		$(".thisName", content).html("频道名称");
+	}
+
+	var URL = $.initFrame('branchManage').URL;
+	var treeData;
+	$.ajax({
+		url: URL.branchTreeData,
+		type:"post",
+		dataType:"json",
+		success: function(data){
+			/*获取上级id之后存储于上级部门*/
+			var topId;
+			var exec = function(data,id){
+				for(var i in data){
+					if(top.treeId==data[i].id){
+						topId=id;
+						return;
+					}else if(data[i].children){
+						for(var j in data[i].children){
+							if(top.treeId==data[i].children[j].id){
+								topId=data[i].id;
+								return;
+							}else if(data[i].children[j].children){
+								exec(data[i].children[j].children,data[i].children[j].id)
+							}
+						}
+					}
+				}
+			};
+			exec(data);
+			/*获取上级id之后存储于上级部门*/
+			
+
+			$("#rootId",content).val(top.treeId);
+			var add = queryparam("add");
+			var up_branch=queryparam("up");
+			
+			if(add=="add"){
+				$("#editName",content).attr("name","addName");
+				$("#rootId",content).attr("name","upBranch");
+				if(top.treeLevel){
+					$("#upBranch").remove();
+					$("<P>"+up_branch+"</p>").appendTo(".upDiv");
+				}
+				/*表单提交操作*/
+				$(".branch-cancel").click(function(){
+					window.location.href="branch-edit.html"
+				});
+				$("#edit-branch").submit(function(e){
+					if($("#editName").val()){
+						$.ajax({
+							url:"../json/success.json",
+							type:"POST",
+							data: $(this).serialize(),
+							success:function(){;
+								top.treeLevel!=0?--top.treeLevel:top.treeLevel=1000;
+								top.treeId=topId;
+								window.location.href="branch-list.html"
+							}
+						})
+					}else{
+						jTip( '请填写名称', 1000 );
+					}
+					e.preventDefault();
+				})
+
+			}else{
+				$("#editName").val(top.treeName);
+				$("#upBranch").val(topId);
+				if(top.treeLevel==1){
+					for(var key in data){
+						if(data[key].children){
+							delete data[key].children;
+						}
+					}
+				}else if(top.treeLevel==2){
+					for(var key in data){
+						if(data[key].children){
+							for(i in data[key].children){
+								if(data[key].children[i].children){
+									delete data[key].children[i].children
+								}
+							}
+						}
+					}
+				}else if(top.treeLevel==3){
+					for(var key in data){
+						if(data[key].children){
+							for(i in data[key].children){
+								if(data[key].children[i].children){
+									for(var j in data[key].children[i].children){
+										if(data[key].children[i].children[j].children){
+											delete data[key].children[i].children[j].children
+										}
+									}
+								}
+							}
+						}
+					}
+					$(".channelName").show()
+				}
+
+				/*数据处理为select格式*/
+				var treeData=(function _exec(treeData){
+					var obj={};
+					for(var key in treeData){
+						if(!treeData[key]["children"]){
+							obj[treeData[key]["name"]]=treeData[key]["id"];
+						}else{
+							obj[treeData[key]["name"]+'_'+treeData[key]["id"]]=_exec(treeData[key]["children"])
+						}
+					}
+					return obj;
+				})(data);
+				/*数据处理为select格式*/
+					
+				console.log(treeData)
+				require(['selectors'],function(){
+					$('#upBranch').selectors({
+						o: treeData,
+						hiddenEmpty: false,
+						brancheValue: true
+					});
+
+					/*表单提交操作*/
+					$(".branch-cancel").click(function(){
+						window.location.href="branch-edit.html"
+					});
+					$("#edit-branch").submit(function(e){
+						if($("#editName").val()){
+							$.ajax({
+								url:"../json/success.json",
+								type:"POST",
+								data: $(this).serialize(),
+								success:function(){;
+									top.treeLevel!=0?--top.treeLevel:top.treeLevel=1000;
+									top.treeId=topId;
+									window.location.href="branch-list.html"
+								}
+							})
+						}else{
+							jTip( '请填写名称', 1000 );
+						}
+						e.preventDefault();
+					})
+
+				});
+			}
+		}
+	});
+	
+});
+
+</script>
+</body>
+</html>

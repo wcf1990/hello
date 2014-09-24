@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <style type="text/css">
+    body,html { height:100%}
+    body { margin:0; padding:0}
+    #iCenter {width:100%; height:100%}
+    </style>
+    <script language="javascript" src="http://api.home.news.cn/map/webapi/auth.json?t=javascriptmap&v=3.1.1&key=885d2fdae8c36c1fbcfe5b806ff768203ac9c5b0c8306ae139ac98f432932286151dc0ec55580eca"></script>
+    <script language="javascript">
+        var clicklng=null, clicklat=null;
+        var mapObj, toolbar, overview, scale;
+        var markers = [], infos = [];
+        var param;
+		var geo="";
+        function mapInit() {
+            var param = initParam();//初始化参数
+            var addressName = param.get("address");
+            var GeocoderOption = {
+                range: 300,//范围
+                crossnum: 2,//道路交叉口数
+                roadnum: 1,//路线记录数
+                poinum: 2//POI点数
+            };
+            geo = new MMap.Geocoder(GeocoderOption);
+            geo.geocode(addressName, addressToGeoSearch_CallBack);
+        }
+		function getLngAndLat(addressName,callBack){
+			geo.geocode(addressName,function(data){
+				callBack(data);
+			});
+		}
+        function geocodeSearch(lng, lat) {
+            if (lng == "" || lat == "") {
+                return;
+            } else {
+                marker = new MMap.Marker({
+                    id: "m", //marker id
+                    position: new MMap.LngLat(lng, lat), //位置
+                    //icon:"http://ico.ooopic.com/iconset01/vista-map-markers-icons/gif/158688.gif",//图片
+                    offset: new MMap.Pixel(-11.5, -32), //基点为图片左上角，设置相对基点的图片位置偏移量，向左向下为负
+                    draggable: false, //可拖动
+                    //cursor:"../MapControl/openhand.cur",//鼠标悬停时显示的光标样式
+                    visible: true,//可见
+                    zIndex: 1//设置点叠加顺序，在加载多个点有效果，详见设置点叠加顺序示例
+                });
+                mapObj.addOverlays(marker);
+                //mapObj.setFitView([marker]);
+
+                var lnglatXY = new MMap.LngLat(lng, lat)
+                var GeocoderOption = {
+                    range: 1000,//范围
+                    crossnum: 1,//道路交叉口数
+                    roadnum: 1,//路线记录数
+                    poinum: 1//POI点数
+                };
+                var geo = new MMap.Geocoder(GeocoderOption);
+                geo.regeocode(lnglatXY, poiToAddressSearch_CallBack);
+            }
+        }
+        function poiToAddressSearch_CallBack(data) {
+            //{"code":0,"data":{"country":"中国","country_id":"156","region":"河北省","region_id":"130000","city":"邢台市","city_id":"130500","county":"桥东区","county_id":"130502","address":"","poi":"新兴东招待所","lng":"114.5282625","lat":"37.0493675"}}
+            var resJson = {};
+            var dataJson = {};
+            //for(x in data){if(x == "list"){data[x];}}
+
+            var resultStr = "<span style=\"font-size:12px;\">";
+            if (data.status == "E0") {
+                resJson.code = 200;
+                dataJson.country = "中国";
+                dataJson.country_id = "156";
+
+                for (var i = 0; i < data.list.length; i++) {
+                    //省市县数据
+                    dataJson.region = data.list[i].province.name;
+                    dataJson.region_id = data.list[i].province.code;
+                    dataJson.city = data.list[i].city.name;
+                    dataJson.city_id = data.list[i].city.code;
+                    dataJson.county = data.list[i].district.name;
+                    dataJson.county_id = data.list[i].district.code;
+
+                    resultStr += data.list[i].province.name + data.list[i].city.name + data.list[i].district.name + "<br />";
+                    for (var j = 0; j < data.list[i].roadlist.length; j++) {
+                        //resultStr += "<br />道路：" + data.list[i].roadlist[j].name + "&nbsp;&nbsp;<br />距离：" + data.list[i].roadlist[j].distance + "<br />";
+                    }
+                    for (var j = 0; j < data.list[i].poilist.length; j++) {
+                        //resultStr += "<br />名称：" + data.list[i].poilist[j].name + "<br />地址：" + data.list[i].poilist[j].address + "<br />类型：" + data.list[i].poilist[j].type + "<br />距离：" + data.list[i].poilist[j].distance + "<br />经度：" + data.list[i].poilist[j].x + "<br />纬度：" + data.list[i].poilist[j].y + "<br />";
+                        resultStr += "<br />名称：" + data.list[i].poilist[j].name + "<br />地址：" + data.list[i].poilist[j].address +  "<br />经度：" + data.list[i].poilist[j].x + "<br />纬度：" + data.list[i].poilist[j].y + "<br />";
+                        dataJson.address = data.list[i].poilist[j].address;
+                        dataJson.poi = data.list[i].poilist[j].name;
+                    }
+                }
+                dataJson.lng = clicklng;
+                dataJson.lat = clicklat;
+                resJson.data = dataJson;
+            } else if (data.status == "E1") {
+                resultStr = "<span style=\"font-size:12px;\">未查找到任何结果!<br />建议：<br />1.请确保所有字词拼写正确。<br />2.尝试不同的关键字。<br />3.尝试更宽泛的关键字。</span>";
+                resJson.code = -1;
+                resJson.data = dataJson;
+            } else {
+                resultStr = "<span style=\"font-size:12px;\">错误信息：" + data.status + "请对照API Server v2.0.0 简明提示码对照表查找错误类型</span>";
+                resJson.code = -1;
+                resJson.data = dataJson;
+            }
+            resultStr += "</span>";
+            inforWindow = new MMap.InfoWindow({
+                content: resultStr,
+                offset: new MMap.Pixel(-102, -89)
+            });
+            inforWindow.open(mapObj, marker.getPosition());
+            //父页面传递值
+            var callback = param.get("callback");
+            if(parent[callback])
+            {
+                parent[callback](resJson);
+            }
+            mapObj.bind(marker, 'click', function () {
+                inforWindow.open(mapObj, marker.getPosition());
+            })
+        }
+        function addressToGeoSearch_CallBack(data) {
+            var opt = {
+                level: 13,//初始地图视野级别
+                //center:new MMap.LngLat(116.397428,39.90923),//设置地图中心点
+                doubleClickZoom: true,//双击放大地图
+                scrollWheel: true//鼠标滚轮缩放地图
+            }
+
+            mapObj = new MMap.Map("iCenter", opt);
+            mapObj.plugin(["MMap.ToolBar", "MMap.OverView", "MMap.Scale"], function () {
+                //toolbar = new MMap.ToolBar();
+                //toolbar.autoPosition=false; //加载工具条
+                //mapObj.addControl(toolbar);
+                //overview = new MMap.OverView(); //加载鹰眼
+                //mapObj.addControl(overview);
+                //scale = new MMap.Scale(); //加载比例尺
+                //mapObj.addControl(scale);
+            });
+            mapObj.bind(mapObj, "click", function (e) {
+                mapObj.clearOverlays();
+                var lnglat = e.lnglat.toString();
+                var lnglatArr = lnglat.split(",");
+                var lng = lnglatArr[0];
+                var lat = lnglatArr[1];
+                clicklng = lng;
+                clicklat = lat;
+                geocodeSearch(lng, lat);
+            });
+            mapObj.clearOverlays();
+            mapObj.clearInfoWindow();
+            markers = [];
+            infos = [];
+            var resultStr = "";
+            if (data.status == "E0") {
+            	if(data.list) {
+	                for (var i = 0; i < data.list.length; i++) {
+	                    resultStr += "<span style='font-size:12px;'><a id=" + i + " href=\"javascript:void(0)\">" + data.list[i].name + "</a></span>";
+	                    markers.push(new MMap.Marker({
+	                        position: new MMap.LngLat(data.list[i].x, data.list[i].y), id: 'marker' + i, offset: new MMap.Pixel(-10, -34)
+	                    }));
+	                    mapObj.addOverlays(markers[i]);
+	                    infos.push(new MMap.InfoWindow({
+	                        content: "<span style=\"font-size:12px;\">"+data.list[i].name + "<br /><br />名称：" + data.list[i].name  + "<br />经度：" + data.list[i].x + "<br />纬度：" + data.list[i].y + "<br /></span>",
+	                        offset: new MMap.Pixel(-102, -89),
+	                        autoMove: true
+	                    }));
+	                    mapObj.bind(markers[i], 'click', function () {
+	                        var index = this.obj.id.substring(6)
+	                        infos[index].open(mapObj, this.obj.getPosition())
+	                    })
+	                }
+	                mapObj.setFitView([markers[0]])
+	                resultStr += '';
+            	}
+            } else if (data.status == "E1") {
+                resultStr = "<span style=\"font-size:12px;\">未查找到任何结果!<br />建议：<br />1.请确保所有字词拼写正确。<br />2.尝试不同的关键字。<br />3.尝试更宽泛的关键字。</span>";
+            } else {
+                var s = data.status || data.error.description
+                resultStr = "错误信息：" + s;
+            }
+            /*
+            if(data.list) {
+	            for (var i = data.list.length - 1; i >= 0; i--) {
+	                document.getElementById(i).onclick = function () {
+	                    mapObj.setFitView([markers[parseInt(this.id)]])
+	                }
+	            }
+            }
+            */
+        }
+
+        function initParam() {
+            //HashMap对象定义
+            param = {
+                put: function (key, value) {
+                    this[key] = value
+                },
+                get: function (key) {
+                    return this[key]
+                },
+                contains: function (key) {
+                    return this.put(key) == null ? false : true
+                },
+                remove: function (key) {
+                    delete this[key]
+                }
+            }
+            //样式：#address=河北省石家庄市桥西区&callback=show
+            var addressBar = window.location.hash.substring(1);
+            var parArr = addressBar.split("&");
+            for (p in parArr) {
+                param.put(parArr[p].split("=")[0], parArr[p].split("=")[1]);
+            }
+            if (param.get("address") == undefined) {
+                param.put("address", "北京市");
+            }
+            if (param.get("callback") == undefined) {
+                param.put("callback", "show");
+            }
+            return param;
+        }
+    </script>
+</head>
+
+<body onload="mapInit();">
+<div id="iCenter"></div>
+</body>
+</html>

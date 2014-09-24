@@ -1,0 +1,483 @@
+.box-positon{
+  background: none;
+  padding: 0 .5%;
+}
+.box-positon .rpos{
+  display: none;
+}
+.box-positon .ropt{
+  float: left;
+}
+
+/* 栏目配置  */
+#jvForm .pn-ltable{
+  border: 1px solid #cdcdcd;
+  border-collapse: separate;
+  border-spacing: 0px;
+  border-color: #cbcbcb;
+}
+/*  */
+#jvForm table.pn-ftable {
+border-collapse: separate;
+border-spacing: 0px;
+border-color: gray;
+}
+
+.i-search #jvForm table{
+  
+}
+
+.pn-ltable{
+  background-color: #ececec;
+}
+.pn-lthead th{
+  height: 34px;
+  padding: 8px 10px;
+  border-bottom: 0;
+  background: none;
+  background-color: #cbcbcb;
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e3e3e3 50%, #ebebeb 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #e3e3e3 50%, #ebebeb 100%);
+  background-image: -ms-linear-gradient(top, #ffffff 0%, #e3e3e3 50%, #ebebeb 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #e3e3e3 50%, #ebebeb 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #e3e3e3 50%, #ebebeb 100%);
+  border-left: 1px solid #cdcdcd;
+  color: #343539;
+}
+.pn-ltbody td{
+  height: 50px;
+  text-align: center;
+  padding: 0px;
+  border-left: 1px solid #cdcdcd;
+  border-bottom: 1px solid #cdcdcd;
+}
+.pn-ltbody tr:nth-child(even){
+  background: #ececec;
+}
+.pn-ltbody tr:hover{
+  background: #d9f4f2;
+}
+.pn-ltbody input[name=priority]{
+  text-align: center;
+  border: 1px solid #cbcbcb;
+}
+.pn-opt {
+  color: #2cac93; 
+}
+a.pn-opt:visited{
+  color: #2cac93;
+}
+a.pn-opt:link{
+  color: #2cac93;
+}
+
+#tableForm input[type=button]{
+  display: inline-block;
+  border: 1px solid #2cac93;
+  color: #ffffff;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  padding: 0 1em;
+  border-radius: 3px;
+  opacity: .9;
+  filter: alpha(opacity=90);
+  background: #2cac93;
+  text-indent: 0;
+  margin: 10px 0;
+}
+
+.return-button{
+  background: #2cac93;
+  text-indent: 0px;
+  color: #fff;
+  border-radius: 3px;
+  margin-top: -3px;
+}
+/* 站点管理 > 栏目配置 > 修改 > */
+.collocate-cont h2 {
+  background: #2cac93;
+}
+.ropt{
+  margin-bottom: 8px;
+}
+/*switch start 
+.collocate-right h3 {
+  display: block;
+  float: left;
+  width: 62px;
+  line-height: 32px;
+}
+.collocate-right .column-lable {
+  width: 65px;
+  height: 32px;
+  margin: 0px;
+  background: url(../images/form.png) no-repeat;
+  background-position: 0px -175px;
+}
+.collocate-right .column-lable-no {
+  width: 65px;
+  height: 32px;
+  background-position: 0px -126px;
+}
+.staticize-input {
+  margin-left: 5px;
+  width: 290px;
+}
+.collocate-but .collocate-submit {
+  margin-right: 15px;
+  background: #2cac93;
+}
+switch end */
+
+
+/* 站点管理 > 人员管理 > 管理员管理 > 全站 */
+
+
+
+/* 百科发布  */
+.add-subject-name{
+  margin-bottom: 5px;
+}
+.form_edit input{
+  border: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  padding: 0 6px;
+  height: 26px;
+  line-height: 26px;
+  border: 1px solid #cbcbcb;
+  border-radius: 3px;
+}
+.add-subject-name input[type=button],.submit-bt input[type=button]{
+  border: 0;
+  color: #fff;
+  background: #2cac93;
+}
+.submit-bt {
+  margin-bottom: 15px;
+}
+.submit-bt input,#jvForm input[name=selectName],#comment input[type=button],#professionShowId input[type=button]{
+  border: 0;
+  height: 28px;
+  line-height: 28px;
+  color: #fff;
+  background: #2cac93;
+}
+
+
+/* 百科发布 > 人物 */
+.letter22 {
+  margin-left: 10px;
+}
+.letter22 input,.letter22 select{
+  margin-right: 10px;
+  line-height: 24px;
+}
+
+.second_navi li{
+  float: left;
+  width: 120px;
+  height: 25px;
+  line-height: 25px;
+  border: 1px solid #2cac93;
+  border-bottom: 0px;
+  margin-left: 3px;
+}
+.second_navi .currentLi {
+  background-color: #33c2a6;
+  color: #fff;
+}
+#jvForm input[name=selectName]{
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+.pn-ftable {
+  background-color:#fff;
+}
+.pn-fcontent span.addr input[type=text]{
+  height: 18px;
+  line-height: 18px;
+  margin-top: 0px;
+}
+.pn-fcontent label input[type=radio]{
+	vertical-align: -10px;
+}
+#comment input[type=button]{
+
+}
+#professionShowId input[type=button]{
+
+}
+.pn-ftable .pn-ltbody input[type=checked]{
+	vertical-align: -2px;
+}
+
+.profession ul {
+  height: 60px;
+}
+
+/* 百科发布 > 专题库 */
+.form-all {
+  width: auto;
+}
+.form-all-top {
+  width: auto;
+}
+.content-form {
+  width: auto;
+}
+.content-form table {
+  width: 100%;
+}
+.subject-support input {
+  vertical-align: -10px;
+}
+.subject-support a {
+  margin-top: 3px;
+}
+
+/* 百科发布 > 专题库 > 主题性专题 */
+.form-all-top a{
+  display: block;
+  float: left;
+  height: 28px;
+  width: 50px;
+  padding: 0 6px;
+  line-height: 28px;
+  background: #2cac93;
+  color: #fff;
+  border-radius: 3px;
+  margin-right: 25px;
+  margin-top: -2px;
+}
+.form-all-top a.select-all{
+  background: none;
+  color: #000;
+}
+.list-move,.this-to-top {
+  height: 26px;
+  border: 1px solid #2cac93;
+  margin-top: -2px;
+}
+.form-all-top .list-move span {
+  background:  #2cac93;
+  height: 26px;
+  line-height: 26px;
+}
+.this-to-top{
+  background: #2cac93;
+  line-height: 28px;
+}
+
+/* 百科发布 > 专题库 > 新闻性专题 --编辑 */
+.add-subject-name .check-prop .label_checked {
+  border-color: #2cac93;
+  background: #2cac93;
+}
+
+.ropt input[type=submit],.ropt input[type=button]{   /* 按钮样式更改 */
+  text-indent: 0;
+  border: 0;
+  height: 24px;
+  line-height: 24px;
+  color: #fff;
+  background: #2cac93;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* 站点管理 > 站点设置 */
+.pn-flabel {
+  background-color: rgb(219, 237, 233);
+  height: 49px;
+}
+/*.pn-ftable tr{
+  clear: both;
+  height: 52px;
+}*/
+
+.pn-fcontent input[type=text],.letter22 input[type=text]{
+  border: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  padding: 0 6px;
+  height: 26px;
+  line-height: 20px;
+  border: 1px solid #cbcbcb;
+  border-radius: 3px;
+  margin-top: 10px;
+}
+.letter22 input[type=text]{
+  height: 20px;
+}
+.pn-fcontent select{
+  height: 28px;
+  width: 163px;
+  border-radius: 3px;
+  border: 1px solid #cbcbcb;
+}
+.letter22 .select,#tableForm select{
+  height: 22px;
+  border-radius: 3px;
+  border: 1px solid #cbcbcb;
+}
+.pn-fcontent label input[type=radio]{
+  height: 28px;
+}
+.pn-fbutton input,.query,.add{
+  text-indent: 0;
+  border: 0;
+  height: 24px;
+  line-height: 24px;
+  color: #fff;
+  background: #2cac93;
+  border-radius: 3px;
+}
+.pn-fbutton input[type=submit],.pn-fbutton input[type=reset]{
+  text-indent: 0;
+  border: 0;
+  height: 28px;
+  line-height: 28px;
+  color: #fff;
+  background: #2cac93;
+  border-radius: 3px;
+}
+
+/* 互动管理 > 评论管理 (分页背景色)*/
+#tableForm td.pn-sp {
+  background: #5ed0ba;
+  /*background: #fff;*/
+}
+/*.body-box #tableForm input.first-page,.body-box #tableForm input.pre-page,.body-box #tableForm input.next-page,.body-box #tableForm input.last-page {
+  display: inline-block;
+  border: 1px solid #cbcbcb;
+  color: #000000;
+  height: 28px;
+  line-height: 28px;
+  font-size: 12px;
+  background: url("../images/form.png") 100px 100px no-repeat #fff;
+}*/
+#tableForm .pn-sp input[text-indent=button]{
+
+}
+#tableForm .pn-sp input[type=text]{
+  border: 1px solid #b4b4b4;
+  text-align: center;
+}
+
+/* 统计日志 > 统计 > */
+#queryForm select{
+  width: 70px;
+  height: 22px;
+  margin-right: 5px;
+  border-radius: 3px;
+  border: 1px solid #cbcbcb;
+}
+#queryForm input[type=text]{
+  text-indent: 0;
+  height: 26px;
+  border: 1px solid #b4b4b4;
+  border-radius: 3px;
+}
+
+/* 统计日志 > 日志 > */
+.body-box input[name=queryUsername],.body-box input[name=queryTitle],.body-box input[name=queryIp],.body-box input[name=queryId],.body-box input[name=queryName],
+.body-box input[name=name],.body-box input[name=url],.body-box input[name=replacement],.body-box input[name=search],.body-box input[name=priority],
+.body-box input[name=prioritys],.body-box input[name=label],.body-box input[name=labels]{
+  padding: 0 6px;
+  height: 20px;
+  border: 1px solid #b4b4b4;
+  border-radius: 3px;
+}
+
+/* 资源管理 > 推广资源管理 */
+.body-box select[name=queryCtgId]{
+  height: 24px;
+  margin-right: 5px;
+  border-radius: 3px;
+  border: 1px solid #cbcbcb;
+}
+.save-order,.save-content{
+  background: #2cac93;
+  color: #fff;
+  height: 28px;
+  text-indent: 0px;
+  border-radius: 3px;
+}
+
+
+
+/* 细节（先去掉按钮上的图标） */
+/* 百科发布 > 专题库 > 全部专题 */
+.form-all-top em{
+  background: none;
+}
+.form-all-top a span {
+  vertical-align: middle;
+  margin-left: -8px;
+}
+
+/* 资源管理 > 推广资源管理 > 友情链接 > 管理 >修改 */
+.browse,.upload-button,.pn-fcontent input[type=button]{
+  height: 24px;
+  background: #2cac93;
+  color: #ffffff;
+  text-indent: 0px;
+  border-radius: 3px;
+}
+.pn-fcontent textarea{
+  border-radius: 3px;
+  border: 1px solid #cbcbcb;
+}
+.pn-fbutton input[type=text]{
+  text-indent: 0;
+  border: 0;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 3px;
+  background: #fff;
+  border: 1px solid #cbcbcb;
+  margin-top: 5px;
+  color: #000;
+  text-align: center;
+}
+.pn-ftable  input[type=password]{
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #cbcbcb;
+  border-radius: 3px;
+}
+.pn-fcontent input[type=text]{
+  height: 26px;
+}
+.pn-fcontent input[type=button]{
+  border: none; 
+  cursor: pointer;
+  margin-left: 6px;
+}
+.preview-button{
+  margin-left: 6px;
+}
+.pn-ftable input#username{
+  height: 22px;
+  border: 1px solid #cbcbcb;
+  width: 163px;
+  border-radius: 3px;
+}
+
+/* table行高 */
+.content-form tbody td {
+  height: 35px;
+}
+.pn-ltbody td {
+  height: 35px;
+}
+
+
+/*站点管理 > 站点设置 >*/
+.ropt .sys-setting, .ropt .login-setting,.ropt .member-setting, .ropt .mark-setting, .ropt .base-setting, .ropt .submit{display: block;float: left;height: 28px;width: 80px;padding: 0 6px;line-height: 28px;background: #2cac93;color: #fff;border-radius: 3px;margin-right: 25px; text-indent: 0px;}
+.pn-fcontent .preview-button{ margin-right: 0px; width: 40px;height: 25px; background: #2cac93; text-indent: 0px;line-height: 25px;color: #fff;border-radius: 3px;}
+.body-box #jvForm table{float: left;}
+.ropt .submit{ width: 40px; float: none; display: inline;  height: 24px; line-height:24px;}

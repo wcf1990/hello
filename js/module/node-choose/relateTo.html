@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>node-choose</title>
+	<link rel="stylesheet" href="../../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../../css/form-style.min.css">
+	<script src="../../../js/jquery.min.js"></script>
+	<script src="../../../js/require.js"></script>
+	<script src="../../../js/require-config.js"></script>
+</head>
+<body>
+<div id="node" style="width:520px;"></div>
+</body>
+<script type="text/javascript">
+require(['node-choose'],function(NodeChosse){
+	new NodeChosse({
+		dialogContent:'<div class="dialog_content clearfix">'+
+		'	<div class="aready_choose clearfix">'+
+		'		<span class="choose_span">已选择节点：</span>'+
+		'		<div class="aready_choose_con">'+
+		'			<ul id="logs">'+
+		'			</ul>'+
+		'		</div>'+
+		'	</div>'+
+		'	<div id="relateStage" class="stage"></div>'+	
+		'</div>',
+		width:540,
+		height:'auto',
+		node:'#node',
+		treeContainer:'#relateStage',
+		url:'../../../../xhadmin/content/tree.do',
+		title:'关联到',
+		showIcon:true,
+		data:top.relateData,
+		unification:function(){
+			$("#concernOut", top.document).hide();
+			delete top.contentId;
+			delete top.contentSubs;
+			delete top.relateData;
+		},
+		callback:function(Arr){
+			var dataString='';
+			dataString+='cid='+top.contentId;
+			$.each(Arr,function(k,v){
+				dataString+="&subChannels="+v;
+			});
+			$("#main", top.document).append("<div class='edit-overlay'></div>");
+			$.ajax({
+				url:'../../../../xhadmin/content/subChannel.do',
+				type:"get",
+				data:dataString,
+				success:function(res){
+					$(".edit-overlay", top.document).remove();
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown){
+                    alert("服务器异常");
+                    $(".edit-overlay", top.document).remove();
+				}
+			})
+		}
+	})
+})
+</script>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>f2e-server</title>
+    <base target="_blank">
+    <meta name="author" content="时扬扬">
+    <link rel="stylesheet" href="css/ppt.css">
+    <script>
+    document.createElement('header');
+    document.createElement('footer');
+    document.createElement('section');
+    </script>
+    <style>
+    #conf_js{position: absolute; left: 0; top: 830px;transition: .8s ease;}
+    #conf_js.active{
+        transform:translateY(-830px);
+    }
+    </style>
+</head>
+
+<body>
+    <div class="main-content">
+        <ul class="main-panel">
+            
+            <li id="section0">
+                <section>
+                    <header>
+                        <h2>
+                            前言
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4 class="mini-title">
+                            前端开发和调试中的一些核心需求
+                        </h4>
+                        <ol>
+                            <li>基本的文件服务器 <span class='mini-title'>nginx / apache / tomcat / IIS等</span></li>
+                            <li>html片段公用维护[include/layout]</li>
+                            <li>前端的资源合并和压缩等 <a href="http://www.gruntjs.net/"><span class='mini-title'>grunt</span></a></li>
+                            <li>远程数据调试 <span class="mini-title">解决跨域代理等问题</span></li>
+                            <li>模拟POST请求参数，文件上传等 </li>
+                            <li>动态加载LESS/CoffeeScript等文本为css/js资源文本</li>
+                        </ol>
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            <li id="section1">
+                <section>
+                    <header>
+                        <h2>
+                            f2e-server
+                            <a href="https://github.com/shy2850/node-server.git"></a>
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>github: <a href="https://github.com/shy2850/node-server.git" class='mini-title'>https://github.com/shy2850/node-server.git</a></h4>
+                        <h1 style="margin:100px auto 0;text-align:center">f2e-server <br> <span class='mini-title'>为前端打造的自由化开发服务器</span></h1>
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            <li id="section2">
+                <section>
+                    <header>
+                        <h2>
+                            文件服务器
+                            <span class='mini-title'>(你需要了解什么是MIME)</span>
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>提供最基本的文件服务器功能</h4>
+                        <ul>
+                            <li>&nbsp;</li>
+                            <li>1. 根据文件名后缀设置对应的MIME,输出文件信息 <a href="http://www.w3school.com.cn/media/media_mimeref.asp" class="mini-title">MIME参考手册</a></li>
+                            <li>&nbsp;</li>
+                            <li>2. 提供标准的404 code返回 <a href="http://www.baidu.com/s?wd=http%20status%20code" class="mini-title">检索: http status code</a></li>
+                            <li>&nbsp;</li>
+                            <li>3. 提供文件夹浏览列表, 让你的浏览像在windows资源浏览器类似</li>
+                        </ul>
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            <li id="section3">
+                <section>
+                    <header>
+                        <h2>
+                            include/belong
+                            <span class='mini-title'>文件的包含和被包含(layout实现)</span>
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>支持公用代码片段，并且将合并结果输出 <a href="http://www.w3cfuns.com/blog-5443978-5399247.html" class="mini-title">笔记</a></h4>
+                        <ul>
+                            <li>&nbsp;</li>
+                            <li>使用 $include[文件相对root的路径] 进行文件片段引入 <br><span class="mini-title">资源合并策略</span></li>
+                            <li>&nbsp;</li>
+                            <li>使用 $belong[文件相对root的路径] 加载layout文件路径</li>
+                            <li>&nbsp;</li>
+                            <li>在belong文件中使用 $placeholder 字段标识被belong进来的代码片段所处位置信息</li>
+                            <li>&nbsp;</li>
+                            <li>$belong只能使用一次， $include支持多次使用</li>
+                        </ul>                       
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            <li id="section4">
+                <section>
+                    <header>
+                        <h2>
+                            coffee/less
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>支持动态处理coffee/less等中间件, 以及使用cssmin/uglify-js来压缩资源</h4>
+                        <ul>
+                            <li>&nbsp;</li>
+                            <li>什么是 <a href="http://coffee-script.org/">coffee-script</a> ?</li>
+                            <li>&nbsp;</li>
+                            <li><a href="http://less.bootcss.com/">bootstrap/less</a></li>
+                            <li>&nbsp;</li>
+                            <li>通过修改middleware代码支持等多类型的模板动态处理 <a href="https://github.com/sintaxi/harp" class="mini-title">harpJS</a></li>
+                            <li>&nbsp;</li>
+                            <li>在中间件中提供了压缩相关功能,和静态批量输出</li>
+                        </ul>                       
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            <li id="section5">
+                <section>
+                    <header>
+                        <h2>
+                            远程数据调试
+                            <span class='mini-title'>(扩展代理功能)</span>
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>代理数据彻底解决跨域联调等问题 <a href="javascript:void(0)" onclick="$('#conf_js').trigger('step')"><span class="mini-title">agent配置</span></a></h4>
+                        <ul>
+                            <li>&nbsp;</li>
+                            <li>通过正则解决请求转发匹配问题</li>
+                            <li>&nbsp;</li>
+                            <li>通过cookie设置解决SSO用户验证的问题</li>
+                            <li>&nbsp;</li>
+                            <li>支持对本地路径进行方法转换到远程路径</li>
+                        </ul>
+                        <pre id="conf_js" class="prettyprint code" data-step="conf_js" contenteditable="true" spellcheck="false">
+    agent : {
+        get:function(path){
+            for (var i = 0; i < this.map.length; i++) {
+                if( this.map[i].reg.test(path) ){
+                    return this.map[i]
+                } 
+            }
+        },
+        map:[
+            {
+                reg : /static/,
+                host: 'localhost',
+                port: 2850,
+                path: function(url){
+                    return url.path;
+                }
+            },
+            {
+                reg:/xuan/, //路径中若含有xuan字段且映射不到内容，获取远程数据
+                host:'xuan.news.cn',
+                path:function(url){
+                    return '';
+                }
+            }
+        ]
+    }</pre>
+                    <script>$('#conf_js').on('keydown keypress keyup',function(e){e.stopPropagation()}).on('blur',function(){prettyPrint()})</script>
+
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            <li id="section6">
+                <section>
+                    <header>
+                        <h2>
+                            其他功能
+                            <span class='mini-title'>(服务器功能扩展)</span>
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>你可以参考样例开发属于自己的插件</h4>
+                        <ol>
+                            <li>/upload: 文件上传,支持配置文件上传目录以及返回数据格式配置</li>
+                            <li>/psd：为客户端预览PSD文件做的简单支持</li>
+                            <li>/prettify：为客户端预览文本文件做的简单支持</li>
+                            <li>/agent：早期使用的最简单GET请求代理实现</li>
+                            <li>/favicon：favicon.ico的简单实现</li>
+                            <li>/build：项目输出插件</li>
+                        </ol>
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+            
+            <li id="section7">
+                <section>
+                    <header>
+                        <h2>
+                            相关知识
+                            <span class='mini-title'>(搭建服务器相关知识)</span>
+                        </h2>
+                    </header>
+                    <div class="section-main">
+                        <h4>从一些HTTP规范中，我们可以更好的了解浏览器和调试数据</h4>
+                        <ol>
+                            <li><a href="http.html">HTTP协议</a></li>
+                            <li>MIME <a href="http://www.w3school.com.cn/media/media_mimeref.asp" class="mini-title">MIME参考手册</a></li>
+                            <li>HTTP code <a href="http://www.baidu.com/s?wd=http%20status%20code" class="mini-title">检索:http status code</a></li>
+                            <li>HTTP-code: 304(服务端未修改) &amp; cache-data(浏览器cache)</li>
+                            <li>cookie &amp; session </li>
+                            <li>GET/POST</li>
+                        </ol>
+                    </div>
+                    <footer></footer>
+                </section>
+            </li>
+
+        </ul>
+    </div>
+    <script type="text/javascript" src='http://apps.bdimg.com/libs/jquery/1.10.0/jquery.min.js'></script>
+    <script type="text/javascript" src="js/prettify-min.js"></script>
+    <script type="text/javascript" src="js/ppt.js"></script>
+</body>
+</html>

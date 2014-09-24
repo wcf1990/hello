@@ -1,0 +1,826 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>人员管理—个人信息设置</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body class="fixed-outter-frame clearfix">
+	<a class="fm-button" id="historyBack" href="../../xhadmin/admin_global/v_list.do">返回列表</a>
+	<form class="detail-data"  id="jvForm" >
+		<h1>个人信息</h1>
+		<div class="p-message clearfix">
+			<div class="p-message-left">
+				<div class="p-message-item clearfix">
+					<strong>用户名:</strong>
+					<div class="text">
+					<input type="text" class="input-text test" name="username" id="username"/>
+					<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>密码:</strong>
+					<div class="text">
+					<input type="password" class="input-text passWordEdit test" name="password" id="password"/>
+					<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="p-message-item p-message-sex clearfix">
+					<strong>性别：</strong>
+					<input type="radio" class="radio" name="sex" id="radio0" value="0"> <label for="radio0">男</label>
+					<input type="radio" class="radio" name="sex" id="radio1" value="1"> <label for="radio1">女</label>
+					<input type="radio" class="radio" name="sex" id="radio2" value="2" checked> <label for="radio2">保密</label>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>所在部门:</strong>
+					<input type="text" class="input-text" name="department" id="department"/>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>职称:</strong>
+					<select name="title" id="title" class="select">
+
+					</select>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>职务:</strong>
+					<select name="position" id="position" class="select">
+
+					</select>
+				</div>
+			</div>
+			<div class="p-message-right">
+				<div class="p-message-item clearfix">
+					<strong>邮箱:</strong>
+					<input type="text" class="input-text test" name="email" id="email"/>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>真实姓名:</strong>
+					<div class="text">
+					<input type="text" class="input-text test" name="realname" id="realname"/>
+					<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>所在中心:</strong>
+					<input type="text" class="input-text" name="center" id="center"/>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>所在频道:</strong>
+					<input type="text" class="input-text" name="channelName" id="channelName"/>
+				</div>
+				<div class="p-message-item clearfix">
+					<strong>职级:</strong>
+					<select name="level" id="level" class="select">
+
+					</select>
+				</div>
+			</div>
+		</div>
+		<h1>角色与权限</h1>
+		<div class="p-message clearfix">
+			<div class="p-message-left">
+				<div class="p-message-item select-auto-item clearfix">
+
+				</div>
+				<script id="UserGroup" type="text/x-handlebars-template">
+					<strong>会员组:</strong>
+					<select name="groupId" id="groupId" class="select">
+						{{#each groupList}}
+						<option value="{{id}}">{{groupName}}</option>
+						{{/each}}
+					</select>
+				</script>
+				<div class="p-message-item clearfix">
+					<strong>会员角色:</strong>
+					<div class="userRoles clearfix" id="userRoles">
+						
+					</div>
+				</div>
+			</div>
+			<div class="p-message-right">
+				<div class="p-message-item clearfix" id="channlLimit">
+					<!-- <strong>栏目权限:</strong>
+					<div class="site-limit">
+						<input type="checkbox" name="checkbox" class="checkbox" id="checkbox0"  value="0"> <label for="checkbox0">新华新闻</label>
+						<input type="text" name="steps" class="required">
+						<input class="fm-button open-dialog1" type="button" value="栏目权限">
+						<div id="open-dialog1"></div>
+						<input id="allChannel0" type="hidden" value="true" name="allChannels">
+						<span id="channelIdsContainer0"></span>
+					</div>
+					<div class="site-limit">
+						<input type="checkbox" name="checkbox" class="checkbox" id="checkbox1" value="1"> <label for="checkbox1">百科测试站</label>
+						<input type="text" name="steps" class="required">
+						<input class="fm-button open-dialog2" type="button" value="栏目权限">
+						<div id="open-dialog2"></div>
+						<input id="allChannel1" type="hidden" value="true" name="allChannels">
+						<span id="channelIdsContainer1"></span>
+					</div> -->
+				</div>
+				<script  id="limitTemplate" type="text/x-handlebars-template">
+					<strong>栏目权限:</strong>
+					<div class="limit-content">
+						{{#each siteList}}
+						<div class="site-limit clearfix">
+							<input type="checkbox" name="siteIds" class="checkbox" id="checkbox0"  value="{{id}}" {{#if checkStep}}checked{{/if}}> <label for="checkbox0">{{siteName}}</label>
+							<div class="text">
+							<input type="text" name="steps" class="required requiredSteps test" {{#if checkStep}}value="{{checkStep}}"{{else}}disabled="disabled"{{/if}}>
+							
+							<input class="fm-button {{openDialog}}" type="button" data-id="{{id}}" value="栏目权限"  {{#if checkStep}} {{else}}disabled="disabled"{{/if}}>
+							<span class='tip tip-default'></span>
+							<div id="{{openDialog}}"></div>
+							</div>
+							<input id="{{allChannel}}" type="hidden" {{#if isAllChannel}}value="{{isAllChannel}}"{{else}}disabled="disabled"{{/if}} name="allChannels">
+							<span id="{{chooseId}}"  value="{{isAllChannel}}" class="chooseClass"></span>
+						</div>
+						{{/each}}
+					</div>
+				</script>
+				
+			</div>
+		</div>
+
+		<h1>账号信息</h1>
+		<div class="p-message clearfix">
+			<div class="p-message-left">
+				<div class="p-message-item bind-item clearfix">
+					<div class="bind-start">
+						<strong>绑定炫空间账号:</strong>
+						<input id="bindusername" type="text" placeholder="账号" name="username1" value="">
+						<input id="bindpassword" type="passWord" placeholder="密码" name="password1" value="">
+						<a class="fm-button beginBt">开始绑定</a>
+						<div id="dialog_bind"></div>
+					</div>
+					<div class="bind-list">
+						
+					</div>
+					<input type="hidden" name="xhfriendName" id="xhfriendName">
+					<input type="hidden" name="userCloudImg" id="userCloudImg">
+					<input type="hidden" name="userLink" id="userLink">
+				</div>
+				<script id="listTemplate" type="text/x-handlebars-template">  
+						 <div class="hasBind clear">
+						 	<strong>已绑定账号</strong> 
+							<p class="bindname"></p>
+							<i class="deletebind">解除绑定</i>
+						</div> 
+				</script>
+
+				<div class="p-message-item bind-item clearfix">
+					<strong>是否禁用:</strong>
+					<input type="checkbox"  id="isDisabledone" class="switch"  onclick="$('#isDisabled').val(this.checked)">
+					<span>禁用后将无法登录后台</span>
+					<input type="hidden" name="isDisabled" id="isDisabled" value="false">
+				</div>
+				<div class="p-message-item bind-item clearfix">
+					<strong>是否受限:</strong>
+					<input type="checkbox" id="isSelfAdminone" class="switch" onclick="$('#isSelfAdmin').val(this.checked)">
+					<span>只管理自己的权限</span>
+					<input type="hidden" name="isSelfAdmin" id="isSelfAdmin" value="false">
+				</div>
+				<div class="p-message-item bind-item clearfix">
+					<strong>是否只读:</strong>
+					<input type="checkbox"  id="isViewonlyAdminone" class="switch" onclick="$('#isViewonlyAdmin').val(this.checked)">
+					<span>用于演示</span>
+					<input type="hidden" name="isViewonlyAdmin" id="isViewonlyAdmin" value="false">
+				</div>
+			</div>
+			<div class="p-message-right">
+				
+				
+			</div>
+		</div>
+
+		<h1>登录信息</h1>
+		<div class="p-message p-message-logn clearfix">
+			<div class="p-message-left">
+				<div class="p-message-item logn-message-item clearfix">
+					<strong>注册信息:</strong><p class="registerTime"></p>
+				</div>
+				<div class="p-message-item logn-message-item  clearfix">
+					<strong>最后登录:</strong><p class="lastLoginTime"></p>
+				</div>
+				<div class="p-message-item logn-message-item  clearfix">
+					<strong>登录次数:</strong><p class="loginCount"></p>
+				</div>
+				
+			</div>
+		</div>
+		<div class="collocate-button">
+			<input class="fm-button" id="cancelBack" type="button" value="取消">
+			<input class="fm-button"  type="submit" value="提交">
+		<div>
+	</form>
+	<div id="node" style="width:520px;"></div>
+
+</body>
+
+<script type="text/javascript">
+(function(){
+
+	$.fn.extend({
+		tocheckBox:function(){
+			return this.each(function(){
+				var tab=$(this).next("label").html();
+				$(this).next("label").remove();
+				var _this=$(this), holder=$('<label class="rm-item rm-checkbox">'+tab+'</label>')
+				if( _this.data("checkbox-init") ) return;
+				_this.after(holder);
+				_this.on("click checked",function(){
+					_this.parent()[this.checked?'addClass':'removeClass']("checked");
+				});
+				return _this.data("checkbox-init",true).appendTo(holder);	
+			}).filter(":checked").trigger("checked");
+		}
+	})
+	$.getScript("js/personal-message.js",function(){
+		var html_professional="", html_duty="", html_level="";
+		var tp=window.personalMassage;
+		for(i=0;i<tp.title.length;i++){
+			html_professional += '<option value='+tp.title[i]+'>'+tp.titleName[i]+'</option>'
+		}
+		$("#title").html(html_professional);
+
+		for(i=0;i<tp.position.length;i++){
+			html_duty += '<option value='+tp.position[i]+'>'+tp.positionName[i]+'</option>'
+		}
+		$("#position").html(html_duty);
+
+		for(i=0;i<tp.level.length;i++){
+			html_level += '<option value='+tp.level[i]+'>'+tp.levelName[i]+'</option>'
+		}
+		$("#level").html(html_level);
+
+	})
+
+	require(["json","dateUtil","queryparam","requestAFrame","node-choose","form-style","dialog","position","button","widget","alerts","base64","template","formValid","zTree"],function(JSON,DateUtil,queryparam,r,NodeChosse){
+		var html_userRole="";
+		var url=require.baseUrl.replace(/xhcms_2014\/js/g,"");
+		//var url="http://172.18.11.88:8089/xhcms-docs/";
+		$(".checkbox").toCheckbox();
+		$("#username").val("");
+		$("#password").val("");
+		if(queryparam("id")){
+			var thisID=queryparam("id")
+			$("#historyBack").click(function(){history.back()});
+			$("#historyBack").removeAttr("href");
+			limitUrl="http://xuan.news.cn/cloudapi/admin/site/";
+			//limitUrl="../../xhadmin/admin_global/v_channels_edit.do?";
+			$.ajax({
+				url:url+"admin/local_global/"+thisID+"/1/true/true/edit.json",
+				type:"get",
+				async:false,
+				success:function(data){
+					data = JSON.expend(data);
+					$.each(data.siteList,function(key,value){
+						data.siteList[key].chooseId="channelIdsContainer"+key;
+						data.siteList[key].allChannel="allChannel"+key;
+						data.siteList[key].openDialog="open-dialog"+key;
+					})
+
+					    
+					for(i=0; i<data.siteList.length; i++){
+						for (j=0; j < data.jcSites.length; j++) {
+							if(data.jcSites[j]["jcSiteId"]==data.siteList[i]["id"]){
+								$.extend(data.siteList[i],data.jcSites[j]);
+							}
+						};
+					}
+					
+					for (var key in data.jcUser) {
+						$("input[type=text]").each(function(){
+							if($(this).attr("id")&&$(this).attr("id")==key||$(this).attr("name")&&$(this).attr("name")==key){
+								$(this).val(data.jcUser[key]);
+							}
+						})
+					};
+					for (var key in data.jcUserExts) {
+						$("input[type=text]").each(function(){
+							if($(this).attr("id")&&$(this).attr("id")==key||$(this).attr("name")&&$(this).attr("name")==key){
+								$(this).val(data.jcUserExts[key]);
+							}
+						})
+					};
+
+					var usernamexh=$("#username").val();
+
+					/*会员角色列表*/
+					for(i=0; i<data.roleList.length;i++){
+						html_userRole += '<input type="checkbox" class="check-box" id="check-box'+i+'" name="roleIds" value="'+data.roleList[i]["id"]+'"> <label for="check-box'+i+'">'+data.roleList[i]["RoleName"]+'</label>'
+					}
+					$("#userRoles").html(html_userRole);
+
+
+					/*select回显*/
+					$("#title").val(data.jcUserExts["title"]).trigger('selectVal');
+					$("#level").val(data.jcUserExts["level"]).trigger('selectVal');
+					$("#position").val(data.jcUserExts["position"]).trigger('selectVal');
+					
+					/*会员角色回显*/
+					for (var key in data.roleIds) {
+						$("#userRoles .check-box").each(function(){
+							if($(this).val()==data.roleIds[key]){
+								$(this).attr("checked","checked");
+							}
+						})
+					};
+					
+					/*用户绑定回显*/
+					$("#xhfriendName").val(data.jcUserExts["xhfriendName"]);
+					if($("#xhfriendName").val()){
+						$(".bind-start").hide();
+						$(".bind-list").html("");
+						var source   = $("#listTemplate").html();  
+						var template = Handlebars.compile(source); 
+						$(".bind-list").append(template(data));
+						$(".bindname").html($("#xhfriendName").val());
+						$("#userCloudImg").val(data.jcUserExts["userCloudImg"]);
+						$("#userLink").val(data.jcUserExts["userLink"]);
+					}
+
+
+					/*系统信息回显*/
+					$(".registerTime").html(DateUtil.format(new Date(data.jcUser["registerTime"]), "yy-MM-dd hh:mm:ss"));
+					$(".lastLoginTime").html(DateUtil.format(new Date(data.jcUser["lastLoginTime"]), "yy-MM-dd hh:mm:ss"));
+					$(".loginCount").html(data.jcUser["loginCount"]);
+
+					/*会员组回显*/
+					var UserGroupsource=$("#UserGroup").html();
+					var UserGrouptemplate=Handlebars.compile(UserGroupsource);
+					$(".select-auto-item").append(UserGrouptemplate(data));
+					$("#groupId").val(data.jcUser.jcGroup.id).trigger('selectVal');
+
+					/*栏目权限回显*/
+					$("#channlLimit").html("");
+					var limitsource=$("#limitTemplate").html();
+					var limittemplate = Handlebars.compile(limitsource); 
+					$("#channlLimit").append(limittemplate(data)); 
+					$(".chooseClass").each(function(i){
+						var html="";
+						if(!$(this).attr("value")&&$(this).parent().find("input[name=steps]").val()){
+							if(data.siteList[i]["channelIds"]){
+								for(var j=0; j< data.siteList[i]["channelIds"].length; j++) {
+									html+='<input type="hidden" value="'+data.siteList[i]["channelIds"][j]["id"]+'" data-value='+data.siteList[i]["channelIds"][j]["name"]+' name="channelIds">';		
+								};
+							}
+						}
+						$(this).append(html);
+					})
+
+					/*性别*/
+					$(".p-message-sex .radio").filter("input[value="+data.jcUser["sex"]+"]").attr("checked","checked");
+
+					/*账号信息回显*/
+					data.jcUser["isDisabled"]&&$("#isDisabledone").trigger("click");
+					data.jcUser["isSelfAdmin"]&&$("#isSelfAdminone").trigger("click");
+					data.jcUser["isViewonlyAdmin"]&&$("#isViewonlyAdminone").trigger("click");
+
+
+					/*表单提交*/
+					$.form.settings = {
+						initTip:function(input,defaultTip){
+							input.parents(".text").children('.tip').html(defaultTip || "");
+							input.on('focus',function(){
+								input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+							});
+						},
+						validTip : function(input,errorInfo, defaultTip){
+							if(errorInfo){
+								input.parents(".text").children('.tip').removeClass('tip-default').addClass("tip-error").html(errorInfo);
+							}else{
+								input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+							}
+						}
+					};
+
+					var formObj={
+						"steps":{
+							required:true,
+							requiredTip : "请填写1-127的数字",
+							regexp: /^([1-9]|\d{2}|[01][0-2][0-7])$/,
+							errorTip: "请填写1-127的数字"
+						}
+					};
+					formObj.get = function(name){
+						return formObj[name];
+					};
+
+					$.form.render({
+						"#username":{
+							requiredTip : "请填用户名",
+							validFun:function(_v){
+								var _vR = {errorInfo:""};
+								$.ajax({
+									//url:"http://172.18.11.88:9999/cms-docs/admin/local_global/"+$("#username").val()+"/check_username.json",
+									url:url+"admin/local_global/"+$("#username").val()+"/check.json",
+									type:"get",
+									success:function(_data){
+										if( _data.message=="false"&&(usernamexh!=$("#username").val()) ){
+											_vR.errorInfo="用户名已被占用";
+										}
+									},
+									async:false
+								});
+								return _vR;
+							}
+						},
+						"#realname":{
+							requiredTip : "请填写真实姓名"
+						}
+						
+					},{
+						required: true,
+						option:"blur"
+					})
+
+					var regexp= new RegExp( "^((([a-z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])+(\\.([a-z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])+)*)|((\\x22)((((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(([\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]|\\x21|[\\x23-\\x5b]|[\\x5d-\\x7e]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(\\\\([\\x01-\\x09\\x0b\\x0c\\x0d-\\x7f]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF]))))*(((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(\\x22)))@((([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])([a-z]|\\d|-|\\.|_|~|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])*([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])))\\.)+(([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])([a-z]|\\d|-|\\.|_|~|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])*([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])))\\.?");
+						$("#email").on("blur",function(){
+							if($(this).val()&&!regexp.test($(this).val())){
+								$(this).after('<span class="tip tip-error">邮箱格式不正确</span>');
+							}
+						})
+						$("#email").on("focus",function(){
+							$(this).next()&&$(this).next().remove();
+						})
+					$("#jvForm").on("submit",function(e){
+						e.preventDefault();
+						if( !($(this).formValid("[name]:not(:disabled)",formObj)&&(!$("#email").val()||regexp.test($("#email").val()))) ){
+							return false;
+						}else{
+							var overlayHeight=$("body").height()+130;
+							$("body").append("<div class='edit-overlay'></div>");
+							$(".edit-overlay").css("height",overlayHeight);
+							var ser=$(this).serializeArray();
+							ser.push({name:"id",value:thisID});
+
+							$.ajax({
+								url:url+"admin/local_global/update.json",
+								type:"post",
+								data: ser,
+								dataType:"json",
+								success:function(data){
+									$(".edit-overlay").remove();
+									if(data.code==0){
+										jAlert("提交成功","信息");
+									}else if(data.code==1){
+										jAlert("提交失败","信息");
+									};
+									r.addTimeout("historyBack",function(){
+										$("#historyBack")[0].click();	
+									},1000);
+									
+								},
+								error:function(){
+									$(".edit-overlay").remove();
+									jAlert("服务器错误","信息");
+								}
+							});
+						}
+					})
+					/*表单提交*/
+				}
+			})
+		}else{
+
+			limitUrl="http://xuan.news.cn/cloudapi/admin/site/";
+			$.ajax({
+				url:url+"admin/local_global/true/1/add.json",
+				type:"get",
+				async:false,
+				success:function(data){
+					data = JSON.expend(data);
+					data.jcSites=[
+				        // {
+				        //     "channelIds": [],
+				        //     "checkStep": 8,
+				        //     "isAllChannel": true,
+				        //     "jcSiteId": 1
+				        // }
+				    ];
+					data.roleIds=[];
+
+					$.each(data.siteList,function(key,value){
+						data.siteList[key].chooseId="channelIdsContainer"+key;
+						data.siteList[key].allChannel="allChannel"+key;
+						data.siteList[key].openDialog="open-dialog"+key;
+					})
+
+					for(i=0; i<data.siteList.length; i++){
+						for (j=0; j < data.jcSites.length; j++) {
+							if(data.jcSites[j]["jcSiteId"]==data.siteList[i]["id"]){
+								$.extend(data.siteList[i],data.jcSites[j]);
+							}
+						};
+					}
+
+					/*会员角色列表*/
+					for(i=0; i<data.roleList.length;i++){
+						html_userRole += '<input type="checkbox" class="check-box" id="check-box'+i+'" name="roleIds" value="'+data.roleList[i]["id"]+'"> <label for="check-box'+i+'">'+data.roleList[i]["RoleName"]+'</label>'
+					}
+					$("#userRoles").html(html_userRole);
+
+
+					/*会员组回显*/
+					var UserGroupsource=$("#UserGroup").html();
+					var UserGrouptemplate=Handlebars.compile(UserGroupsource);
+					$(".select-auto-item").append(UserGrouptemplate(data));
+					$("#groupId").val(4).trigger('selectVal');
+					
+					/*栏目权限回显*/
+					$("#channlLimit").html("");
+					var limitsource=$("#limitTemplate").html();
+					var limittemplate = Handlebars.compile(limitsource); 
+					$("#channlLimit").append(limittemplate(data)); 
+					$(".chooseClass").each(function(i){
+						var html="";
+						if(!$(this).attr("value")&&$(this).parent().find("input[name=steps]").val()){
+							if(data.siteList[i]["channelIds"]){
+								for(var j=0; j< data.siteList[i]["channelIds"].length; j++) {
+									html+='<input type="hidden" value="'+data.siteList[i]["channelIds"][j]+'" name="channelIds">';	
+								};
+							}
+						}
+						$(this).append(html);
+					});
+
+					/*表单提交*/
+					$.form.settings = {
+						initTip:function(input,defaultTip){
+							input.parents(".text").children('.tip').html(defaultTip || "");
+							input.on('focus',function(){
+								input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+							});
+						},
+						validTip : function(input,errorInfo, defaultTip){
+							if(errorInfo){
+								input.parents(".text").children('.tip').removeClass('tip-default').addClass("tip-error").html(errorInfo);
+							}else{
+								input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+							}
+						}
+					};
+					var formObj={
+						"steps":{
+							required:true,
+							requiredTip : "请填写1-127的数字",
+							regexp: /^([1-9]|\d{2}|[01][0-2][0-7])$/,
+							errorTip: "请填写1-127的数字"
+						}
+					};
+					formObj.get = function(name){
+						return formObj[name];
+					};
+					$.form.render({
+						"#username":{
+							requiredTip : "请填用户名",
+							//errorTip:"邮箱格式不正确",
+							validFun:function(_v){
+								var _vR = {errorInfo:""};
+								$.ajax({
+									//url:"http://172.18.11.88:9999/cms-docs/admin/local_global/"+$("#username").val()+"/check_username.json",
+									url:url+"admin/local_global/"+$("#username").val()+"/check.json",
+									type:"get",
+									data:$("#username").val(),
+									success:function(_data){
+										if( _data.message=="false" ){
+											_vR.errorInfo="用户名已被占用";
+										}
+									},
+									async:false
+								});
+								return _vR;
+							}
+						},
+						"#password":{
+							requiredTip : "请设置密码"
+						},
+						".requiredSteps":{
+							requiredTip : "请填写1-127的数字"
+						},
+						"#realname":{
+							requiredTip : "请填写真实姓名"
+						}
+						
+					},{
+						required: true,
+						option:"blur"
+					})
+
+					var regexp= new RegExp( "^((([a-z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])+(\\.([a-z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])+)*)|((\\x22)((((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(([\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]|\\x21|[\\x23-\\x5b]|[\\x5d-\\x7e]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(\\\\([\\x01-\\x09\\x0b\\x0c\\x0d-\\x7f]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF]))))*(((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(\\x22)))@((([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])([a-z]|\\d|-|\\.|_|~|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])*([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])))\\.)+(([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])([a-z]|\\d|-|\\.|_|~|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])*([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])))\\.?");
+						$("#email").on("blur",function(){
+							if($(this).val()&&!regexp.test($(this).val())){
+								$(this).after('<span class="tip tip-error">邮箱格式不正确</span>');
+							}
+						})
+						$("#email").on("focus",function(){
+							$(this).next()&&$(this).next().remove();
+						})
+					$("#jvForm").on("submit",function(e){
+						e.preventDefault();
+						if( !($(this).formValid("[name]:not(:disabled)",formObj)&&(!$("#email").val()||regexp.test($("#email").val()))) ){
+							return false;
+						}else{
+							var overlayHeight=$("body").height()+130;
+							$("body").append("<div class='edit-overlay'></div>");
+							$(".edit-overlay").css("height",overlayHeight);
+							$.ajax({
+								url:url+"admin/local_global/save.json",
+								type:"post",
+								data: $(this).serialize(),
+								dataType:"json",
+								success:function(data){
+									$(".edit-overlay").remove();
+									if(data.code==0){
+										jAlert("提交成功","信息");
+									}else if(data.code==1){
+										jAlert("提交失败","信息");
+									};
+									r.addTimeout("historyBack",function(){
+										$("#historyBack")[0].click();	
+									},1000);
+									
+								},
+								error:function(){
+									$(".edit-overlay").remove();
+									jAlert("服务器错误","信息");
+								}
+							});
+							
+						}
+					})
+					/*表单提交*/
+				}
+			})
+		}
+
+		$("#cancelBack").click(function(){
+			history.back();
+		})
+		$(".check-box").tocheckBox();
+		$(".radio").toRadio();
+		$(".checkbox").toCheckbox();
+		$("#title, #position, #level, #groupId").toSelect({
+			width: 233,
+		});
+		$(".switch").toSwitch();
+
+
+		/*栏目权限checkbox*/
+		var choosed=function(th){
+			if($(th).prop("checked")!=true){
+					$(th).parent().parent().children("input").attr("disabled","disabled");
+					$(th).parent().parent().find(".text").children("input").attr("disabled","disabled");
+					$(th).parent().parent().children("span").find("input").attr("disabled","disabled");
+			}else{
+				$(th).parent().parent().children("input").removeAttr("disabled");
+				$(th).parent().parent().find(".text").children("input").removeAttr("disabled");
+				$(th).parent().parent().children("span").find("input").removeAttr("disabled");
+			}
+		}
+		$(".site-limit .checkbox").each(function(){
+			var _this=this;
+			choosed(_this);
+			$(this).on("click",function(){
+				var _this=this;
+				choosed(_this);
+			});
+		});
+		/*栏目权限checkbox*/
+
+		/*栏目权限dialog--start*/
+		$("#channlLimit input[type=button]").each(function(n){
+			$(this).on("click",function(){
+				var _this=this;
+				var Container0=$("#channelIdsContainer"+n);
+				var Containerlist=$("input",Container0);
+				window.relateData=[];
+				for(var i=0; i<Containerlist.length; i++){
+					var objitem={};
+					objitem.name=Containerlist.eq(i).attr("data-value");
+					objitem.id=Containerlist.eq(i).attr("value");
+					window.relateData.push(objitem)
+				}
+				new NodeChosse({
+					dialogContent:'<div class="clearfix">'+
+					'<div class="allChannel-top"><input type="checkbox" class="checkbox" id="checkbox-column'+n+'"/><label for="checkbox-column'+n+'">所有栏目</label></div>'+
+					'	<div class="aready_choose clearfix">'+
+					'		<span class="choose_span">已选择节点：</span>'+
+					'		<div class="aready_choose_con">'+
+					'			<ul id="logs">'+
+					'			</ul>'+
+					'		</div>'+
+					'	</div>'+
+					'	<div id="relateStage" class="stage"></div>'+	
+					'</div>',
+					width:540,
+					height:'auto',
+					node:'#node',
+					treeContainer:'#relateStage',
+					url:url+"admin/site/"+$(_this).attr("data-id")+"/channels.json",
+					title:'栏目权限(新华新闻主站)',
+					showIcon:true,
+					data:window.relateData,
+					open:function(){
+						$("#checkbox-column"+n).toCheckbox();
+						var list=$("#relateStage");
+						$("#checkbox-column"+n).click(function(){
+							if(this.checked){
+								$('<div class="mask"></div>').appendTo($("#relateStage"));
+								$("#relateStage").css("overflow","hidden");
+								$(".aready_choose_con #logs").html("");
+							}else{
+								$(".mask").remove();
+								$("#relateStage").css("overflow","scroll");
+							}
+						})
+						if($("#allChannel"+n).val()=="true"){
+							$("#checkbox-column"+n).trigger("click");
+							$("#relateStage").css("overflow","hidden");
+						}
+					},
+					unification:function(){
+						// $("#concernOut", top.document).hide();
+						// delete top.contentId;
+						// delete top.contentSubs;
+						 delete top.relateData;
+					},
+					callback:function(Arr,objs){
+						$("#channelIdsContainer"+n).html("");
+						if($("#checkbox-column"+n).is(":checked")){
+							$("#allChannel"+n).attr("value",true);
+						}else{
+							$("#allChannel"+n).attr("value",false);
+							var html=""
+							$.each(objs,function(k,v){
+								html+='<input type="hidden" value='+v["id"]+'  data-value='+v["name"]+' name="channelIds">'
+							});
+							$("#channelIdsContainer"+n).html(html);
+						}
+					}
+				})
+			})
+		})
+
+		/*栏目权限--end*/
+
+
+
+
+		//绑定--start
+		$(".bind-start input").val("");
+		$(".beginBt").on("click",function(){
+			var username=$("input[name='username1']", $(this).parent()).val();
+			//var password=base.encode($("input[name='password1']", $(this).parent()).val());
+			var password=$("input[name='password1']", $(this).parent()).val()
+			$.ajax({
+				url:"../../xhadmin/basic/bindAccount.do",
+				type:"post",
+				data:"username="+username+"&password="+password,
+				success:function(magess){
+					if(magess.code==1||magess.code==2){
+						jTip( '绑定成功', 1000 );
+						$(".bind-start").hide();
+						$(".bind-list").html("");
+						var source   = $("#listTemplate").html();  
+						var template = Handlebars.compile(source); 
+						$(".bind-list").append(template(magess));
+						$(".bindname").html(username);
+						$("#xhfriendName").val(username);
+						$("#userCloudImg").val(magess.userCloudImg);
+						$("#userLink").val(magess.userLink);
+					}else{
+						jAlert("<h2>绑定失败！</h2><P>炫空间账号或密码输入错误，请重新输入。</p>","提示");
+					}
+				}
+			})
+		})
+		//开始绑定--end
+
+
+
+		//删除绑定--start
+		$(".bind-list").on("click",".deletebind",function(){
+			jTip( '解除绑定成功', 1000 );
+			$(".bind-list").html("").hide;
+			$(".bind-start").show();
+			$(".bind-start input").val("");
+			$("#xhfriendName").val("");
+			$("#userCloudImg").val("");
+			$("#userLink").val("");
+		})
+
+		//删除绑定--end
+
+
+	})
+
+
+	
+})()
+
+</script>
+</html>

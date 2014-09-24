@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新华新闻主站</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<div class="head">
+		<div class="head_top">
+			<a class="headIcon skin_peeler" href="javascript:void(0);">换肤</a>
+			<span id="now-time"></span>
+			<div class="head_login">
+				<a class="headIcon sizeOn head_exit" href="../../xhadmin/logout.do?returnUrl=/xhcms_2014/html/index.html" onclick="return confirm('您确定退出吗？')">&nbsp;</a>
+				<a class="headIcon sizeOn head_settings" href="../../xhadmin/personal/v_profile.do" target="targetFrame" id="personal-settings">&nbsp;</a>
+				<a class="headIcon sizeOn head_receiving" href="../../xhadmin/message/v_list.do" target="targetFrame">&nbsp;<i id="count-receiving">?</i></a>
+				<span class="login_name">[未知用户]</span>		
+			</div>
+			<span class="t-handle">-</span>
+		</div>
+		<div class="head_nav">
+			<div class="head_select">
+				<select name="sel" id="site-select">
+					<option value="1" selected="selected">新华新闻主站</option>
+					<option value="2">百科聚合测试站</option>
+					<option value="3">新华新闻主站旧版</option>
+				</select>
+			</div>
+			<div class="nav">
+				
+			</div>
+		</div>
+	</div>
+	<div class="mainBox">
+		<div class="mainHead">	
+		</div>
+		<div class="mainBody clearfix" >
+			<dl class="tree-nav" id="tree-nav">
+
+			</dl>
+			<div class="tree-module" id="tree-module">
+				<ul class="ztree" id="ztree-inner"></ul>
+			</div>
+			<div class="tree-target" id="tree-target">
+				<iframe name="targetFrame" id="targetFrame" src="" frameborder="0" style="width:100%; height:500px;"></iframe>
+			</div>
+		</div>
+	</div>
+
+
+<script type="template/html" id="md-nav">
+	<ul>
+		{{#each content}}
+		<li><a class="out {{type}}" href="{{url}}" target="{{target}}" data-id="{{id}}" id="top-nav-{{id}}">{{name}}</a>
+			{{#if childMenus.length}}
+			<div class="Tmenu">
+				{{#each childMenus}}
+				<a href="{{url}}" target="{{target}}" id="top-nav-{{id}}" data-id="{{id}}" class="{{#if childMenus.length}}with-nav{{/if}}">{{name}}</a>
+				{{/each}}
+			</div>
+			{{/if}}
+		</li>
+		{{/each}}
+	</ul>
+</script>
+
+<script type="template/html" id="md-nav-sub">
+	{{#each childMenus}}
+		<dt class="{{type}} {{#if childMenus.length}}with-sub{{else}}without-sub{{/if}} dt-open"><a href="{{url}}" class="{{type}}" target="{{target}}" id="tree-nav-{{id}}" data-id="{{id}}">{{name}}</a></dt>
+		<dd style="display:block;" href="{{url}}" >
+			{{#each childMenus}}
+			<a href="{{url}}" class="{{type}}" target="{{target}}" id="tree-nav-{{id}}" data-id="{{id}}" data-href="{{treeLinkUrl}}">{{name}}</a>
+			{{/each}}
+		</dd>
+	{{/each}}
+</script>
+
+<script type="template/html" id="md-main-head">
+	{{#each this}}
+		<a href="{{url}}" class="{{#if childMenus.length}}with-nav{{/if}} {{type}}" data-id="{{id}}" target="{{target}}">{{name}}</a> &gt; 
+	{{/each}}
+</script>
+
+	
+<script>
+
+	window.baseUrl = $("<a href='../'></a>")[0].href;
+
+	$("#site-select").on('change',function(){
+		switch( this.value ){
+			case '2': window.location.href="../../xhadmin/index.do?_site_id_param=2";
+			case '3': window.open( "../../xhadmin/index.do?version=2013" ); break;
+		}
+	});
+
+	$("#targetFrame").on("load",function(){	//frame加载完成，添加frame.css样式表
+		var _this = $(this), doc = _this.contents()[0];
+		_this.next().remove();
+
+		var t = $('<link rel="stylesheet" href="'+baseUrl+'css/frame.css" />')[0];
+		doc.body.appendChild( t );
+
+		if(window.reHeight){
+			window.reHeight();
+		}
+
+		var loading = $('<div class="loading"></div>');
+		doc.body.onbeforeunload = function(){
+			_this.after( loading );
+		}
+	});
+
+	$.ajax({		//获取登录用户信息
+		url: "../../xhadmin/basic/getCurrentUser.do",
+		type:"post",
+		dataType:"json",
+		success: function(data){
+			if(data.success){
+				$(".login_name").html(data.content.username);
+			}
+		},
+		error: function(){
+			window.top.location.href = "../../xhadmin/login.do?returnUrl=/xhcms_2014/html/index.html";
+		}
+	});
+
+	require(["requestAFrame"],function(r){
+		r.addTimeout("count-receiving",(function(){
+			var fn = function(){
+				$.ajax({
+					url: "../../xhadmin/message/v_countUnreadMsg.do",
+					type:"post",
+					dataType:"json",
+					success: function(data){
+						if(data.result){
+							 $("#count-receiving").html(data.count).css({
+							 	visibility: (data.count > 0 ? "visible" : "hidden")
+							 });
+
+						}else{
+							alert("请先登录");
+						}
+					}
+				});
+			};
+			fn();
+			return fn;		
+		})(),1000*30);
+	});
+
+	//异步加载导航和菜单
+	require(["template"],function(){
+
+		var nav = Handlebars.compile( $("#md-nav").html() );
+		var sub = Handlebars.compile( $("#md-nav-sub").html() );
+		var crumb = Handlebars.compile( $("#md-main-head").html() );
+
+		var tree = $("#tree-nav"), treeHolder = $("#tree-module"), rightTarget = $("#tree-target");
+
+		/**手工修改数据原型。
+		 * t: 当前节点，
+		 * p: 父级节点
+		**/
+		var dataBegin = function(t,p){
+
+			// 通过id修改url，可以让指定id索引的页面地址发生变化。
+			switch( t.id ){	
+				case 1: t.url = "../frame/index.html"; break; 
+				default: 
+					t.url = t.url ? "../../xhadmin" + t.url : "about:blank";
+			}
+
+			/**
+			 * "link": "普通链接，有定义css使用",
+			 * "blank-link" : "顶部导航使用的新打开页面链接",
+			 * "super-nav" : "和blank-link同级，不可点击",
+			 * "sub-nav" : "左侧导航的普通二级节点",
+			 * "tree-link : "左侧导航的"
+			**/
+			switch( t.type ){
+				case "blank-link": t.target = "_blank"; break;
+				default:
+					t.target = "targetFrame";
+			}
+
+		};
+
+		$.ajax({
+			url : "../../xhadmin/basic/getMenu.do",
+			dataType : "json",
+			success: function(n){
+				var m = {};
+				//将结果数据通过id作为key标识成map。
+				var toMap = function(n){
+					for (var i = 0; i < n.length; i++) {
+						dataBegin( n[i], m[ n[i].parentId ] );	 //包装数据效果
+						m[ n[i].id ] = n[i];
+						toMap( n[i].childMenus );
+					};
+				}
+				toMap(n.content); 
+
+				$(".nav").html( nav(n) );	//顶部导航。
+
+
+				//根据id获取当前节点的导航回溯。 
+				var toChain = function(id){	
+					var chain = [], cid = id, temp;
+					while( temp = m[cid] ){
+						chain.splice(0,0,temp);
+						cid = temp.parentId;
+					}
+					return chain;
+				}
+
+				//顶部和面包屑事件触发
+				$(".nav, .mainHead, .head_login").on('click','a',function(e){
+					var _this = $(this), id = _this.attr('data-id');
+
+					if( _this.hasClass("super-nav") || _this.hasClass("tree-link") || _this.next().hasClass("tree-link") ){	// 有子节点的一级导航不要点击事件
+						return false;
+					}
+
+					if( _this.hasClass("with-nav") ){
+						
+						tree.html( sub(m[ id ]) );
+
+						tree.show().animate({
+							width: "8%",
+							opacity: 1
+						},'fast');
+						rightTarget.animate({
+							width: "42%"
+						},'fast',function(){
+							var tarLink = tree.find('a.link').first().addClass('selected').one('click',function(e){e.stopPropagation();});
+							tarLink[0].click();
+						});
+					}else{
+						tree.html("");
+						tree.animate({
+							width: "0%",
+							opacity: 0
+						},'fast',function(){
+							$(this).hide();
+						});
+						rightTarget.animate({
+							width: "50%"
+						},'fast');
+
+					}
+					if( !_this.hasClass('blank-link') ){
+						$(".mainHead").html( crumb( toChain( $(this).attr("data-id") ) ) );
+					}
+						
+				});  
+
+				//左侧导航触发
+				$("#tree-nav").on('click','a',function(){
+					$(".mainHead").html( crumb( toChain( $(this).attr("data-id") ) ) );
+				});
+
+				
+				require(["module/queryparam"],function(queryparam){
+					var id = queryparam("id") || 1;
+					var t = $("#top-nav-"+id)[0];
+					t ? t.click() : alert("wrong id:"+id);
+				});
+
+			}
+		});
+
+
+
+
+	});	
+</script>
+
+
+<script src="../js/main.js"></script>
+</body>
+</html>

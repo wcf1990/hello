@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>timeline</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style> 
+		#timeline-embed h2.tips{height:30px;text-align:center;padding:30px;font-family:微软雅黑;font-size:16px; color:#CCC;}
+	</style>
+</head>
+<body>
+	<div id="story-timeline"></div>
+
+	<a href="javascript:void(0);" id="getAllIds" class="fm-button">获取时间轴数据ids</a>
+	<div id="my-timeline"></div>
+<script>
+
+	require(['iealert'],function(IEAlert){
+		new IEAlert();
+	});
+	
+
+	/**
+	 * 时间轴
+	 * @see https://github.com/NUKnightLab/TimelineJS
+	 */
+	require(['time-line','timeline','alerts'],function(TL){
+
+		// createStoryJS({
+  //          type:       'timeline',
+  //          width:      '100%',
+  //          height:     '720',
+  //          start_at_slide: 0,
+		//  	start_zoom_adjust:  3,
+		//  	lang:"zh-cn",
+  //          source:     'json/timeline.json',
+  //          embed_id:   'story-timeline'
+  //      });
+
+		$.ajax({
+			url: 'json/jquery.timeline.json',
+			dataType: 'json',
+			success: function(data){
+
+				createStoryJS({
+		            type:       'timeline',
+		            width:      '100%',
+		            height:     '720',
+		            start_at_slide: 0,
+				 	start_zoom_adjust:  8,
+				 	lang:"zh-cn",
+		            source:     null,
+		            embed_id:   'story-timeline'
+		        },data.content[0]);
+
+
+				//自主研发time-line
+				var t = TL({
+					embed : '#my-timeline'
+				},data.content[0]);
+
+				$('#getAllIds').on('click',function(){
+					jAlert( t.getAllIds().join(', ') );
+				});
+			}
+		});
+
+	});
+
+</script>
+</body>
+</html>

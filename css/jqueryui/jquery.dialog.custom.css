@@ -1,0 +1,24 @@
+/**
+ * 	jQuery Dialog Buttons Style Changed
+ */
+
+.ui-dialog {background:#FFF;}
+.ui-dialog .ui-widget-header{background:#34495e}
+.ui-dialog .ui-dialog-content {padding:4px 0px 4px 0px;}
+.ui-dialog .ui-dialog-titlebar-close{background:#34495e;font-weight:100}
+.ui-dialog .ui-dialog-title {margin:0px;text-align:center;height:40px;line-height:40px;font-size:14px;color:#fff;font-weight:normal;text-indent:20px;}
+.ui-dialog .ui-dialog-titlebar-close {border:0px;font-size: 24px}
+.ui-dialog .ui-dialog-buttonpane {position:relative;border:0px;background:#FFF;}
+.ui-dialog .ui-state-default,.ui-dialog .ui-widget-content .ui-state-default {width:60px;height:30px;font-size:14px;color:#FFF;font-weight:normal;overflow:hidden;border:0px;outline:none;z-index:10;background:#00b6aa}
+.ui-dialog .ui-button-text-icon-primary .ui-button-text{padding:0px;}
+.ui-dialog .ui-state-default .ui-icon {position:absolute;left:0px;top:0px;width:60px;height:30px;padding:0px;margin:0px;z-index:-1;border-radius:3px;-moz-border-radius: 3px;-webkit-border-radius: 3px; }
+.ui-dialog .ui-submit {background:#00b6aa;}
+.ui-dialog .ui-cancel {background:#b6b6b6;}
+.ui-dialog .ui-overwrite {width:80px !important;background-position:-1px -122px !important;background:#00b6aa;}
+.ui-dialog .ui-image {width:113px !important;background:#00b6aa}
+
+.button-cancel {color:#fff;background:#b6b6b6}
+.button-submit {color:#FFF;}
+.button-overwrite{width:80px !important;}
+.button-image {width:113px !important;}
+.button-left {position:absolute;left:5px;top:0px;}

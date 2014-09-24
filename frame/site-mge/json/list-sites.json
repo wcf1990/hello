@@ -1,0 +1,58 @@
+{
+	"list" : [
+		{
+			"id" : "3031",
+			"name" : "新华网",
+			"domain" : "news.cn",
+			"url" : "0",
+			"d_suffix" : ".htm",
+			"s_suffix" : ".html",
+			"fe_suffix": ".html"
+		},
+		{
+			"id" : "3032",
+			"name" : "新华网",
+			"domain" : "news.cn",
+			"url" : "1",
+			"d_suffix" : ".htm",
+			"s_suffix" : ".html",
+			"fe_suffix": ".html"
+		},
+		{
+			"id" : "3033",
+			"name" : "新华网",
+			"domain" : "news.cn",
+			"url" : "2",
+			"d_suffix" : ".htm",
+			"s_suffix" : ".html",
+			"fe_suffix": ".html"
+		},
+		{
+			"id" : "3034",
+			"name" : "新华网",
+			"domain" : "news.cn",
+			"url" : "3",
+			"d_suffix" : ".htm",
+			"s_suffix" : ".html",
+			"fe_suffix": ".html"
+		},
+		{
+			"id" : "3035",
+			"name" : "新华网",
+			"domain" : "news.cn",
+			"url" : "4",
+			"d_suffix" : ".htm",
+			"s_suffix" : ".html",
+			"fe_suffix": ".html"
+		},
+		{
+			"id" : "3036",
+			"name" : "新华网",
+			"domain" : "news.cn",
+			"url" : "5",
+			"d_suffix" : ".htm",
+			"s_suffix" : ".html",
+			"fe_suffix": ".html"
+		}
+	]
+}

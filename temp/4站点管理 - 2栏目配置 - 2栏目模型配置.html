@@ -1,0 +1,28 @@
+$belong[temp/main.html]
+<div class="mainRight">
+	<h1>栏目模型配置</h1>
+	<div class="station_menu">
+		<a class="fm-button" href="#">返回列表</a>
+	</div>
+	<div  class="set_column-model">
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">基本信息</a></li>
+				<li><a href="#tabs-2">栏目模型</a></li>
+				<li><a href="#tabs-3">内容模型</a></li>
+			</ul>
+			<div id="tabs-1" class="set_column-model clearfix">
+				$include[html/collocate_basic.html]
+			</div>
+			
+			<div id="tabs-2">
+				$include[html/collocate_model.html]
+			</div>
+			<div id="tabs-3">
+				$include[html/content_model.html]
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

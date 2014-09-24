@@ -1,0 +1,135 @@
+﻿$belong[html/main-simple.html]
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">基本信息</a></li>
+		<li><a href="#tabs-2">修改密码</a></li>
+		<li><a href="#tabs-3">修改头像</a></li>
+	</ul>
+	<div id="tabs-1">
+		<form id="write_form" name="basicinfor" onsubmit="" method="">
+			<div class="form_setup">
+				<div class="item clearfix">
+					<span class="lable">用户名:</span>
+					<div class="text">
+						<input type="text" class="disabled" name="userName" style="border:none" value="username" disabled="disabled"/>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">姓名:</span>
+					<div class="text">
+						<input type="text" name="name"/>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">性别:</span>
+					<div class="text text_radio">
+						<input type="radio" class="radio" name="radio" id="radio0" value="0"> <label for="radio0">男</label>
+						<input type="radio" class="radio" name="radio" id="radio1" value="1"> <label for="radio1">女</label>
+						<input type="radio" class="radio" name="radio" id="radio2" value="2"> <label for="radio2">保密</label>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">联系邮箱:</span>
+					<div class="text">
+						<input type="text" name="mail"/>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">好友账号:</span>
+					<div class="text">
+						<input type="text" name="friendAccount"/>
+					</div>
+					<span class="text-tip">用于关注</span>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">外链地址:</span>
+					<div class="text">
+						<input type="text" name="directLink"/>
+					</div>
+				</div>
+				<div class="info_submit">
+					<input type="button" class="fm-button" value="提交">
+				</div>
+			
+			</div>
+		</form>
+	</div>
+	<div id="tabs-2">
+		<form id="change_password" name="changePassword" onsubmit="" method="">
+			<div class="form_setup">
+				<div class="item clearfix">
+					<span class="lable">原密码:</span>
+					<div class="text">
+						<input type="password" name="pass">
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">新密码:</span>
+					<div class="text">
+						<input type="text" name="pass1" />
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">确认密码:</span>
+					<div class="text">
+						<input type="text" name="pass2"/>
+					</div>
+				</div>
+				<div class="info_submit">
+					<input type="button" class="fm-button" value="提交">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="tabs-3">
+		<form id="alter_portrait">
+			<div class="form_setup">
+				<div class="item clearfix">
+					<span class="lable">头像:</span>
+					<div class="text">
+						<input type="hidden" id="zoomWidth1" value="162" size="5" /> <input
+							type="hidden" id="zoomHeight1" value="162" size="5" /> <input
+							type="hidden" id="uploadImgPath1" name="uploadImgPath1" /> <input
+							type="hidden" id="middlePath1" name="middlePath1" /> <input type="text"
+							id="originalPath1" class="upload-sma" name="smallImage" />
+					</div>
+					<div class="Upload_bt">
+						<input type="button" class="fm-button" value="浏览" onclick="selectFile(1)" />
+					</div>
+				</div>
+				<div class="head_img">
+					<img class="img1" src="../images/img.png" />
+					<img class="img2" src="../images/img.png"/>
+					<img class="img3" src="../images/img.png"/>
+				</div>
+				<div class="info_submit">
+					<input type="button" class="fm-button" value="提交">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+(function(){
+	require(["form-style","alerts","tabs","requestAFrame"],function(){
+		$(".radio").toRadio();
+		$("#tabs").tabs();
+		var originalPath1 = "";
+		$.addTimeout("listen-val", function(){
+			if ($("#originalPath1").val() != originalPath1) {
+				$(".head_img").find('img').attr("src", "http://tpic.home.news.cn/xhCloudNewsPic/"+$("#originalPath1").val());
+				originalPath1 = $("#originalPath1").val();
+			}
+		});
+	});
+})();
+</script>
+
+<script>
+function selectFile(n) {
+	var width = document.getElementById('zoomWidth' + n).value;
+	var height = document.getElementById('zoomHeight' + n).value;
+	window.open('../xhadmin/common/open.do?width=' + width+ "&height=" + height + "&type=" + n, '_blank','height=800,width=1000,top=0,left=0,toolbar=no,scrollbars=no,resizable=no');
+}
+</script>

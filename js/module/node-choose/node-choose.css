@@ -1,0 +1,126 @@
+﻿.clearfix:after {
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+}
+.clearfix {
+	zoom: 1;
+}
+.ui-widget-content{
+	background: #fff;
+	padding: 0;
+}
+.ui-widget-header{
+	background: #34495e;
+	color: #fff;
+	height: 38px;
+	line-height: 38px;
+}
+.ui-dialog .ui-dialog-title{
+	width: auto;
+	text-indent: 1em;
+}
+.ui-dialog .ui-dialog-titlebar-close{
+	background: #34495e;
+}
+.ui-dialog .ui-dialog-buttonpane{ border:none;}
+.ui-state-default .ui-icon{ display: none;}
+.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text{ padding: 0px; color: #fff; font-size: 14px;}
+.ui-dialog .ui-dialog-buttonpane button{
+	text-align: center;
+	border: none; 
+	width: 80px;
+	height: 26px;
+	line-height: 26px;
+	border-radius:3px;
+	margin-right: 10px;
+}
+#gatherDoc_submit{ background: #00b6aa;}
+#gatherDoc_cancel{ background: #9e9e9e;}
+.choose_span{ 
+	float:left;
+	width:85px;
+	height:30px;
+	line-height:30px;
+	text-indent: 1em;
+	text-align: right;
+}
+.aready_choose .aready_choose_con{
+	float:left;
+	width:420px;
+	max-height: 105px;
+	overflow-y:scroll; 
+}
+.aready_choose .aready_choose_con li{
+	float:left;
+	position:relative;
+	margin-right:18px;
+	margin-bottom:6px;
+	height:28px;
+	border:1px solid #e1e1e1;
+	padding:0px 15px;
+	line-height:28px;
+	text-align:center;
+}
+.aready_choose .aready_choose_con li i{
+	display:block;
+	position:absolute;
+	right:0px;
+	top:0px;
+	width:14px;
+	height:28px;
+	text-align:center;
+	color:#fff;
+	background:#00b6aa;
+	cursor:pointer;
+}
+.ztree .aready_choose{ margin: 10px 0px}
+#node{ clear: both;}
+#stage{
+	float:left;
+    width: 400px;
+    height: 260px;
+    padding: 18px 0px 0px 18px;
+    border: 1px solid #e2e2e2;
+    overflow-y:scroll; 
+}
+#relateStage{
+	background-color: #f1f1f1;
+    border: 1px solid #e0e0e0;
+    clear: both;
+    height: 260px;
+    padding: 18px 0px 0px 18px;
+    margin-top: 5px;
+    overflow-y: scroll;
+    padding-left: 40px;
+    width: 464px;
+    overflow-y:scroll; 
+}
+
+
+
+
+
+
+ ::-webkit-scrollbar-track-piece{  
+    background-color:#fff;  
+    -webkit-border-radius:3;  
+}  
+::-webkit-scrollbar{  
+    width:15px;  
+    height:8px;  
+}  
+::-webkit-scrollbar-thumb{  
+    height:auto;  
+    background-color:#00b6aa;  
+    -webkit-border-radius:7px;  
+    outline:2px solid #fff;  
+    outline-offset:-2px;  
+    border: 2px solid #fff;  
+}  
+::-webkit-scrollbar-thumb:hover{  
+    height:auto;  
+    background-color:#00b6aa;  
+    -webkit-border-radius:8px;  
+}  

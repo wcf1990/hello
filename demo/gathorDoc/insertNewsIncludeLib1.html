@@ -1,0 +1,578 @@
+﻿<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>加工集成文档</title>
+	<link rel="stylesheet" href="../../css/insertnews.include1.css"/>
+	<link rel="stylesheet" href="../../css/form-style.css"/>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<div class="warpper clearfix">
+		<div class="nav-523">
+			<dl class="addbg addbg-filter">
+			    <dt>
+				    <h4>搜索新闻</h4>
+				    <p>输入关键字，按题材类型搜索新闻</p>
+			    </dt>
+			    <dd>1</dd>
+		    </dl>
+		    <div class="arrow2 addbg-arrow"></div>
+		    <dl class="addbg">
+			    <dt>
+				    <h4>设置集成文档</h4>
+				    <p>设置各新闻体裁的置顶新闻</p>
+			    </dt>
+			    <dd>2</dd>
+		    </dl>
+		</div>
+			
+		<div class="set-up clearfix">
+			<div class="genre-classfies-left">
+			</div>
+			<script id="genreList" type="text/x-handlebars-template">
+				<ul class="genre-all current-genre-title">
+					<li><a>全部体裁</a><strong>{{len}}</strong></li>
+				</ul>
+				{{#each content}}
+				<ul>
+					<li><a>{{name}}</a><strong>{{group.length}}</strong></li>
+				</ul>
+				{{/each}}
+			</script>
+			<div class="genre-classfies-right">
+				<div class="select-526-right clearfix">
+					<script id="contentList" type="text/x-handlebars-template">
+							<select id="attributes_genre" class="select3">
+								<option value=0>全部内容类型</option>
+								{{#each typeList}}
+								<option value="{{id}}">{{name}}</option>
+								{{/each}}
+						</select>
+					</script>
+					<div class="show-top">
+						<input type="checkbox" name="checkbox" class="checkbox" id="checkbox0" value="0"> <label for="checkbox0">只看顶置新闻</label>
+					</div>
+				</div>
+				<div class="add_news clearfix">
+					<input class="add-news-button" id="add_news" type="button" value="手动添加稿件">
+					<div id="add-news"></div>
+				</div>
+				<div class="genre-list">
+					
+				</div>
+				<script id="genreContentList" type="text/x-handlebars-template">
+					{{#each content}}
+					<ul class="clearfix">
+						{{#each this.group}}
+							<li data-id="{{dataId}}" data-choosed="{{dataChoosed}}" data-type="{{docCategory}}" id="{{id}}" data-score=0 data-origin="{{docType}}"><span {{#if dataChoosed}}class="ding"{{/if}}>顶</span><strong>{{docCategory}}</strong><a href="{{url}}" title="{{dataName}}" target="_blank">{{dataName}}</a><i class="data-up"></i><i class="data-down"></i><i class="data-delete"></i></li>
+						{{/each}}
+					</ul>
+					{{/each}}
+				</script>
+			</div>
+		</div>
+		<script id="add-byhand" type="text/x-handlebars-template">
+			<form class="add-content" id="add-content">
+				<p class="clearfix">
+				    <span class="item-title">稿件ID：</span> <input id="newID" name="newID"  type="text"/>
+				</p>
+				<p class="clearfix">
+				    <span class="item-title">稿件标题：</span><input id="newName" name="newName" type="button" value="此处输入稿件ID显示稿件标题"/>
+				</p>
+			</form>
+		</script>
+		<a id="answerSet_cancel">取消</a>
+		<a id="answerSet_submit">完成</a>
+		<a class="prevBox">上一步</a>
+	</div>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/require.js"></script>
+<script src="../../js/require-config.js"></script>
+<script src="../../../xhcms0.4/js/comman.js"></script>
+
+<script type="text/javascript">
+(function(){
+	var url={
+			save:"../../../xhadmin/document/v_save.do",
+			constant:"../../../xhadmin/integration/constant.do",
+			edit:"../../../xhadmin/document/v_edit.do",
+			addcontent:"../../../xhadmin/document/addcontent.do",
+			search:parent.xhconfig.newsSearch
+		}
+	require(["form-style","underscore","alerts","template","dialog","button","position","formValid","draggable"],function(){
+		
+		/*内容类型*/
+		var source=$("#contentList").html();
+		var obj={};
+		obj.typeList=window.parent.typeList;
+		var template=Handlebars.compile(source);
+		$(".select-526-right").prepend(template(obj));
+		$(".select3").toSelect({
+			width:264
+		});
+		$(".checkbox").toCheckbox();
+
+		/*给数据添加体裁分类*/
+		var integrationArticles=window.parent.integrationArticles;
+
+		/*整理数据*/
+		var len=integrationArticles.length;
+		var integrationArticles= _.groupBy(integrationArticles, 'docCategory');
+		var genrenObj={}
+		genrenObj.content=[];
+		for(var key in integrationArticles){
+			var item={};
+			item.name=integrationArticles[key][0].docCategory;
+			for(i=0;i<integrationArticles[key].length;i++){
+				integrationArticles[key][i].dataChoosed=parseInt(integrationArticles[key][i].dataChoosed);
+			}
+			item.group=integrationArticles[key];
+			genrenObj.content.push(item);
+		}
+		genrenObj.len=len;
+
+		/*体裁左侧标题模板填充*/
+		function top_level(){
+			var id=1;
+			for (var i = 0; i < genrenObj.content.length; i++) {
+				var dataChoosedjuge=0;
+				for (var j = 0; j < genrenObj.content[i].group.length; j++) {
+					id++;
+					genrenObj.content[i].group[j].id=id;
+					if(genrenObj.content[i].group[j].dataChoosed==1){
+						dataChoosedjuge+=1;
+					}
+				};
+				if(dataChoosedjuge==0){
+					genrenObj.content[i].group[0].dataChoosed=1;
+				}
+				
+			};
+		}
+		top_level();
+		var sourceGenre=$("#genreList").html();
+		var templateGenre=Handlebars.compile(sourceGenre);
+		$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+		/*体裁右侧列表模板填充*/
+		var sourceGenreList=$("#genreContentList").html();
+		var templateGenreList=Handlebars.compile(sourceGenreList);
+		$(".genre-list").html(templateGenreList(genrenObj));
+
+		/*体裁右侧操作*/
+		$(".genre-list").on("click","ul li i",function(){
+			var _this=this;
+			//上移操作
+			if($(this).hasClass("data-up")){
+				if($(this).parent().index()!=0){
+					var len;
+					var pre=$(this).parent().index();
+					for(var i=0; i<genrenObj.content.length; i++){
+						for (var j = 0; j < genrenObj.content[i].group.length; j++) {
+							if($(this).parent().attr("data-id")==genrenObj.content[i].group[j].dataId&&$(this).parent().attr("id")==genrenObj.content[i].group[j].id){
+								len=i;
+							}
+						}
+					}
+					var obj=[];
+					for(var a=0; a<genrenObj.content[len].group.length; a++){
+						if(a==pre){
+								var o=genrenObj.content[len].group[pre];
+							}
+					}
+
+					for(var a=0; a<genrenObj.content[len].group.length; a++){
+							if((a!=pre-1)&&a!=pre){
+								obj.push(genrenObj.content[len].group[a]);
+							}else if(a==pre-1){
+								obj.push(o)
+							}else if(a==pre){
+								obj.push(genrenObj.content[len].group[pre-1])
+							}
+					}
+					
+					genrenObj.content[len].group=obj;
+					$.each(genrenObj.content[len].group,function(n,value) {  
+			            genrenObj.content[len].group[n].dataChoosed=0
+			        });  
+					genrenObj.content[len].group[0].dataChoosed=1;
+
+					/*体裁左侧标题模板填充*/
+					var sourceGenre=$("#genreList").html();
+					var templateGenre=Handlebars.compile(sourceGenre);
+					$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+					/*体裁右侧列表模板填充*/
+					var sourceGenreList=$("#genreContentList").html();
+					var templateGenreList=Handlebars.compile(sourceGenreList);
+					$(".genre-list").html(templateGenreList(genrenObj));
+				}
+			}else if($(this).hasClass("data-down")){
+				//下移操作
+				if($(this).parent().index()!=$("li",$(this).parent().parent()).length-1){
+					var len;
+					var pre=$(this).parent().index();
+					for(var i=0; i<genrenObj.content.length; i++){
+						for (var j = 0; j < genrenObj.content[i].group.length; j++) {
+							if($(this).parent().attr("data-id")==genrenObj.content[i].group[j].dataId&&$(this).parent().attr("id")==genrenObj.content[i].group[j].id){
+								len=i;
+							}
+						}
+					}
+					var obj=[];
+					for(var a=0; a<genrenObj.content[len].group.length; a++){
+						if(a==pre){
+								var o=genrenObj.content[len].group[pre+1];
+							}
+					}
+
+					for(var a=0; a<genrenObj.content[len].group.length; a++){
+							if((a!=pre+1)&&a!=pre){
+								obj.push(genrenObj.content[len].group[a]);
+							}else if(a==pre+1){
+								obj.push(genrenObj.content[len].group[pre])
+							}else if(a==pre){
+								obj.push(o)
+							}
+					}
+					
+					genrenObj.content[len].group=obj;
+					$.each(genrenObj.content[len].group,function(n,value) {  
+			            genrenObj.content[len].group[n].dataChoosed=0
+			        });  
+					genrenObj.content[len].group[0].dataChoosed=1;
+
+
+					/*体裁左侧标题模板填充*/
+					var sourceGenre=$("#genreList").html();
+					var templateGenre=Handlebars.compile(sourceGenre);
+					$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+					/*体裁右侧列表模板填充*/
+					var sourceGenreList=$("#genreContentList").html();
+					var templateGenreList=Handlebars.compile(sourceGenreList);
+					$(".genre-list").html(templateGenreList(genrenObj));
+				}
+			}else if($(this).hasClass("data-delete")){
+					//删除操作
+					jConfirm('<p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result){
+							var cont=[];
+							for(var i=0; i<genrenObj.content.length; i++){
+								var obj=[]
+								for (var j = 0; j < genrenObj.content[i].group.length; j++) {
+									if(genrenObj.content[i].group[j].id!=$(_this).parent().attr("id")){
+										obj.push(genrenObj.content[i].group[j]);
+									}
+								}
+								genrenObj.content[i].group=obj;
+								if(obj[0]){
+									cont.push(genrenObj.content[i]);
+								}
+							}
+							genrenObj.content=cont;
+							genrenObj.len-=1;
+							top_level();
+							/*体裁左侧标题模板填充*/
+							var sourceGenre=$("#genreList").html();
+							var templateGenre=Handlebars.compile(sourceGenre);
+							$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+							/*体裁右侧列表模板填充*/
+							var sourceGenreList=$("#genreContentList").html();
+							var templateGenreList=Handlebars.compile(sourceGenreList);
+							$(".genre-list").html(templateGenreList(genrenObj));
+							$("#attributes_genre").change();
+
+						}
+					});	
+			}
+
+		});
+
+
+		/*体裁左侧操作*/
+		$(".genre-classfies-left").on("click","ul",function(){
+			$(".genre-classfies-left ul").removeClass("current-genre-title");
+			$(this).addClass("current-genre-title");
+			var index=$(this).index()-1;
+			if(index==-1){
+				$(".genre-list ul").show();
+			}else{
+				$(".genre-list ul").hide();
+				$(".genre-list ul").eq(index).show();
+			}
+			
+		});
+
+
+		/*手动添加*/
+		var addObject;
+		$.nGetJSON(url.constant,function(res){
+			type=[];
+			for(var key in res.type){
+				if(res.type[key].parentId!=0){
+					type.push(res.type[key])
+				}
+			}
+			res.type=type;
+			res.typeList=window.parent.typeList;
+			addObject=res;
+		})
+		var patt=/\S/;
+		var reg = /^\d{0,9}$/;
+		$("#add_news").on("click",function(){
+			var addContent={};
+			var resContent={};
+			$("#add-news").empty();
+			var source=$("#add-byhand").html();
+			var template=Handlebars.compile(source);
+			$("#add-news").append(template(addObject));
+			
+			$("#add-news").dialog({
+				appendTo:".warpper",
+				width: 450,
+				height:"auto",
+				modal: false,
+				showTitle:true,
+				autoOpen:true,
+				open: function( event, ui ) {
+					$("#newID").on("blur",function(){
+						$("#newName").val("");
+						$(".necessary").remove();
+						if(patt.test($("#newID").val())&&reg.test($("#newID").val())){
+							$.nGetJSON(url.addcontent,{contentId:$("#newID").val()},function(res){
+								if(res.success){
+									$("#newName").val(res.name);
+									if(!res.docCategory){
+										res.docCategory="新闻报道";
+									}
+									resContent=res;
+								}else{
+									$("#newID").after("<a class='necessary'>稿件不存在</a>")
+								}
+							})
+						}else if(!patt.test($("#newID").val())){
+							$("#newID").after("<a class='necessary'>请填写id</a>")
+						}else if(!reg.test($("#newID").val())){
+							$("#newID").after("<a class='necessary'>稿件不存在</a>")
+						}
+					})
+				},
+				buttons:[
+					{
+						text:'确定',
+						icons:{primary: "ui-submit"},
+						className:'button-submit',
+						id:'gatherDoc_submit',
+						click:function(){
+							if($("#newName").val()){
+								var num, add;
+								addContent.dataChoosed=0;
+								addContent.dataId=$("#newID").val();
+								addContent.dataName=resContent.name
+								addContent.dataScore="0";
+								addContent.docCategory=resContent.docCategory;  
+								addContent.docType=resContent.docType;
+								addContent.url=resContent.url;
+								for(var i=0; i<genrenObj.content.length; i++){
+									for(var j=0; j<genrenObj.content[i].group.length; j++){
+										if(genrenObj.content[i].group[j].dataId==addContent.dataId){
+											add=1;
+										}
+									}
+								};
+								if(add!=1){
+									for(var i=0; i<genrenObj.content.length; i++){
+										if (genrenObj.content[i].name==addContent.docCategory){
+											num=1;
+											genrenObj.content[i].group.push(addContent);
+										}
+									}
+									if(num!=1){
+										var add_content={};
+										add_content.name=addContent.docCategory;
+										add_content.group=[];
+										add_content.group.push(addContent);
+										genrenObj.content.push(add_content);
+									}
+									//console.log(genrenObj);
+									genrenObj.len+=1;
+									top_level();
+									/*体裁左侧标题模板填充*/
+									var sourceGenre=$("#genreList").html();
+									var templateGenre=Handlebars.compile(sourceGenre);
+									$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+									/*体裁右侧列表模板填充*/
+									var sourceGenreList=$("#genreContentList").html();
+									var templateGenreList=Handlebars.compile(sourceGenreList);
+									$(".genre-list").html(templateGenreList(genrenObj));
+									$("#attributes_genre").change();
+									$("#add-news").dialog('close');
+								}else{
+									alert("稿件已存在于列表");
+								}
+								
+							}
+							
+						}
+					},
+					{
+						text:'取消',
+						icons:{primary: "ui-cancel"},
+						id:'gatherDoc_cancel',
+						className:'button-cancel',
+						click:function(){ $("#add-news").dialog('close');}
+					}
+				]
+				
+			});
+		})
+
+
+		/*只看置顶新闻*/
+		$("#checkbox0").click(function(){
+			$(".genre-list").removeClass("no-move");
+			if($("#checkbox0").is(":checked")){
+				/*体裁左侧标题模板填充*/
+				var sourceGenre=$("#genreList").html();
+				var templateGenre=Handlebars.compile(sourceGenre);
+				$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+				/*体裁右侧列表模板填充*/
+				var sourceGenreList=$("#genreContentList").html();
+				var templateGenreList=Handlebars.compile(sourceGenreList);
+				$(".genre-list").html(templateGenreList(genrenObj));
+				$(".genre-list ul").each(function(){
+					$("li",$(this)).hide();
+					$("li",$(this)).eq(0).show();
+				})
+				$(".genre-classfies-left.strong").html(1);
+				$(".current-genre-titles .strong").html($(".genre-classfies-left").length-1);
+
+			}else{
+				$(".genre-list ul li").show();
+			}
+		})
+
+		/*内容类型筛选*/
+		$("#attributes_genre").on("change",function(){
+			if($(this).val()!="0"){
+				$(".genre-list").addClass("no-move");
+				var typeObj=$.extend(true,{},genrenObj);
+				var _this=this;
+				typeObj.len=0;
+				for(var i=0; i<genrenObj.content.length; i++){
+					typeObj.content[i].group=[];
+					for (var j = 0; j < genrenObj.content[i].group.length; j++) {
+						if(genrenObj.content[i].group[j].docType==$("#attributes_genre").val()){
+							typeObj.content[i].group.push(genrenObj.content[i].group[j]);
+							typeObj.len+=1;
+						}
+					};
+				};
+				var typeObjcont=$.extend(true,{},typeObj);
+				typeObjcont.content=[];
+				typeObjcont.len=0;
+				for(var i=0; i<typeObj.content.length; i++){
+					if(typeObj.content[i].group[0]){
+						typeObjcont.content.push(typeObj.content[i]);
+						typeObjcont.len+=typeObj.content[i].group.length;
+					}
+				}
+
+				/*体裁左侧标题模板填充*/
+				var sourceGenre=$("#genreList").html();
+				var templateGenre=Handlebars.compile(sourceGenre);
+				$(".genre-classfies-left").html(templateGenre(typeObjcont));
+
+				/*体裁右侧列表模板填充*/
+				var sourceGenreList=$("#genreContentList").html();
+				var templateGenreList=Handlebars.compile(sourceGenreList);
+				$(".genre-list").html(templateGenreList(typeObjcont));
+			}else{
+				$(".genre-list").removeClass("no-move");
+				/*体裁左侧标题模板填充*/
+				var sourceGenre=$("#genreList").html();
+				var templateGenre=Handlebars.compile(sourceGenre);
+				$(".genre-classfies-left").html(templateGenre(genrenObj));
+
+				/*体裁右侧列表模板填充*/
+				var sourceGenreList=$("#genreContentList").html();
+				var templateGenreList=Handlebars.compile(sourceGenreList);
+				$(".genre-list").html(templateGenreList(genrenObj));
+			}
+		})
+	})
+
+
+	/*上一页*/
+	$(".addbg-filter").click(function(){
+		$(".prevBox")[0].click();
+	})
+	$(".prevBox").on("click",function(){
+		$(".genre-list").removeClass("no-move");
+		$(".prevBox").attr("href","insertNewsIncludeLib.html?contentId="+window.parent.contentId);
+		window.parent.back=true;
+		$("#attributes_genre").val("0");
+		$("#attributes_genre").change();
+		var backData={};
+		backData.content=[];
+		for (var i=0; i<$(".genre-list li").length; i++) {
+			var obj={};
+			obj.docId=$(".genre-list li").eq(i).attr("data-id");
+			obj.topLevel=$(".genre-list li").eq(i).attr("data-choosed");
+			obj.docScore=$(".genre-list li").eq(i).attr("data-score");
+			obj.docCategory=$(".genre-list li").eq(i).attr("data-type");
+			obj.docType=$(".genre-list li").eq(i).attr("data-origin");
+			obj.docName=$(".genre-list li a").eq(i).html();
+			obj.docUrl=$(".genre-list li a").attr("href");
+			backData.content.push(obj);
+		};
+
+		window.parent.backData=backData;
+		console.log(window.parent.backData);
+	});
+
+
+	/*提交*/
+	$("#answerSet_submit").on("click",function(){
+			/*点击确定*/
+			var id = window.parent.contentId;
+			var result = [];
+			$(".genre-list li").each(function(){
+				var obj = [];
+				var $this = $(this);
+				var link = $this.find("a");
+				obj.push($this.attr("data-origin"));
+				obj.push($this.attr("data-id"));
+				obj.push(link.text());
+				obj.push(link.attr("href"));
+				var score = $this.attr("data-score");
+				score = (score==""?0:score);
+				obj.push(score);
+				obj.push($this.attr("data-type"));
+				obj.push($this.attr("data-choosed"));
+				result.push(obj.join("▲"));
+			});
+			result = result.join("■");
+			window.parent.result=result;
+			window.parent.gatherDocFN.close();
+			window.parent.gatherDocFN.complete();
+
+	});
+
+	/*取消*/
+	$("#answerSet_cancel").on("click",function(){
+		window.parent.gatherDocFN.close();
+	});
+	$('.ui-dialog-titlebar-close', window.parent.document).click(function(){
+		delete window.parent.back;
+	});
+	
+})();
+</script>	
+</body>
+</html>

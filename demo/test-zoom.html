@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>imageZoom</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="http://sandbox.runjs.cn/js/sandbox/other/modernizr.min.js"></script>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+	#cimg{display:block; width:300px;margin:60px auto;}
+	#ctxt{margin: 20px auto; width: 400px; font: normal 14px/2 'Microsoft Yahei';}
+	img{cursor:none;}
+	</style>
+</head>
+<body>
+	
+	<img id="cimg" src="http://sandbox.runjs.cn/uploads/rs/296/iehoqtsc/2010120215445612.gif">
+	
+	<pre id="ctxt">
+这是一片很寂寞的天
+下着有些伤心的雨
+这是一个很在乎的我
+和一个无所谓的结局
+曾经为了爱而努力
+曾经为了爱而逃避
+逃避那熟悉的往事
+逃避那陌生的你
+这是一片很寂寞的天
+下着有些伤心的雨
+这是一个很在乎的我
+和一个无所谓的结局
+再也不知道你的消息
+再也不知道你的秘密
+只有那熟悉的往事
+只有那陌生的你
+在那些黑色和白色的梦里
+不再有蓝色和紫色的记忆
+在这个相遇又分手的年纪
+总有些雨打风吹的痕迹
+为了那苍白的爱情的继续
+为了那得到又失去的美丽
+就让这擦干又流出的泪水
+化作漫天相思的雨
+为了那苍白的爱情的继续
+为了那得到又失去的美丽
+就让这擦干又流出的泪水
+化作漫天相思的雨
+ 
+这是一片很寂寞的天
+下着有些伤心的雨
+这是一个很在乎的我
+和一个无所谓的结局
+再也不知道你的消息
+再也不知道你的秘密
+只有那熟悉的往事
+只有那陌生的你
+在那些黑色和白色的梦里
+不再有蓝色和紫色的记忆
+在这个相遇又分手的年纪
+总留下雨打风吹的痕迹
+为了那苍白的爱情的继续
+为了那得到又失去的美丽
+就让这擦干又流出的泪水
+化作漫天相思的雨
+为了那苍白的爱情的继续
+为了那得到又失去的美丽
+就让这擦干又流出的泪水
+化作漫天相思的雨
+ 
+为了那苍白的爱情的继续
+为了那得到又失去的美丽
+就让这擦干又流出的泪水
+化作漫天相思的雨
+为了那苍白的爱情的继续
+为了那得到又失去的美丽
+就让这擦干又流出的泪水
+化作漫天相思的雨
+	</pre>
+<script>
+	
+	require(['module/zoom'],function(Zoom){
+		
+		var handler = new Zoom({
+			el: '#cimg',
+			scale: 3,	//放大比例
+			style:{		//放大镜的样式
+				width:200,
+				height:160,
+				background: 'none'
+			}
+		});
+
+		var textStyle = 
+			$('html').hasClass('csstransforms') 
+			?{
+				transform:'scale(3)',
+				transformOrigin:'0 0'
+			}
+			:{
+				fontSize: 42
+			}
+		var handler2 = new Zoom({
+			el: '#ctxt',
+			type: 'txt',
+			scale: 3,	//放大比例
+			style:{		//放大镜的样式
+				width:300,
+				height:200,
+				backgroundColor: '#fff'
+			},
+			itemStyle: textStyle
+		});
+	});
+</script>
+</body>
+</html>

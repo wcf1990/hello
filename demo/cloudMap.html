@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>云谱图</title>
+	<link rel="stylesheet" href="../css/form-style.min.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+		#main{width: 1280px; margin: 20px auto;}
+		table.table tr:hover{background: none;}
+		table.table tr td{padding: 0;}
+		#svg-container > div{display: none;}
+		#svg-container > div.ui-cloudSpectrum{display: block;}
+		.table.inner-table tr td{border:0; height: 230px;}
+		#json-area{width: 96%; padding:2%; border:0; resize:none;height:440px; line-height: 1em;}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<table class="table">
+			<tr>
+				<th width="50%">数据输入</th>
+				<th width="50%">云谱图输出</th>
+			</tr>
+			<tr>
+				<td>
+					<textarea name="json-area" id="json-area" placeholder="此处粘贴云谱图元数据">
+{
+    "id": "300002",
+    "name": "贾政",
+    "parent": "0",
+    "type": "people",
+    "color": "#ff0000",
+    "shape": 6,
+    "weight": 15,
+    "childNodes": [
+        {
+            "id": "400008",
+            "name": "王夫人",
+            "parent": "300002",
+            "weight": 10,
+            "type": "place",
+            "color": "#F16729",
+            "shape": 1,
+            "childNodes": []
+        },
+        {
+            "id": "400009",
+            "name": "赵姨娘",
+            "parent": "300002",
+            "weight": 8,
+            "type": "people",
+            "color": "#CA0D86",
+            "shape": 2,
+            "childNodes": []
+        },
+        {
+            "id": "400010",
+            "name": "贾珠",
+            "parent": "300002",
+            "weight": 15,
+            "type": "people",
+            "color": "#1F1F1F",
+            "shape": 3,
+            "childNodes": [
+                {
+                    "id": "500001",
+                    "name": "李执",
+                    "parent": "400010",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#87B11D",
+                    "shape": 4,
+                    "childNodes": []
+                },
+                {
+                    "id": "500002",
+                    "name": "贾兰",
+                    "parent": "400010",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#3277B5",
+                    "shape": 5,
+                    "childNodes": []
+                }
+            ]
+        },
+        {
+            "id": "400011",
+            "name": "贾元春",
+            "parent": "300002",
+            "weight": 15,
+            "type": "people",
+            "color": "#F89322",
+            "shape": 1,
+            "childNodes": [
+                {
+                    "id": "500002",
+                    "name": "贾兰",
+                    "parent": "400011",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#F16729",
+                    "shape": 2,
+                    "childNodes": []
+                }
+            ]
+        },
+        {
+            "id": "400012",
+            "name": "贾宝玉",
+            "parent": "300002",
+            "weight": 15,
+            "type": "people",
+            "color": "#F89322",
+            "shape": 3,
+            "childNodes": [
+                {
+                    "id": "500003",
+                    "name": "袭人",
+                    "parent": "400012",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#FFCF14",
+                    "shape": 4,
+                    "childNodes": []
+                },
+                {
+                    "id": "500004",
+                    "name": "晴雯",
+                    "parent": "400012",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#FFEA0D",
+                    "shape": 5,
+                    "childNodes": []
+                },
+                {
+                    "id": "500005",
+                    "name": "茜雪",
+                    "parent": "400012",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#87B11D",
+                    "shape": 1,
+                    "childNodes": []
+                },
+                {
+                    "id": "500006",
+                    "name": "麝月",
+                    "parent": "400012",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#008253",
+                    "shape": 2,
+                    "childNodes": []
+                },
+                {
+                    "id": "500007",
+                    "name": "秋纹",
+                    "parent": "400012",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#3277B5",
+                    "shape": 3,
+                    "childNodes": []
+                },
+                {
+                    "id": "500008",
+                    "name": "惠香",
+                    "parent": "400012",
+                    "weight": 15,
+                    "type": "people",
+                    "color": "#4C549F",
+                    "shape": 4,
+                    "childNodes": [
+                        {
+                            "id": "300002",
+                            "name": "贾政",
+                            "parent": "500008",
+                            "weight": 15,
+                            "type": "people",
+                            "color": "#F16729",
+                            "shape": 6,
+                            "childNodes": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "400013",
+            "name": "贾探春",
+            "parent": "300002",
+            "weight": 15,
+            "type": "people",
+            "color": "#764394",
+            "shape": 5,
+            "childNodes": []
+        },
+        {
+            "id": "400014",
+            "name": "贾环",
+            "parent": "300002",
+            "weight": 15,
+            "type": "people",
+            "color": "#CA0D86",
+            "shape": 7,
+            "childNodes": []
+        }
+    ]
+}						
+					</textarea>
+				</td>
+				<td style="padding:30px;">
+					<div id="svg-container"></div>
+				</td>
+			</tr>
+		</table>	
+	</div>
+	
+
+<script>
+require(['requestAFrame','cloudMap'],function(R){
+	(function($){
+
+    	var input = $('#json-area');
+    	var jsonStr;
+
+    	R.addTimeout('reCloudSpectrum',function(){
+    		if( jsonStr != input.val() ){
+    			jsonStr = input.val();
+    			try{
+    				var json = $.parseJSON(jsonStr);
+					var per = new CloudSpectrum({node: '#svg-container', width:600, height:400, mode: 'edit',dragFlag:true});
+    				if( json.id && json.name ){
+	    				per.render(json);
+    				}
+	    		}catch(e){
+	    			alert("数据错误")
+	    		}
+    		}
+    	});
+    	
+
+	})(jQuery);	
+});
+
+</script>
+</body>
+</html>

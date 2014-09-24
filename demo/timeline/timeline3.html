@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>timeline-index3</title>
+    <link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/my-timeline.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/require.js"></script>
+    <script src="../../js/require-config.js"></script>
+    <script type="text/javascript" src="js/my-timeline.js"></script>
+    <style> 
+    #timeline-embed h2.tips{height:30px;text-align:center;padding:30px;font-family:微软雅黑;font-size:16px; color:#CCC;}
+  </style>
+  </head>
+  <body>
+    <!--wrapper 开始-->
+  	<div class="wrapper">
+  		<!-- <div class="top">
+  			<p class="top_left">编辑时间轴</p>
+  			<p class="top_right"></p>
+  		</div> -->
+      <!--tabnum 点击换背景部分 开始-->
+  		<div class="tabnum">
+  			<dl>
+  				<dt>
+  					<h4>搜索新闻</h4>
+					  <P>可指定时间段，输入关键 词搜索新闻</P>  					
+  				</dt>
+  				<dd>1</dd>
+  			</dl>
+        <div class="arrow"></div>
+
+        <dl class="addbg">
+          <dt>
+            <h4>设置时间轴</h4>
+            <P>调整、设置时间轴样式， 预览时间轴</P>           
+          </dt>
+          <dd class="addbg2">2</dd>
+        </dl>   
+  		</div><!--tabnum 点击换背景部分 结束-->
+
+      <!--center 开始-->
+      <div class="select-all">
+        <div class="time_name">
+          <label>时间轴名称：</label>
+            <input type="text" placeholder="" name="" />
+        </div>
+
+        <!--排序方式 开始-->
+        <div class="rank">
+          <div class="rank_l">
+            <label>稿件排序方式：</label>
+            <ul id="grank_rank">
+                <li><a href="javascript:void(0)">按发生时间</a></li>
+                <li><a href="javascript:void(0)">按发布时间</a></li>
+            </ul>
+            <input type="hidden" id="grank-result" name="grank">
+         </div>
+          <div class="rank_r">
+            <label>默认时间位置：</label>
+            <ul id="trank_rank">
+                <li><a href="javascript:void(0)">定位到最新</a></li>
+                <li><a href="javascript:void(0)">定位到最旧</a></li>
+            </ul>
+            <input type="hidden" id="trank-result" name="trank">
+          </div>
+        </div><!--排序方式 结束-->
+
+        <!--时间 开始-->
+        <div class="timescale">
+          <div class="timescale_l">
+            <label>时间刻度：</label>
+            <ul id="timel_rank">
+                <li><a href="javascript:void(0)">年</a></li>
+                <li><a href="javascript:void(0)">月</a></li>
+                <li><a href="javascript:void(0)">日</a></li>
+                <li><a href="javascript:void(0)">时</a></li>
+                <li><a href="javascript:void(0)">分</a></li>
+                <li><a href="javascript:void(0)">秒</a></li>
+            </ul>
+            <input type="hidden" id="timel-result" name="tlrank">
+         </div>
+          <div class="timescale_r">
+            <label>时间轴样式：</label>
+            <ul id="timer_rank">
+                <li><a href="javascript:void(0)">图文横轴式</a></li>
+                <li><a href="javascript:void(0)">标题横轴式</a></li>
+            </ul>
+            <input type="hidden" id="timer-result" name="trrank">
+          </div>
+        </div><!--时间 结束-->
+      </div><!--center 结束-->
+
+
+      <!--时间轴切换 开始-->
+      <div class="time-run">
+        <div id="story-timeline"></div>
+      </div><!--时间轴切换 结束-->
+
+      <div class="prev-next">
+        <a href="timeline2.html">上一步</a>
+        <a href="javascript:void(0)" class="complete">完成</a>
+        <a href="javascript:void(0)" class="cancel">取消</a>
+      </div>
+      
+  	</div> <!--wrapper 结束-->
+  <script>
+  $(".select-all ul li").click(function(){      
+    $(this).addClass("cur").siblings("li").removeClass("cur");      ////加减背景色样式
+  });
+  // require(['iealert'],function(IEAlert){
+  //   new IEAlert();
+  // });
+  require(['time-line','alerts'],function(TL){
+    $.ajax({
+      url: '../json/jquery.timeline.json',
+      dataType: 'json',
+      success: function(data){
+
+        //自主研发time-line
+        var t = TL({
+          embed : '#story-timeline'
+        },data.content[0]);
+
+        $('#getAllIds').on('click',function(){
+          jAlert( t.getAllIds().join(', ') );
+        });
+      }
+    });
+  });
+
+
+
+  </script>  
+  </body>
+</html>  

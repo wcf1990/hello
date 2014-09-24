@@ -1,0 +1,14 @@
+<a href="main-simple.html">首页</a><a> &gt; </a>
+<!--
+<a href="#">站点管理</a><a> &gt; </a>
+<a href="#">全站管理</a><a> &gt; </a>
+<span class="text-normal">全局配置</span>
+-->
+<% 
+	var navs = request.$.title.split("/").pop().split(" - "); /*获取请求文件名*/
+	var curr = navs.pop();
+	for(var i=0; i < navs.length; i++){
+		echo( '<a href="#">'+navs[i].replace(/\d/g,"")+'</a><a> &gt; </a>' );
+	}
+	echo( '<span class="text-normal">'+curr.split(".")[0].replace(/\d/g,"")+'</span>' );
+%>

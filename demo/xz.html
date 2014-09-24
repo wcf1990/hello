@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>视频保存和转码</title>
+	<style>
+		*{margin: 0;padding: 0;border: 0;}
+		#videoPlayer{
+			width:600px;
+			height:400px;
+			margin: 0 auto;
+		}
+		#main{text-align: center;line-height: 26px;padding: 10px 0;}
+		#main input{
+			outline: none !important;
+		}
+		#main a{
+			display: inline-block;
+			background: #a30;
+			border-radius: 3px;
+			padding: 0 1em;
+			height: 26px;
+			font:normal 12px/26px 'simsun';
+			text-decoration: none;
+			color: #fff;
+		}
+		#process{height:14px;border:1px solid #a30;margin: 10px 0; display: none;}
+		#process .inner{width: 0%;height:14px;background: #a30;}
+	</style>
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<div id="videoPlayer"></div>
+	<div id="main">
+		<div id="process"><div class="inner"></div></div>
+		<input id="show" placeholder="未选择文件" readonly="readonly"/>
+		<a href="javascript:void(0);" id="select">选择视频</a>
+		<a href="javascript:void(0);" id="upload" style="display:none;">上传转码</a>
+	</div>
+
+<script>
+(function($){
+	var videoPlayerTmpl = '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"  width="100%" height="100%" wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" src="{{src}}"></embed>',
+		videoPlayer = 'http://xuan.news.cn/cloudnews/FlvPlayer.swf',
+		root = 'http://tpic.home.news.cn/xhvedio/',
+		playerHolder = top.document.getElementById('videoPlayer'), 
+		process = $('#process'), 
+		slider = process.children();
+
+	function renderFlash(md5){
+		process.hide();
+		$.ajax({
+			url: 'json/video.json',
+			data:{md5:md5},
+			dataType:'json',
+			success:function(json){
+				var embed = videoPlayerTmpl.replace('{{src}}', videoPlayer+"?videoURL="+root+json.flvPath+"&videoName= &videoText= &mapURL="+root+json.imgPath+"&bgURL="+root+json.coverPath );
+				playerHolder.innerHTML = embed;
+			},
+			error:function(xhr){
+				top.alert( '服务端异常！ 插入视频失败' );
+			}
+		});
+	}
+
+	require(['frameUpload','json','md5'],function(FrameUpload,JSON){
+		var select = $('#select'), show = $('#show'), upload = $('#upload');
+		var md5;
+		var frameUpload = new FrameUpload({
+			el: select[0],
+			ajax: true,
+			src: "json/iframe-upload.html",
+			action: "/upload?uploadUrl=/demo/php/temp&target=/demo/json/success.json",
+			onchange: function(){
+				show.val( this.value.match(/[^\\\/]+$/) );
+				process.hide();
+				if( this.value && window.FileReader){
+					var reader = new FileReader();
+					reader.readAsBinaryString(this.files[0]);
+					reader.onload = function(){
+						md5 = ( MD5.hex_md5(this.result) );
+						$.ajax({
+							url: "json/checkVideo.json",
+							data:{md5:md5,t:new Date().getTime()},
+							dataType:'json',
+							success:function(json){
+								if( json.code == 1 ){	//	视频已经上传
+									top.alert('视频已经上传！')
+									renderFlash(md5);
+								}else{
+									playerHolder.innerHTML = "";
+									upload.show();
+								}
+							},
+							error:function(){
+								playerHolder.innerHTML = "";
+							}
+						});
+					};
+				}else{
+					playerHolder.innerHTML = "";
+					upload.hide();
+				}
+			},
+			onprocess: function(e){
+				slider.css({
+					width: (e.loaded*100/e.total)+'%'
+				})
+			},
+			afterUpload: function(data,xhr){
+				if(xhr.status == 200){
+					top.alert( '上传成功并开始转码！' );
+					require(['requestAFrame'],function(R){
+						R.addTimeout('checkRevert',function(){
+							if( process.is(':hidden') ){
+								return false;
+							}else{
+								$.ajax({
+									url:"json/checkRevert.json",
+									data:{md5:md5},
+									dataType:'json',
+									success:function(info){
+										if(info.code == 1){
+											renderFlash(md5);
+										}else if(info.code == 3){
+											top.alert( '视频转码失败！ MD5:'+md5 );
+										}
+									}
+								});
+							}
+						},1000);
+					});
+				}else{
+					top.alert( '上传失败!' )
+				}
+			},
+			ready:function(){
+				this.setAttribute("accept", "video/*");
+			}
+		});
+
+		upload.on('click',function(){
+			process.show();
+			frameUpload.submit();
+		});
+
+	});
+})(jQuery);
+	
+</script>
+</body>
+</html>

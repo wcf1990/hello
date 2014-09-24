@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>autocomplete</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+	.result a{display: inline-block; line-height: 20px; padding: 0 6px 0 8px; cursor: pointer; border: 1px solid #d2d2d2; margin-right: 4px;}
+	.result a:after{ content: "-"; margin-left: 2px;}
+	</style>
+</head>
+<body>
+	<div style="width:1000px; margin:0 auto;">
+		<input type="text" class="autocomplete1" placeholder="简单支持"> <br>
+		<input type="text" class="autocomplete2" placeholder="自带多选项支持"> <br>
+		<input type="text" class="autocomplete3" placeholder="自定义多选项支持"> <br>
+		<div class="result"></div>
+	</div>
+	
+
+<script>
+$(function(){
+	require(["autocomplete"],function(){
+
+
+		$(".autocomplete1").autocomplete({
+	    	source: function( request, response ) {
+	          	$.getJSON( "json/country.json", {
+	            	kw: request.term
+	          	}, response );
+	        },
+	        search: function() {
+	          	var term = extractLast( this.value );
+	          	if ( term.length < 2 ) {
+	            	return false;
+	          	}
+	        }
+	    });
+
+
+		function split( val ) {
+	      	return val.split( /,\s*/ );
+	    }
+	    function extractLast( term ) {
+	      	return split( term ).pop();
+	    }
+		$(".autocomplete2").autocomplete({
+	    	source: function( request, response ) {
+	          	$.getJSON( "json/country.json", {
+	            	kw: extractLast( request.term )
+	          	}, response );
+	        },
+	        search: function() {
+	          	var term = extractLast( this.value );
+	          	if ( term.length < 2 ) {
+	            	return false;
+	          	}
+	        },
+	        focus: function() {
+	          	return false;
+	        },
+	        select: function( event, ui ) {
+	          	var terms = split( this.value );
+	          	terms.pop();
+	          	terms.push( ui.item.value );
+	          	terms.push( "" );
+	          	this.value = terms.join( ", " );
+	          	return false;
+	        }
+	    });
+
+
+		$(".autocomplete3").autocomplete({
+	    	source: function( request, response ) {
+	          	$.getJSON( "json/country.json", {
+	            	kw: request.term
+	          	}, response );
+	        },
+	        search: function() {
+	          	var term = extractLast( this.value );
+	          	if ( term.length < 2 ) {
+	            	return false;
+	          	}
+	        },
+	        select: function( event, ui ) {
+	          	this.value = "";
+	          	var v = ui.item.value;
+	          	if( $(".result").children('[data-value="'+v+'"]').length ){
+	          		//Do Nothing
+	          	}else{
+	          		$(".result").append( $('<a data-value="'+v+'">'+v+'</a>') );
+	          	}
+	          	return false;
+	        }
+	    });
+
+	    $(".result").on("click","a",function(){
+	    	$(this).trigger('remove');
+	    });
+
+	});
+});
+</script>
+</body>
+</html>

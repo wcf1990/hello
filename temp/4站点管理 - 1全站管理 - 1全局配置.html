@@ -1,0 +1,57 @@
+$belong[temp/main.html]
+<div class="mainRight">
+	<h1>全局配置</h1>
+	<div class="global_cont">
+		<div class="form_setup global_form">
+			<form id="global_setup">
+				<div class="item clearfix">
+					<span class="lable"><i>&nbsp;</i>部署路径:</span>
+					<div class="text">
+						<input type="text" name="url">
+						<span class="text-tip">部署在根目录请清空</span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">端口号:</span>
+					<div class="text">
+						<input type="text" name="number">
+						<span class="text-tip">默认留空</span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable"><i>&nbsp;</i>默认图片:</span>
+					<div class="text">
+						<input type="text" name="default">
+						<span class="text-tip">图片不存在时显示</span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable"><i>&nbsp;</i>数据库附件:</span>
+					<div class="text">
+						<input type="checkbox" name="switch" id="switch" class="switch">
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable"><i>&nbsp;</i>附件地址:</span>
+					<div class="text">
+						<input type="text" name="adress">
+						<span class="text-tip">一般无需显示</span>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="info_bt clear">
+			<input class="fm-button" type="button" value="提交">
+			<input class="fm-button" type="button" value="重置">
+		</div>
+	</div>
+</div>
+<script>
+(function(){
+	require(["form-style"],function(){
+		$(".switch").toSwitch();
+	});
+})();
+</script>
+</body>
+</html>

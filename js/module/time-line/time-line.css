@@ -1,0 +1,145 @@
+.time-line{
+	height: 470px;
+	margin-top: 130px;
+	padding: 0 18px;
+	font-size: 12px;
+	overflow: hidden;
+}
+.time-line *{
+	margin: 0;
+	padding: 0;
+	border:0;
+	list-style: none;
+}
+.time-line .time-inner{
+	height: 84px;
+	padding: 0px 38px 0;
+	position: relative;
+	background: url(img/timeline.png) 0 50px repeat-x;
+}
+.time-line .time-inner .time-region{
+	height:340px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.time-line .time-inner .time-region ul.time-slider{
+	position: absolute;
+	left: 0; 
+	top: 0;
+}
+.time-inner .time-region .time-ownner{
+	width: 88px;
+	height: 84px;
+	float: left;
+}
+.time-region .time-ownner h4{
+	width: 77px;
+	margin: 4px auto;
+	background: #00b6aa;
+	line-height: 30px;
+	height: 30px;
+	white-space: pre;
+	text-align: center;
+	font-weight: normal;
+	color: #fff;
+	border-radius: 3px;
+	cursor: pointer;
+	position: relative;
+}
+.time-region .time-ownner h4 .del{
+	position: absolute;
+	right: -6px;
+	top: -4px;
+	display: block;
+	width: 13px;
+	height: 13px;
+	background: url(img/timeline.png) 0 -100px no-repeat;
+}
+.time-region .time-ownner a.pointer{
+	display: block;
+	width: 88px;
+	height: 16px;
+	margin-top: 25px;
+	background: url(img/timeline.png) no-repeat 0 -50px;
+}
+.time-region .current a.pointer,.time-region .time-ownner > a.pointer:hover{
+	background: url(img/timeline.png) no-repeat 0 -70px;
+}
+
+.time-region .show-box{
+	width: 270px;
+	padding: 10px;
+	border: 1px solid #d8d8d8;
+	background: #f5f5f5;
+	position: absolute;
+	top: 90px;
+	z-index: 999;
+	display: none;
+}	
+.time-region .current .show-box{
+	display: block;
+}
+.time-region .time-ownner .show-box span.arrow{
+	display: block;
+	width: 11px;
+	height: 10px;
+	background: url(img/timeline.png) no-repeat -4px -132px;
+	position: absolute;
+	top: -10px;
+	left: 37px;
+}
+.time-region .time-ownner .show-box li{
+	height: 24px;
+	line-height: 24px;
+}
+.time-region .show-box li span{
+	float: left;
+}
+.time-region .show-box li span.title{
+	width: 248px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.time-region .show-box li span.title a{
+	color: #333;
+	text-decoration: none;
+	font-family: 'Microsoft Yahei';
+}
+.time-region .show-box li span.title a:hover{
+	text-decoration: underline;
+}
+.time-region .show-box li span.box-edit, .time-region .show-box li span.box-del{
+	width: 16px;
+	height: 16px;
+	margin: 4px 0 0 4px;
+	display: none;
+}
+.time-region .show-box li:hover span.box-edit, .time-region .show-box li:hover span.box-del{
+	display: inline;
+	cursor: pointer;
+}
+.time-region .show-box li:hover span.box-edit{
+	display: none;
+}
+.time-region .show-box li span.box-edit{
+	background: url(img/timeline.png) no-repeat -36px -100px;
+}
+.time-region .show-box li span.box-del{
+	background: url(img/timeline.png) no-repeat -71px -100px;
+}
+.time-region .show-box li input{
+	width: 240px;
+	height: 24px;
+	padding: 0 3px;
+	border: 1px solid #d8d8d8;
+}
+
+.time-region .time-ownner .show-box .btn-save{
+	display: inline;
+	background: none;
+	color: #00b6aa;
+	margin-left: 13px;
+}

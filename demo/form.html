@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单元素</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form-style.min.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+	.main{width: 1000px; margin: 0 auto 200px; line-height: 1.5;}
+	p>strong{
+		display: inline-block;
+		float: left;
+		line-height: 26px;
+	}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<h2 class="fm-title">标题 <br>字体：微软雅黑    字号：18px  </h2>
+		<p class="text-normal">正文1 <br>字体：宋体    字号：14px  </p>
+		<p class="text-small">正文2 <br>字体：宋体    字号：14px  </p>
+		<p>
+			<a href="#">链接 <br>字体：宋体</a>
+		</p>
+		<p class="text-tip">提示 <br>字体：宋体    字号：12px  </p>
+		<p>
+			<input type="text" class="Wdate" id="Wdate" onfocus="if(window.WdatePicker)WdatePicker()">
+		</p>
+		<p id="radio-line">
+			<strong>性别：</strong>
+			<input type="radio" class="radio" name="radio" id="radio0" value="0"> <label for="radio0">男</label>
+			<input type="radio" class="radio" name="radio" id="radio1" value="1"> <label for="radio1">女</label>
+			<input type="radio" class="radio" name="radio" id="radio2" value="2"> <label for="radio2">？</label>
+		</p>
+		<p id="checkbox-line">
+			<strong>爱好：</strong>
+			<input type="checkbox" name="checkbox" class="checkbox" id="checkbox0" value="0"> <label for="checkbox0">篮球</label>
+			<input type="checkbox" name="checkbox" class="checkbox" id="checkbox1" value="1"> <label for="checkbox1">音乐</label>
+			<input type="checkbox" name="checkbox" class="checkbox" id="checkbox2" value="2"> <label for="checkbox2">书法</label>
+			<input type="checkbox" name="checkbox" class="checkbox" id="checkbox3" value="3"> <label for="checkbox3">读书</label>
+			<input type="checkbox" name="checkbox" class="checkbox" id="checkbox4" value="4"> <label for="checkbox4">聊天</label>
+			<input type="checkbox" name="checkAll" class="checkall" id="_checkAll" value=" "> <label for="_checkAll">全选</label>
+		</p>
+		<p>
+			<strong>婚否：</strong>
+			<input type="checkbox" name="switch" id="switch" class="switch" value="1">
+		</p>
+		<p style="height:30px;">
+			<strong>选项：</strong>
+			<select name="sel1" id="select0" class="select">
+				<option value="1">选项1</option>
+				<option value="2">选项2选项2</option>
+				<option value="3">选项3选项2选项2</option>
+				<option value="4" selected="selected">选项4</option>
+				<option value="5">选项5选项2选项2选项2</option>
+				<option value="6">选项6</option>
+				<option value="7">选项7</option>
+				<option value="8">选项8选项2选项2选项2选项2选项2</option>
+				<option value="9">选项9</option>
+			</select>
+			
+		</p>
+		<p style="height:30px;">
+			<strong>选项：</strong>
+			<select name="sel2" id="select1" class="select">
+				<option value="1">选项1</option>
+				<option value="2">选项2选项2</option>
+				<option value="3">选项3选项2选项2</option>
+				<option value="4" selected="selected">选项4</option>
+				<option value="5">选项5选项2选项2选项2</option>
+				<option value="6">选项6</option>
+				<option value="7">选项7</option>
+				<option value="8">选项8选项2选项2选项2选项2选项2</option>
+				<option value="9">选项9</option>
+			</select>
+		</p>
+		<p>
+			<span class="select-result"></span>
+		</p>
+		
+		<p>
+			<strong>基本按钮：</strong>
+			<a href="#" class="fm-button">链接按钮</a>
+			<a href="#" class="fm-button btn-sm">小按钮</a>
+			<input type="button" class="fm-button" value="表单按钮">
+			<input type="button" class="fm-button btn-sm" value="小按钮">
+			<a href="#" class="fm-button round">链接按钮</a>
+			<a href="#" class="fm-button btn-sm round">小按钮</a>
+		</p>
+
+		<p>
+			<strong>图标按钮：</strong>
+			<a href="#" class="fm-button btn-add">新增</a>
+			<a href="#" class="fm-button btn-edit">编辑</a>
+			<a href="#" class="fm-button btn-delete">删除</a>
+			<a href="#" class="fm-button btn-top">置顶</a>
+		</p>
+
+		<p>
+			<strong>圆角按钮：</strong>
+			<a href="#" class="fm-button btn-add round">新增</a>
+			<a href="#" class="fm-button btn-edit round">编辑</a>
+			<a href="#" class="fm-button btn-delete round">删除</a>
+			<a href="#" class="fm-button btn-top round">置顶</a>
+		</p>
+
+		<p>
+			<strong>搜索框：</strong>
+			<span class="fm-search ">
+				<input type="text" name="kw" id="kw" placeholder="请输入搜索关键字">
+				<a href="javascript:void(0);" class="btn-search">搜索</a>
+			</span>
+		</p>
+		<p>
+			<strong>搜索框2：</strong>
+			<span class="fm-search gray">
+				<input type="text" name="kw2" id="kw2" placeholder="请输入搜索关键字">
+				<a href="javascript:void(0);" class="btn-search">搜索</a>
+			</span>
+		</p>
+
+		<p>
+			<strong>标签框：</strong>
+			<span class="fm-label-item">
+				<label for="label-item1">宽</label>
+				<input type="text" placeholder="240" id="label-item1" style="width:60px;">
+			</span>
+		</p>
+
+		<p id="btn-dialog">
+			<strong>动作弹出框：</strong>
+			<a href="javascript:void(0);" class="button">alert</a>
+			<a href="javascript:void(0);" class="button">confirm</a>
+			<a href="javascript:void(0);" class="button">tip</a>
+			<a href="javascript:void(0);" class="button">prompt</a>
+		</p>
+		
+
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Nunc tincidunt</a></li>
+				<li><a href="#tabs-2">Proin dolor</a></li>
+				<li><a href="#tabs-3">Aenean lacinia</a></li>
+			</ul>
+			<div id="tabs-1">
+				<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+			</div>
+			<div id="tabs-2">
+				<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+			</div>
+			<div id="tabs-3">
+				<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+				<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+			</div>
+		</div>
+
+
+		<p>
+			<table class="table alternate">
+				<tr>
+					<th>名称</th>
+					<th>时间</th>
+					<th>最后出价</th>
+					<th>排名</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+				
+				<tr data-id="M0001">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><a class="btn-handle pay-now" href="?id={{id}}">立即付款</a></strong></td>
+				</tr>
+				
+				<tr data-id="M0002">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><span style="color:#808080;">已过期</span></td>
+					<td style="text-align:center;"><strong></strong></td>
+				</tr>
+				
+				<tr data-id="M0003">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><a class="btn-handle crt-ad" href="?id={{id}}">创建广告</a></strong></td>
+				</tr>
+				
+				<tr data-id="M0004">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><span style="color:#659bd8;">审核中</span></strong></td>
+				</tr>
+				<tr data-id="M0005">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><span style="color:#659bd8;">审核中</span></strong></td>
+				</tr>
+				<tr data-id="M0006">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><span style="color:#659bd8;">审核中</span></strong></td>
+				</tr>
+				<tr data-id="M0007">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><span style="color:#659bd8;">审核中</span></strong></td>
+				</tr>
+				<tr data-id="M0008">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><span style="color:#659bd8;">审核中</span></strong></td>
+				</tr>
+				<tr data-id="M0009">
+					<td>文化频道第三季度</td>
+					<td style="color:#808080;">2013-07-24 10:04:18</td>
+					<td>30万</td>
+					<td>8位</td>
+					<td><strong>竞拍成功</strong></td>
+					<td style="text-align:center;"><strong><span style="color:#659bd8;">审核中</span></strong></td>
+				</tr>
+			</table>
+		</p>
+		
+		<div class="pager-line">
+			<p id="pager" class="fm-pager"></p>
+		</div>
+	</div>
+
+<!--[if  lte  IE  6]>
+<script> window.IE6 = true; </script>
+<![endif]-->
+<script>
+(function(){
+	if( window.IE6 ){
+		alert( "IE6 or older browser is not supported!" );
+		return ;
+	}
+	require(['WdatePicker']);
+	require(['formUtil'],function(F){
+
+		$('.main').prepareFormData({
+			radio 	: 1,
+			'switch': 1,
+			checkbox: '0,2,3',
+			sel1 	: 5,
+			kw 		: '我是关键字'
+		});
+
+		//$("#checkbox-line").checkVal('checkbox','0,2,3');
+
+		$("#checkbox-line").on('click',function(){
+			alert( $(this).checkVal('checkbox').join(",") );
+		});
+		$("#radio-line").on('click',function(){
+			alert( $(this).radioVal('radio') );
+		});
+		F.selectAll({
+			handle : "#_checkAll",
+			checkList : "#checkbox-line .checkbox"
+		});
+	});
+
+	require(["form-style","alerts","tabs","draggable"],function(){
+
+		$(".radio").toRadio();
+
+		$(".checkbox, .checkall").toCheckbox();
+
+		$(".switch").toSwitch();
+
+		$("#select0").toSelect({
+			//width: 200,
+			colorful: true
+		}).on('change',function(){
+			//jAlert( this.value, "你选择的值为：" );
+			$(".select-result").html( "你选择的值为："+this.value );
+		}).trigger("change");
+
+		$("#select1").toSelect({
+			//width: 200,
+			colorful: false
+		}).on('change',function(){
+			//jAlert( this.value, "你选择的值为：" );
+			$(".select-result").html( "你选择的值为："+this.value );
+		}).trigger("change");
+
+		//$(".table tr:even").addClass("odd");
+
+		var alertNum = 1;
+		$("#btn-dialog .button").on("click",function(){
+			switch( this.innerHTML ){
+				case 'alert' : 
+						jAlert("第"+alertNum+"次弹出","警告",function(){
+							alertNum++;
+						}); 
+						break;
+				case 'confirm' : 
+						jConfirm('<h2 class="title">你收到一条站内信</h2> <p>强骁已解锁并编辑稿件“ 比特币网站疑卷款数千万跑路嫌犯被抓资金恐难”</p> ',"站内信",{
+							okButton : "查看",
+							cancelButton : "忽略"
+						},function(result){
+							alert( "点击了" + result );
+						});
+						break;
+				case 'tip' :
+						jTip( '我是一个提示文本，停留2m', 2000 );
+						break;
+				case 'prompt' : 
+						jPrompt("输入英文字符，转换为大写","hello world","大写转换",function(value){
+							alert( value ? value.toUpperCase() : "取消输入" ) 
+						});
+						break;
+			}
+				
+		});
+
+		$("#tabs").tabs();
+
+		$("#pager").toPager({
+			first: 1,
+			totalPage : 20,
+			currentPage: 6,
+
+			'switch':function(eve,e){
+				jAlert( "你翻到了第 <span style='color:red;'>"+e.toPage+"</span> 页","提示" );
+			}
+		});
+	});
+	
+	//@see Demo on http://jqueryui.com/sortable/ & http://api.jqueryui.com/sortable/
+	require(['sortable','alerts'],function(){
+		var index = null;
+		//获取tr的父级进行sortable操作，因为浏览器会为table添加tbody。
+		$('.table tr').parent().sortable({
+			start:function(e,ui){
+				index = ui.item.index();
+			},
+			stop:function(e,ui){
+				var n = ui.item.index() - index;
+				if(!n)return; //没有移动, 直接返回
+				jAlert( "向<span style='color:green'>"+(n>0?'后':'前')+"</span>移动了 <span style='color:red'>" + Math.abs(n) + "</span> 个" );
+			}
+		});
+	});
+})();
+	
+
+</script>
+<a href="javascript:void(0);" class="fm-button" style="position:fixed;right:0;bottom:100px;" id="open-to-replace">打开/关闭搜索框</a>
+<script>
+	require(['module/txt-replace/index'],function(TXTReplace){
+
+		var replacer = new TXTReplace({
+			baseNode : '.main',
+			button: {
+				el: '#open-to-replace',
+				option: 'click'
+			}
+		});
+
+	});
+</script>
+
+</body>
+</html>

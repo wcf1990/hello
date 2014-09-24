@@ -1,0 +1,131 @@
+$belong[temp/main.html]
+<div class="mainRight">
+	<h1>模板配置</h1>
+	<div style="margin-bottom:18px;">
+		<a href="#" class="fm-button">返回列表</a>
+		<a href="#" class="fm-button btn-set">模板设置</a>
+	</div>
+
+	<div class="form_setup formSet1">
+		<div class="item clearfix items">
+			<span class="lable"><i>&nbsp;</i>文件名:</span>
+			<div class="text">
+				<input type="text" name="path" placeholder="filename">
+				<span class="text-tip">请不要轻易修改此项，有可能影响到之前的配置</span>
+			</div>
+		</div>
+		<div class="item clearfix items">
+			<span class="lable"><i>&nbsp;</i>模板名称:</span>
+			<div class="text">
+				<input type="text" class="ipt" name="name"/>
+			</div>
+		</div>
+		<div class="item clearfix item-sel items">
+			<span class="lable">模板类型:</span>
+			<div class="text">
+				<select name="sel1" class="select1">
+					<option value="1">选项1</option>
+					<option value="2">选项2选项2</option>
+					<option value="3">选项3选项3选项3</option>
+					<option value="4">选项4</option>
+					<option value="5">选项5选项5选项5选项5</option>
+					<option value="6">选项6</option>
+					<option value="7">选项7</option>
+				</select>
+			</div>
+			<span class="paging">
+				<input type="checkbox" name="checkbox" class="checkbox" value="0" id="pages"><label for="pages">分页</label>
+			</span>
+		</div>
+		<div class="item clearfix items">
+			<span class="lable">模板前缀:</span>
+			<div class="text">
+				<input type="text" class="ipt" name="" value=""/>
+			</div>
+			<font class="text-tip">只允许输入字母，多个后缀之间用英文半角逗号分隔</font>
+		</div>
+		<div class="item clearfix items">
+			<span class="lable">模板后缀:</span>
+			<div class="text">
+				<input type="text" class="ipt" name="" value=""/>
+			</div>
+			<font class="text-tip">只允许输入字母，多个后缀之间用英文半角逗号分隔</font>
+		</div>
+		<div class="item clearfix items">
+			<span class="lable">连字符:</span>
+			<select name="sel2" class="select">
+				<option value="1">选项1</option>
+				<option value="2">选项2选项2</option>
+				<option value="3">选项3选项3选项3</option>
+				<option value="4">选项4</option>
+				<option value="5">选项5选项5选项5选项5</option>
+				<option value="8">选项6选项6选项6选项6选项6选项6</option>
+			</select>
+		</div>
+		<div class="item clearfix items">
+			<span class="lable">生成文件后缀:</span>
+			<select name="sel3" class="select">
+				<option value="1">选项1</option>
+				<option value="2">选项2选项2</option>
+				<option value="3">选项3选项3选项3</option>
+				<option value="4">选项4</option>
+				<option value="5">选项5选项5选项5选项5</option>
+				<option value="8">选项6选项6选项6选项6选项6选项6</option>
+			</select>
+		</div>
+		<div class="item clearfix items">
+			<span class="lable">模板描述:</span>
+			<div class="text">
+				<input type="text" class="ipt" name="directLink"/>
+			</div>
+		</div>
+	</div>
+
+	<div style="margin-bottom:20px;">
+		<a href="#" class="fm-button btn-text">文本域</a>
+		<a href="#" class="fm-button btn-edit">编辑器</a>	
+	</div>
+	<div class="text_edit">
+		<textarea>文本编辑内容</textarea>
+	</div>
+	<div class="btns">
+		<form id="change_password" name="changePassword" onsubmit="" method="">
+			<input type="button" class="fm-button" value="提交">
+			<input type="button" class="fm-button" value="取消">
+		</form>
+	</div>
+</div>
+<script>
+(function(){
+	if( window.IE6 ){
+	alert( "IE6 or older browser is not supported!" );
+		return ;
+	}
+	require(["form-style","alerts"],function(){
+
+		$(".checkbox").toCheckbox();	
+
+		$(".select").toSelect({
+			width: 231,
+			colorful: false
+
+		}).on('change',function(){
+			//jAlert( this.value, "你选择的值为：" );
+			$(".select-result").html( "你选择的值为："+this.value );
+		}).trigger("change").css({"color":"#000"});
+
+		$(".select1").toSelect({
+			width: 160,
+			colorful: false
+
+		}).on('change',function(){
+			//jAlert( this.value, "你选择的值为：" );
+			$(".select-result").html( "你选择的值为："+this.value );
+		}).trigger("change").css({"color":"#000"});
+
+
+	});
+})();
+</script>
+</body>
+</html>

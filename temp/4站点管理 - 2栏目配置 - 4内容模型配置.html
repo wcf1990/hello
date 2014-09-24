@@ -1,0 +1,165 @@
+$belong[temp/main.html]
+<div class="mainRight">
+	<h1>内容类新配置</h1>
+	<div class="station_menu">
+		<input type="checkbox" name="checkbox" class="checkbox" id="all" value="0"> <label for="all">全选</label>
+		<a class="fm-button btn-add round" href="#">添加内容类型</a>
+		<a class="fm-button btn-edit round" href="#">编辑</a>
+		<a class="fm-button btn-delete round" href="#">删除</a>
+	</div>
+	
+	<div id="list-sites">
+		<form id="tableForm">
+
+		</form>
+	</div>
+		
+	<div class="pager-line page">
+		<p id="pager" class="fm-pager"></p>
+	</div>
+</div>
+
+<script type="template/html" id="md-list-sites">
+<table class="table station_table" id="list-sites">
+	<tr>
+		<th width="8%">ID</th>
+		<th>名称</th>
+		<th>图片宽度</th>
+		<th>图片高度</th>
+		<th>有图片</th>
+		<th>启用</th>
+		<th width="10%">操作</th>
+	</tr>
+	{{#each content}}
+	<tr>
+		<td><input type="checkbox" name="checkbox" class="checkbox ids" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+		<td style="color:#2cac93;">{{name}}</td>
+		<td>{{width}}</td>
+		<td>{{height}}</td>
+		<td><input type="checkbox" name="switch" class="switch" checked></td>
+		<td><input type="checkbox" name="switch" class="switch" checked></td>
+		<td style="color:#2cac93;"><a href="#" data-id="{{id}}" >编辑</a> | <a class="delete" href="#" data-id="{{id}}">删除</a></td>
+	</tr>
+	{{/each}}
+</table>	
+</script>
+<script>
+(function($){
+	require(["form-style","alerts","draggable","template"],function(){
+		var template = Handlebars.compile($("#md-list-sites").html()); //创建模板编译器
+
+		var refreshList = function(){
+			$.ajax({
+				url : "json/site-config.json",
+				dataType : "json",
+				success: function(data){
+					$("#list-sites").html( template(data) );
+					$("#list-sites").find(".switch").toSwitch();
+					$("#list-sites").find(".checkbox").toCheckbox();
+				} 
+			});
+		};
+		refreshList();
+		$(".checkbox").toCheckbox();
+
+		/*全选*/
+		$(".station_menu").find(".checkbox").on("click",function(){
+			var _this = $(this);
+			$("#list-sites").find(".checkbox").each(function(){
+				if( $(this).is(":checked") !== _this.is(":checked") ){
+					$(this).trigger('click')
+				}
+			});
+		});
+
+		/*menu删除*/
+		$(".station_menu").find(".btn-delete").on("click",function(){
+			var deLists=$(".station_table").find(".ids");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find(".ids").eq(i))			
+					}
+				}
+				if(arr[0]){
+					jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result ){
+							for(i=0; i<arr.length;i++){
+								arr[i].parent().parent().parent().remove();
+							}
+						}
+					});	
+				};
+				if(arr[0]&&arr[1]){
+					$(".delete_content").html("是否删除多条信息");
+				};
+				if(!arr[0])	{
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择删除项</p>');
+				}
+			}
+		});
+
+
+		/*menu编辑*/
+		$(".station_menu").find(".btn-edit").on("click",function(){
+			var deLists=$(".station_table").find(".checkbox");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find(".checkbox")[i].value)			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]){
+					$.ajax({
+						url : "json/site-config.json",
+						data:sub,
+						dataType : "json",
+						success: function(data){
+							refreshList();
+						}
+					})
+				};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+		/*table  delete*/
+		$("#list-sites").on("click",".delete",function(){
+			var newIndex=$(".station_table").find(".delete").index(this);
+			var ID=$(".station_table").find(".delete").eq(newIndex).attr("data-id");
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					$("#list-sites").find(".station_table").find("tr").eq(newIndex+1).remove();
+				}
+			});	
+		});
+		
+		/*分页*/
+		$("#pager").toPager({
+			totalPage : 6,
+			currentPage: 2,
+			'switch':function(eve,e){
+				//jAlert( "你翻到了第 <span style='color:red;'>"+e.toPage+"</span> 页","提示" );
+			}
+		}); 
+	});
+})(jQuery);
+</script>
+</body>
+</html>

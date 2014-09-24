@@ -1,0 +1,32 @@
+[
+	{
+		"id": "287",
+		"name": "全站管理",
+		"isParent": true
+	},
+	{
+		"id": "285",
+		"name": "栏目管理",
+		"isParent": true
+	},
+	{
+		"id": "288",
+		"name": "人员管理",
+		"isParent": true
+	},
+	{
+		"id": "280",
+		"name": "新闻信息管理",
+		"isParent": true
+	},
+	{
+		"id": "283",
+		"name": "静态化管理",
+		"isParent": true
+	},
+	{
+		"id": "284",
+		"name": "关于",
+		"isParent": false
+	}
+]

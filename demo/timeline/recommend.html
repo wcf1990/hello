@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>推荐图表</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form-style.min.css">
+	<link rel="stylesheet" type="text/css" href="css/my-timeline.css"/>
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="wrap">
+	<div class="library-content">
+		<div class="library-search">
+			<div class="term key-words">
+				<span class="title">关键词：</span>
+				<input type="text" name="keyword" id="keyword">
+				<a class="search-icon"></a>
+			</div>
+		</div>
+		<div class="search-result clearfix">
+
+		</div>
+		<div class="pager-line">
+			<p id="pager" class="fm-pager"></p>
+		</div>
+		<script type="template/html" id="search-list" data-target=".search-result" data-pagination="#pager" data-method="post">
+			{{#each timelines}}
+				<div class="timeline-list" data-id="{{tid}}"></div>
+			{{/each}}
+			<span class="currentPage">{{currentPage}}</span>
+			<span class="totalPage">{{totalPage}}</span>
+		</script>
+	</div>
+</body>
+<script type="text/javascript">
+(function(){
+	require(["template-init","dateUtil",'time-line','timeline','underscore',"form-style","template","alerts"],function(T,DateUtil,Timeline){
+
+		T.init({
+			tmpl:"#search-list",
+			sourceUrl:"../../../xhadmin/timeline/search.do",
+			sourceData:function(){
+				return {
+						 keyword :$("#keyword").val()
+						}
+			},
+			callback:function(o){
+				$(".search-result .timeline-list").each(function(i){
+					$(this).addClass("timeline-list"+i);
+				})
+				var index=0;
+				for(i=0;i<o.source.timelines.length;i++){
+					Timeline({
+						embed : '.timeline-list'+index++
+					},o.source.timelines[i]);
+				}
+				$(".search-result .timeline-list").each(function(i){
+					$(this).on("click",function(){
+						$(this).addClass("Choosed");
+						$(this).siblings().removeClass("Choosed");
+					});
+				});
+			},
+			page:{size:'pageSize',to:'pageNo'}
+		});
+
+		$(".search-icon").on("click",function(){
+			var key=$("#keyword").val()
+			T.refresh({
+				tmpl:"#search-list",
+				sourceUrl:"../../../xhadmin/timeline/search.do",
+				sourceData:function(){
+					return {
+						keyword :key
+					}
+				},
+				callback:function(o){
+					$(".search-result .timeline-list").each(function(i){
+						$(this).addClass("timeline-list"+i);
+					})
+					var index=0;
+					for(i=0;i<o.source.timelines.length;i++){
+						Timeline({
+							embed : '.timeline-list'+index++
+						},o.source.timelines[i]);
+					}
+					$(".search-result .timeline-list").each(function(i){
+						$(this).on("click",function(){
+							$(this).addClass("Choosed");
+							$(this).siblings().removeClass("Choosed");
+						});
+					});
+				},
+				page:{size:'pageSize',to:'pageNo'}
+
+			});
+		})
+	})
+})()
+
+</script>
+</html>

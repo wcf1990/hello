@@ -1,0 +1,119 @@
+{
+    "page": {
+        "content": [
+            {
+                "id": 15,
+                "new": false,
+                "receiveUser": {
+                    "admin": false,
+                    "blogUrl": "xxxxx",
+                    "deleted": false,
+                    "displayOrganizationJobs": {},
+                    "email": "xxxxx@xxxx.com",
+                    "id": 1,
+                    "new": false,
+                    "organizationJobs": [],
+                    "password": "ec21fa1738f39d5312c6df46002d403d",
+                    "realname": "xxx",
+                    "salt": "yDd1956wn1",
+                    "sex": "male",
+                    "status": "normal",
+                    "username": "admin",
+                    "weiboUrl": "w"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "unread",
+                "text": {
+                    "body": "sys unread",
+                    "createDate": 1394035200000,
+                    "id": 1,
+                    "new": false,
+                    "title": ""
+                },
+                "type": "sys"
+            },
+            {
+                "id": 14,
+                "new": false,
+                "receiveUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "unread",
+                "text": {
+                    "$ref": "$.page.content[0].text"
+                },
+                "type": "sys"
+            },
+            {
+                "id": 13,
+                "new": false,
+                "receiveUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "unread",
+                "text": {
+                    "$ref": "$.page.content[0].text"
+                },
+                "type": "sys"
+            },
+            {
+                "id": 12,
+                "new": false,
+                "receiveUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "read",
+                "text": {
+                    "body": "sys user recyle",
+                    "createDate": 1393948800000,
+                    "id": 7,
+                    "new": false
+                },
+                "type": "sys"
+            },
+            {
+                "id": 7,
+                "new": false,
+                "receiveUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "sendStatus": "send",
+                "sendUser": {
+                    "$ref": "$.page.content[0].receiveUser"
+                },
+                "status": "unread",
+                "text": {
+                    "body": "sys recycle",
+                    "createDate": 1394467200000,
+                    "id": 6,
+                    "new": false
+                },
+                "type": "sys"
+            }
+        ],
+        "currentPage": 1,
+        "firstPage": true,
+        "lastPage": false,
+        "number": 0,
+        "numberOfElements": 5,
+        "size": 5,
+        "sort": {},
+        "totalElements": 9,
+        "totalPages": 2
+    }
+}

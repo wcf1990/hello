@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>frameUpload</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+		#container{
+			width: 800px;
+			margin: 0 auto;
+			padding: 20px 0;
+			position: relative;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="container">
+		<a href="javascript:void(0);" class="fm-button" id="upload0">文件选择</a> <span></span>
+		<p>&nbsp;</p>
+		<a href="javascript:void(0);" class="fm-button" id="upload1">文件选择</a> <span></span>
+		<p>&nbsp;</p>
+		<a href="javascript:void(0);" class="fm-button" id="submit">文件提交</a>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+
+		<a href="javascript:void(0);" class="fm-button" id="upload2">php文件选择</a> <span></span>
+		<p>&nbsp;</p>
+		<a href="javascript:void(0);" class="fm-button" id="submit2">php文件提交</a>
+	</div>
+
+<script>
+	
+	require(['frameUpload','json','md5'],function(FrameUpload,JSON){
+
+		var $ = jQuery, 
+			up0 = $("#upload0"), show0 = up0.next(),
+			up1 = $("#upload1"), show1 = up1.next(),
+			up2 = $("#upload2"), show2 = up2.next()
+			;
+
+		var frameUpload0 = new FrameUpload({
+			el: up0[0],
+			src: "json/iframe-upload.html",
+			action: "/upload?uploadUrl=/demo/php/temp&target=/demo/json/success.html",
+			onchange: function(){
+				show0.html( this.value.match(/[^\\\/]+$/) );
+				this.submit();
+			},
+			afterUpload: function(data){
+				if(data.status){
+					alert( '上传成功' );
+					up0.html("文件选择");
+				}
+				show0.html( "" );
+			},
+			ready: function(){
+				this.setAttribute("multiple","multiple");
+			}
+		});
+
+		var frameUpload1 = new FrameUpload({
+			el: up1[0],
+			ajax: true,
+			action: "/upload?uploadUrl=/demo/php/temp&target=/demo/json/success.json",
+			onchange: function(){
+				show1.html( this.value.match(/[^\\\/]+$/) );
+				if( this.value && window.FileReader){
+					var reader = new FileReader();
+					reader.readAsBinaryString(this.files[0]);
+					reader.onload = function(){
+						console.log( MD5.hex_md5(this.result) );
+					};
+				}
+					
+			},
+			onprocess: function(e){
+				console.log(e);
+			},
+			afterUpload: function(data,xhr){
+				console.log(data);
+				if(xhr.status == 200){
+					alert( '上传成功' );
+					up1.html("文件选择");
+				}
+			},
+			ready:function(){
+				this.setAttribute("accept", "video/*");
+			}
+		});
+
+		$("#submit").on('click',function(){
+			var sum = 0;
+			try{
+				frameUpload0.submit(); sum++;
+				up0.html("上传中...");
+			}catch(e){};
+			try{
+				frameUpload1.submit(); sum++;
+				up1.html("上传中...");
+			}catch(e){console.error(e)};
+			if( !sum ){
+				alert("需要选择文件");
+			}
+				
+		});
+
+
+
+		var frameUpload2 = new FrameUpload({
+			el: up2[0],
+			src: "json/iframe-upload.html",
+			action: "../php/fileUp.php?dir=upload1",
+			onchange: function(){
+				show2.html( this.value.match(/[^\\\/]+$/) );
+			},
+			afterUpload: function(data){
+				if(data.status){
+					alert( '上传成功' );
+					up2.html("文件选择");
+				}
+				show2.html( "" );
+			}
+		});
+		$("#submit2").on('click',function(){
+			try{
+				frameUpload2.submit();
+				up2.html("上传中...");
+			}catch(e){
+				alert('请选择文件');
+			}
+				
+		});
+
+	});
+</script>
+</body>
+</html>

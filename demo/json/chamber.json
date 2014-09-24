@@ -1,0 +1,18 @@
+{
+    "code" : 200,
+    "content":{
+        "id":20,
+        "title": "工作好不好找",
+        "content": "工作好不好找111",
+        "positive": "工作好找",
+        "negative": "工作不好找",
+        "startTime": "2014-06-04 14:14:13",
+        "endTime": "2014-06-04 14:14:13",
+        "summaryNickName": "专家1",
+        "summaryContent": "1",
+        "particiNickName": "当事者1",
+        "participateContent": "1",
+        "resource": "111"
+    }
+}
+    

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Area</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<link rel="stylesheet" href="../js/module/area-selector/area.css">
+</head>
+<body>
+	<div id="tabs">
+		<ul>
+			<li><a href="#china">中 国</a></li>
+			<li><a href="#foreign">海 外</a></li>
+		</ul>
+		<div id="china">
+			<ul class="letter-select letter-select-1">
+				<li data-c="A">省</li>
+				<li data-c="A">A</li>
+				<li data-c="B">B</li>
+				<li data-c="C">C</li>
+				<li data-c="D">D</li>
+				<li data-c="E">E</li>
+				<li data-c="F">F</li>
+				<li data-c="G">G</li>
+				<li data-c="H">H</li>
+				<li data-c="I">I</li>
+				<li data-c="J">J</li>
+				<li data-c="K">K</li>
+				<li data-c="L">L</li>
+				<li data-c="M">M</li>
+				<li data-c="N">N</li>
+				<li data-c="O">O</li>
+				<li data-c="P">P</li>
+				<li data-c="Q">Q</li>
+				<li data-c="R">R</li>
+				<li data-c="S">S</li>
+				<li data-c="T">T</li>
+				<li data-c="U">U</li>
+				<li data-c="V">V</li>
+				<li data-c="W">W</li>
+				<li data-c="X">X</li>
+				<li data-c="Y">Y</li>
+				<li data-c="Z">Z</li>
+			</ul>
+			<ul class="letter-select letter-select-2">
+				<li data-c="A">城</li>
+				<li data-c="A">A</li>
+				<li data-c="B">B</li>
+				<li data-c="C">C</li>
+				<li data-c="D">D</li>
+				<li data-c="E">E</li>
+				<li data-c="F">F</li>
+				<li data-c="G">G</li>
+				<li data-c="H">H</li>
+				<li data-c="I">I</li>
+				<li data-c="J">J</li>
+				<li data-c="K">K</li>
+				<li data-c="L">L</li>
+				<li data-c="M">M</li>
+				<li data-c="N">N</li>
+				<li data-c="O">O</li>
+				<li data-c="P">P</li>
+				<li data-c="Q">Q</li>
+				<li data-c="R">R</li>
+				<li data-c="S">S</li>
+				<li data-c="T">T</li>
+				<li data-c="U">U</li>
+				<li data-c="V">V</li>
+				<li data-c="W">W</li>
+				<li data-c="X">X</li>
+				<li data-c="Y">Y</li>
+				<li data-c="Z">Z</li>
+			</ul>	
+			<div class="pannel">
+				
+			</div>
+		</div>
+		<div id="foreign">
+			<ul class="letter-select letter-select-1">
+				<li data-c="A">国</li>
+				<li data-c="A">A</li>
+				<li data-c="B">B</li>
+				<li data-c="C">C</li>
+				<li data-c="D">D</li>
+				<li data-c="E">E</li>
+				<li data-c="F">F</li>
+				<li data-c="G">G</li>
+				<li data-c="H">H</li>
+				<li data-c="I">I</li>
+				<li data-c="J">J</li>
+				<li data-c="K">K</li>
+				<li data-c="L">L</li>
+				<li data-c="M">M</li>
+				<li data-c="N">N</li>
+				<li data-c="O">O</li>
+				<li data-c="P">P</li>
+				<li data-c="Q">Q</li>
+				<li data-c="R">R</li>
+				<li data-c="S">S</li>
+				<li data-c="T">T</li>
+				<li data-c="U">U</li>
+				<li data-c="V">V</li>
+				<li data-c="W">W</li>
+				<li data-c="X">X</li>
+				<li data-c="Y">Y</li>
+				<li data-c="Z">Z</li>
+			</ul>
+			<ul class="letter-select letter-select-2">
+				<li data-c="A">州</li>
+				<li data-c="A">A</li>
+				<li data-c="B">B</li>
+				<li data-c="C">C</li>
+				<li data-c="D">D</li>
+				<li data-c="E">E</li>
+				<li data-c="F">F</li>
+				<li data-c="G">G</li>
+				<li data-c="H">H</li>
+				<li data-c="I">I</li>
+				<li data-c="J">J</li>
+				<li data-c="K">K</li>
+				<li data-c="L">L</li>
+				<li data-c="M">M</li>
+				<li data-c="N">N</li>
+				<li data-c="O">O</li>
+				<li data-c="P">P</li>
+				<li data-c="Q">Q</li>
+				<li data-c="R">R</li>
+				<li data-c="S">S</li>
+				<li data-c="T">T</li>
+				<li data-c="U">U</li>
+				<li data-c="V">V</li>
+				<li data-c="W">W</li>
+				<li data-c="X">X</li>
+				<li data-c="Y">Y</li>
+				<li data-c="Z">Z</li>
+			</ul>
+			<div class="pannel"></div>
+		</div>
+	</div>
+
+	<script type="html/template" id="tmp-item-list">
+		<ul>
+			{{#each groups}}
+			<li>
+				<h3 class="href-{{prefix}}">{{prefix}}</h3>
+				<div class="item-list">
+					{{#each list}}
+					<a href="javascript:;" data-id="{{id}}" title="{{name}}">{{name}}</a>
+					{{/each}}
+				</div>
+			</li>
+			{{/each}}
+		</ul>
+	</script>
+	<script type="html/template" id="tmp-item-list-2">
+		<ul>
+			{{#each groups}}
+			<li>
+				<h3 class="href-{{prefix}}">{{prefix}}</h3>
+				<div class="item-list-2">
+					{{#each list}}
+					<h4 data-id="{{id}}" {{#if children}}class="has-child"{{/if}}>{{name}}</h4>
+					<div class="item-list">
+						{{#each children}}
+						<a href="javascript:;" data-id="{{id}}" title="{{name}}">{{name}}</a>
+						{{/each}}
+					</div>
+					{{/each}}
+				</div>
+			</li>
+			{{/each}}
+		</ul>
+	</script>
+	<div id="loading"></div>
+<script>
+	require(['tabs','underscore','template','data/world'],function(){
+		require(['module/area-selector/area']);
+	});
+</script>
+</body>
+</html>

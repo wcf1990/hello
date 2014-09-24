@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>菜单编辑</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+		ul{
+			padding-left: 2em;
+			font: bold 16px/30px 'Microsoft Yahei';
+		}
+		ul li{
+			padding: 6px 0;
+		}
+		.menu-line .fm-button{
+			float: right;
+			margin-right: 1em;
+		}
+		#menu-holder{
+			width: 600px;
+			margin: 20px auto;
+		}
+		.menu-line{
+			
+		}
+		.menu-line:hover{
+			background: #fba;
+		}
+		#popup_message .fm-label-item{
+			overflow: visible;
+		}
+		#popup_message .fm-select{
+			height: 26px;
+			line-height: 26px;
+			float: left;
+		}
+		#popup_message .fm-label-item label{
+			border-radius: 3px 0 0 3px;
+		}
+	</style>
+</head>
+<body>
+
+<div id="menu-holder">
+	
+</div>	
+
+
+<script type="handlebars/template" id="menu-type-holder">
+	<select id="menu_type" value="$value">
+		<option value="link">普通链接</option>
+		<option value="blank-link">弹出链接</option>
+		<option value="super-nav">一级导航</option>
+		<option value="sub-nav">二级导航</option>
+		<option value="tree-link">树形导航</option>
+	</select>
+</script>
+
+<script type="handlebars/template" id="tmpl-menu" data-url="../../xhadmin/menu/v_list.do" data-target="#menu-holder">
+<ul>
+<li>
+	<span>根目录</span>
+	<a href="javascript:void(0);" class="fm-button btn-add">新增全局菜单</a>
+</li>
+{{#each content}}
+	<li>
+		<div class="menu-line" data-deepth="1" data-id="{{id}}" data-parent="{{parentId}}" data-url="{{url}}" data-type="{{type}}" data-treeurl="{{treeLinkUrl}}">
+			<span>{{name}}</span>
+			<a href="javascript:void(0);" class="fm-button btn-add">新增</a>
+			<a href="javascript:void(0);" class="fm-button btn-edit">编辑</a>
+			{{#if childMenus.length}}{{else}}
+			<a href="javascript:void(0);" class="fm-button btn-delete">删除</a>
+			{{/if}}
+		</div>
+		{{#if childMenus.length}}
+		<ul>
+		{{#each childMenus}}
+			<li>
+				<div class="menu-line" data-deepth="2" data-id="{{id}}" data-parent="{{parentId}}" data-url="{{url}}" data-type="{{type}}" data-treeurl="{{treeLinkUrl}}">
+					<span>{{name}}</span>
+					<a href="javascript:void(0);" class="fm-button btn-add">新增</a>
+					<a href="javascript:void(0);" class="fm-button btn-edit">编辑</a>
+					{{#if childMenus.length}}{{else}}
+					<a href="javascript:void(0);" class="fm-button btn-delete">删除</a>
+					{{/if}}
+				</div>
+				{{#if childMenus.length}}
+				<ul>
+				{{#each childMenus}}
+					<li>
+						<div class="menu-line" data-deepth="3" data-id="{{id}}" data-parent="{{parentId}}" data-url="{{url}}" data-type="{{type}}" data-treeurl="{{treeLinkUrl}}">
+							<span>{{name}}</span>
+							<a href="javascript:void(0);" class="fm-button btn-add">新增</a>
+							<a href="javascript:void(0);" class="fm-button btn-edit">编辑</a>
+							{{#if childMenus.length}}{{else}}
+							<a href="javascript:void(0);" class="fm-button btn-delete">删除</a>
+							{{/if}}
+						</div>
+						{{#if childMenus.length}}
+						<ul>
+						{{#each childMenus}}
+							<li>
+								<div class="menu-line" data-deepth="4" data-id="{{id}}" data-parent="{{parentId}}" data-url="{{url}}" data-type="{{type}}" data-treeurl="{{treeLinkUrl}}">
+									<span>{{name}}</span>
+									<a href="javascript:void(0);" class="fm-button btn-add">新增</a>
+									<a href="javascript:void(0);" class="fm-button btn-edit">编辑</a>
+									<a href="javascript:void(0);" class="fm-button btn-delete">删除</a>
+								</div>
+							</li>			
+						{{/each}}
+						</ul>	
+						{{/if}}
+					</li>		
+				{{/each}}
+				</ul>	
+				{{/if}}
+			</li>
+		{{/each}}
+		</ul>	
+		{{/if}}
+	</li>
+{{/each}}	
+</ul>
+</script>
+
+<script>
+var isLocal = !( location.host && /news\.cn|65\.\d{2}/.test(location.host) );
+require(['template-init','alerts','form-style','underscore'],function(TI){
+	var menu_list = [], type_select = $('#menu-type-holder').html();
+	TI.init({
+		tmpl:'#tmpl-menu',
+		sourceUrl: '../../xhadmin/menu/v_list.do',
+		callback:function(o){
+			$('#menu-holder .menu-line').each(function(){
+				var _t = $(this), deepth = _t.data('deepth') | 0;
+				if( deepth < 4 ){
+					menu_list.push({
+						id:_t.data('id'),
+						name:_t.children('span').html(),
+						deepth:deepth,
+						toString:function(){
+							return '<option value="'+this.id+'">'+this.name+'</option>'
+						}
+					});
+				}	
+			});
+		}
+	});
+
+	$('#menu-holder').on('click','.btn-delete',function(){
+		var el = $(this).parent();
+		jConfirm('确定要删除“'+el.children('span').html()+'”？','删除菜单',{
+			okButton:'确定',
+			cancelButton:'取消'
+		},function(r){
+			if(r){
+				$.ajax({
+					url:"../../xhadmin/menu/delete.do",
+					data:{id:el.data('id')},
+					success:function(result){
+						if(result.success){
+							$.alerts._hide();
+							TI.refresh({
+								tmpl:'#tmpl-menu'
+							});
+						}else{
+							jAlert( result.msg || '删除失败!' );
+						}
+					}
+				});
+			}
+		});
+	});
+
+	$('#menu-holder').on('click','.btn-add',function(){
+		var el = $(this).parent();
+		jConfirm('<span class="fm-label-item"><label for="menu-name">名称:</label><input type="text" placeholder="请输入名称" id="menu-name"></span><span class="fm-label-item"><label for="menu-url">URL:</label><input type="text" placeholder="请输入url" id="menu-url"></span>','新增“'+el.children('span').html()+'”下菜单',{
+			okButton : "添加",
+			cancelButton : "取消"
+		},function(r){
+			if(r){
+				$.ajax({
+					url:"../../xhadmin/menu/add.do",
+					data:{
+						parentId:el.data('id'),
+						url:$('#menu-url').val(),
+						name:$('#menu-name').val(),
+						type:'link'
+					},
+					success:function(result){
+						if(result.success){
+							$.alerts._hide();
+							TI.refresh({
+								tmpl:'#tmpl-menu'
+							});
+						}else{
+							jAlert( result.msg || '添加失败!' );
+						}
+					}
+				});
+				return false;	//阻止窗口关闭
+			}
+		});
+		$('#menu_type').toSelect();
+	});
+
+	/**
+	 * 获取一组树形结构的最大深度
+	 */
+	function getDeepth(el){
+		var thisDep = el.data('deepth')|0, deepth = 0;
+		el.next().find('.menu-line').each(function(){
+			var tempDep = $(this).data('deepth') | 0;
+			if( deepth < tempDep ){	//每次找到一个更深的级别,deepth+1
+				deepth = tempDep;
+			}
+		});
+		return deepth - thisDep + 1;
+	};
+
+	$('#menu-holder').on('click','.btn-edit',function(){
+		var el = $(this).parent(), pid = el.data('parent'), type = el.data('type'), deepth = getDeepth(el);
+		jConfirm('<span class="fm-label-item"><label for="menu_select">修改父节点:</label>'+
+				'<select id="menu_select" value="'+pid+'"><option value="">根目录</option>'+
+				_.filter(menu_list,function(item){
+					return item.deepth + deepth < 5;
+				}).join('').replace('value="'+pid+'"','value="'+pid+'" selected="selected"')+
+				'</select>'+
+				'</span><span class="fm-label-item"><label for="menu_type">链接类型:</label>'+
+				type_select.replace('$value',type).replace('value="'+type+'"','value="'+type+'" selected="selected"')+
+				'</span><span class="fm-label-item"><label for="menu-name">名称:</label><input type="text" placeholder="请输入名称" id="menu-name" value="'+el.children('span').html()+'"></span><span class="fm-label-item hidden" ><label for="menu-tree-url">树形链接:</label><input type="text" placeholder="请输入treeurl" id="menu-tree-url" value="'+el.data('treeurl')+'"></span><span class="fm-label-item"><label for="menu-url">URL:</label><input type="text" placeholder="请输入url" id="menu-url" value="'+el.data('url')+'"></span>','修改“'+el.children('span').html()+'”菜单',{
+			okButton : "修改",
+			cancelButton : "取消"
+		},function(r){
+			if(r){
+				$.ajax({
+					url:"../../xhadmin/menu/edit.do",
+					data:{
+						id:el.data('id'),
+						parentId:$('#menu_select').val(),
+						name:$('#menu-name').val(),
+						url:$('#menu-url').val(),
+						type:$('#menu_type').val()
+					},
+					success:function(result){
+						if(result.success){
+							$.alerts._hide();
+							TI.refresh({
+								tmpl:'#tmpl-menu'
+							});
+						}else{
+							jAlert( result.msg || '修改失败!' );
+						}
+					}
+				});
+				return false;	//阻止窗口关闭
+			}
+		});
+		$('#popup_message select').toSelect();
+		$('#menu-tree-url').parent()[ $('#menu_type').val() == 'tree-link' ? 'removeClass' : 'addClass' ]('hidden');
+	});
+
+	$(document).on('click','.option-holder a',function(){
+		$('#menu-tree-url').parent()[ $('#menu_type').val() == 'tree-link' ? 'removeClass' : 'addClass' ]('hidden');
+	});
+
+});
+
+require(['iealert'],function(IEAlert){
+	new IEAlert();
+});
+
+require(['draggable']);
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>栏目设置列表</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="outter-frame">
+<div class="mainRight">
+	<h1>站点配置</h1>
+	<div class="station_menu">
+		<a class="fm-button" href="s-configur-list.html">返回列表</a>
+	</div>
+	<div class="global_cont">
+		<div class="form_setup global_form formPad clearfix">
+			<form id="jvForm">
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable"><i>&nbsp;</i>站点名称:</span>
+						<div class="text">
+							<input type="text" name="name">
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>站点简称:</span>
+						<div class="text">
+							<input type="text" name="shortName">
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable"><i>&nbsp;</i>域名:</span>
+						<div class="text">
+							<input type="text" name="Domain">
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>路径:</span>
+						<div class="text">
+							<input type="text" name="path">
+							<span class="text-tip">各站点资源的存放路径</span>
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable">域名别名:</span>
+						<div class="text">
+							<input type="text" name="aliases">
+							<span class="text-tip">用“，”分开</span>
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable">域名重定向:</span>
+						<div class="text">
+							<input type="text" name="domainRedirect">
+							<span class="text-tip">用“，”分开</span>
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable"><i>&nbsp;</i>使用相对路径:</span>
+						<div class="text">
+							<input type="checkbox" name="switch" id="switch" class="switch">
+							<span class="text-tip">只适用于单站点</span>
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>访问协议:</span>
+						<div class="text rise">
+							<select name="protocol" id="select" class="select" value="4">
+								<option value="1">选项1</option>
+								<option value="2">选项2选项2</option>
+								<option value="3">选项3选项2选项2</option>
+								<option value="4">选项4</option>
+								<option value="5">选项5选项2选项2选项2</option>
+								<option value="6">选项6</option>
+								<option value="7">选项7</option>
+								<option value="8">选项8选项2选项2选项2选项2选项2</option>
+								<option value="9">选项9</option>
+							</select>
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable"><i>&nbsp;</i>动态页后缀:</span>
+						<div class="text">
+							<input type="text" name="dynamicSuffix">
+							<span class="text-tip">建议使用.jhtml为后缀，以避免冲突</span>
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>静态页后缀:</span>
+						<div class="text">
+							<select name="staticSuffix" id="select1" class="select" value="4">
+								<option value="1">选项1</option>
+								<option value="2">选项2选项2</option>
+								<option value="3">选项3选项2选项2</option>
+								<option value="4">选项4</option>
+								<option value="5">选项5选项2选项2选项2</option>
+								<option value="6">选项6</option>
+								<option value="7">选项7</option>
+								<option value="8">选项8选项2选项2选项2选项2选项2</option>
+								<option value="9">选项9</option>
+							</select>
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable">静态页目录:</span>
+						<div class="text">
+							<input type="text" name="staticDir">
+							<span class="text-tip">
+								<input type="checkbox" name="checkbox" class="checkbox" id="indexToRoot" value="0"> <label for="indexToRoot">使用根首页</label>
+							</span>
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>开启静态首页:</span>
+						<div class="text">
+							<input type="checkbox" name="staticIndex" id="switch1" class="switch">
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable"><i>&nbsp;</i>后台本地化:</span>
+						<div class="text">
+							<input type="text" name="localeAdmin">
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>前台本地化:</span>
+						<div class="text">
+							<input type="text" name="localeFront">
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable">附件FTP:</span>
+						<div class="text">
+							<select name="uploadFtpId" id="select2" class="select" value="4">
+								<option value="1">选项1</option>
+								<option value="2">选项2选项2</option>
+								<option value="3">选项3选项2选项2</option>
+								<option value="4">选项4</option>
+								<option value="8">选项8选项2选项2选项2选项2选项2</option>
+								<option value="9">选项9</option>
+							</select>
+						</div>
+					</dd>
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>开启回收站:</span>
+						<div class="text">
+							<input type="checkbox" name="resycleOn" id="switch2" class="switch">
+						</div>
+					</dd>
+				</dl>
+
+				<dl>
+					<dd class="item item_left clearfix">
+						<span class="lable"><i>&nbsp;</i>终审级别:</span>
+						<div class="text">
+							<input type="text" name="finalStep">
+						</div>
+					</dd>
+					
+					<dd class="item clearfix">
+						<span class="lable"><i>&nbsp;</i>审核后:</span>
+						<div class="text">
+							<select name="uploadFtpId" id="select3" class="select" value="4">
+								<option value="1">选项1</option>
+								<option value="2">选项2选项2</option>
+								<option value="3">选项3选项2选项2</option>
+								<option value="4">选项4</option>
+								<option value="8">选项8选项2选项2选项2选项2选项2</option>
+								<option value="9">选项9</option>
+							</select>
+						</div>
+					</dd>
+				</dl>
+			</form>
+		</div>
+		<div class="info_bt clear">
+			<input class="fm-button" type="button" value="提交">
+			<input class="fm-button" type="button" value="重置" onclick="window.location.href='addstatic.html'">
+		</div>
+	</div>
+</div>
+<script>
+(function(){
+	require(["form-style"],function(){
+		$(".switch").toSwitch();
+		$(".checkbox").toCheckbox();
+		$(".select").toSelect({
+			width: 231,
+			colorful: false
+		}).on('change',function(){
+			//jAlert( this.value, "你选择的值为：" );
+			$(".select-result").html( "你选择的值为："+this.value );
+		}).trigger("change");
+	});
+})();
+</script>
+</body>
+</html>

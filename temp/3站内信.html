@@ -1,0 +1,306 @@
+$belong[temp/main-simple.html]
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">写信</a></li>
+		<li><a href="#tabs-2">发信箱</a></li>
+		<li><a href="#tabs-3">收信箱<span>10</span></a></li>
+		<li><a href="#tabs-4">回收站</a></li>
+	</ul>
+	<div id="tabs-1">
+		<form id="write_form" onsubmit="" method="">
+			<div class="form_write">
+				<div class="item clearfix">
+					<span class="lable">收件人:</span>
+					<div class="text">
+						<input type="radio" class="radio" name="radio" id="radio0" value="0"> <label for="radio0">个人</label><input type="text" name="personage"/>
+						<input type="radio" class="radio" name="radio" id="radio1" value="1"> <label for="radio1">会员组</label>
+						<select name="group" class="select1" value=2>
+							<option value="1">选项1</option>
+							<option value="2">选项2选项2</option>
+							<option value="3">选项3选项2选项2</option>
+							<option value="4">选项4</option>
+							<option value="5">选项5选项2选项2选项2</option>
+							<option value="6">选项6</option>
+							<option value="7">选项7</option>
+							<option value="8">选项8选项2选项2选项2选项2选项2</option>
+							<option value="9">选项9</option>
+						</select>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">主题:</span>
+					<div class="text">
+						<input type="text" name="theme" class="theme"/>
+					</div>
+				</div>
+				<div class="item item_details clearfix" >
+					<span class="lable">内容:</span>
+					<div class="text">
+						<textarea type="text" name="details"/></textarea>
+					</div>
+				</div>
+				<div class="info_submit">
+					<input type="button" class="fm-button" value="提交">
+				</div>
+			
+			</div>
+		</form>
+	</div>
+	<div id="tabs-2">
+		<form id="send_mail" onsubmit="" method="">
+			<div class="form_send">
+				<a href="#" class="fm-button btn-delete round">删除</a>
+				<div class="send_lists">
+					<table>
+						<tr class="first_tr">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox0" value="0"></td>
+							<td>强姚0</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox1" value="0"></td>
+							<td>强姚1</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox2" value="0"></td>
+							<td>强姚2</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox3" value="0"></td>
+							<td>强姚3</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+					
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="tabs-3">
+		<form id="receive_mail" onsubmit="" method="">
+			<div class="form_send">
+				<a href="#" class="fm-button btn-delete  round">删除</a>
+				<div class="send_lists receive_lists">
+					<table>
+						<tr class="first_tr">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox00" value="0"></td>
+							<td class="from_name">强姚0</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr class="have_read">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox01" value="0"></td>
+							<td class="from_name">强姚1</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox02" value="0"></td>
+							<td class="from_name">强姚2</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox03" value="0"></td>
+							<td class="from_name">强姚3</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+					
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="tabs-4">
+		<form id="recycle_bin" onsubmit="" method="">
+			<div class="form_recycle">
+				<div class="form_recycletop clearfix">
+					<select name="transferTo"  class="select2" value=1>
+						<option value="1">转移至</option>
+						<option value="2">收件箱</option>
+						<option value="3">发件箱</option>
+					</select>
+					<a href="#" class="fm-button btn-delete  round">删除</a>
+				</div>
+				<div class="send_lists recycle_lists">
+					<table>
+						<tr class="first_tr">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox000" value="0"></td>
+							<td class="from_name">强姚0</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr class="have_read">
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox001" value="0"></td>
+							<td class="from_name">强姚1</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox002" value="0"></td>
+							<td class="from_name">强姚2</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+						<tr>
+							<td class="checked_bt"><input type="checkbox" name="checkbox" class="checkbox" id="checkbox003" value="0"></td>
+							<td class="from_name">强姚3</td>
+							<td>关于修改栏目配置</td>
+							<td>你好，修改栏目配置如何进行</td>
+							<td class="send_time">2013-11-15 13:00：49</td>
+						</tr>
+					
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+(function(){
+	
+	require(["form-style","alerts","tabs","draggable"],function(){
+
+		$(".radio").toRadio();
+		$("#tabs").tabs();
+		$(".checkbox").toCheckbox();
+		$(".select1").toSelect({
+			width: 122,
+			colorful: false
+		}).on('change',function(){
+			
+		}).trigger("change");
+
+		$(".select2").toSelect({
+			width: 80,
+			colorful: false
+		}).on('change',function(){
+
+		}).trigger("change");
+
+		jConfirm('<h2 class="title">你收到一条站内信</h2> <p>强骁已解锁并编辑稿件“ 比特币网站疑卷款数千万跑路嫌犯被抓资金恐难”</p> ',"站内信",{
+			okButton : "查看",
+			cancelButton : "忽略"
+		},function(result){
+			if(result ){
+			 window.location.href="3站内信-查看.html";
+			}
+		});
+		
+		$("#send_mail").find(".btn-delete").on("click",function(){
+			var checkboxs=$("#send_mail").find(".checkbox");
+			var arr=[];
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			}
+			if(arr[0]){
+				jConfirm('<h2 class="title"></h2> <p>是否删除该条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						var checkboxs=$("#send_mail").find(".checkbox");
+						for(i=0;i<arr.length;i++){
+							$("#"+arr[i]).parent().parent().parent().remove()			
+						}
+						$.ajax({
+							type:"get",
+							url:"url",
+							data:arr,
+							success: function(msg) {
+								for(i=0;i<arr.length;i++){
+									$("#"+arr[i]).parent().parent().parent().remove()			
+								}
+							}
+						})
+					}
+				});	
+			}	
+		})
+		
+		$("#receive_mail").find(".btn-delete").on("click",function(){
+			var arr=[];
+			var checkboxs=$("#receive_mail").find(".checkbox");						
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			}
+			if(arr[0]){
+				 ('<h2 class="title"></h2> <p>是否删除该条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						for(i=0;i<arr.length;i++){
+							$("#"+arr[i]).parent().parent().parent().remove()			
+						}
+						$.ajax({
+							type:"get",
+							url:"url",
+							data:arr,
+							success: function(msg) {
+								for(i=0;i<arr.length;i++){
+									$("#"+arr[i]).parent().parent().parent().remove()			
+								}
+							}
+						})
+					}
+				});	
+			}	
+		})
+		
+		$("#recycle_bin").find(".btn-delete").on("click",function(){
+			var arr=[];
+			var checkboxs=$("#recycle_bin").find(".checkbox");
+			for(i=0; i<checkboxs.length;i++){
+				if(checkboxs.eq(i).is(":checked")==true){
+					arr.push(checkboxs[i].id);
+				}
+			}
+			if(arr[0]){
+				jConfirm('<h2 class="title"></h2> <p>是否删除该条信息</p> ',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						for(i=0;i<arr.length;i++){
+							$("#"+arr[i]).parent().parent().parent().remove()			
+						}
+						$.ajax({
+							type:"get",
+							url:"url",
+							data:arr,
+							success: function(msg) {
+								for(i=0;i<arr.length;i++){
+									$("#"+arr[i]).parent().parent().parent().remove()			
+								}
+							}
+						})
+					}
+				});	
+			}	
+		})
+	});
+})();
+</script>

@@ -1,0 +1,148 @@
+{
+    "channel": {
+        "allowUpdown": "true",
+        "category": "文化、艺术及娱乐",
+        "catelog": "1142",
+        "channelRule": "",
+        "commentCons": "3",
+        "commentControl": "1",
+        "contentImgHeight": "170",
+        "contentImgWidth": "310",
+        "contentRule": "",
+        "data-origin": "origin",
+        "display": "true",
+        "finalStep": "1",
+        "free": "true",
+        "hasContentImg": "true",
+        "hasTitleImg": "true",
+        "id": 263,
+        "isBind": "1",
+        "isDefault": "1",
+        "isSystem": "1",
+        "isTop": "0",
+        "link": "",
+        "modelId": 15,
+        "mtplChannel": [
+            "/red/channel/cloudRead.html",
+            "/red/channel/cloudRead_vFourthBanner.html",
+            "/red/channel/cloudRead_vSec.html",
+            "/red/channel/cloudRead_vSecBanner.html"
+        ],
+        "mtplContent": [
+            "/red/channel/cloudRead.html",
+            "/red/channel/cloudRead_vFourthBanner.html",
+            "/red/channel/cloudRead_vSec.html",
+            "/red/channel/cloudRead_vSecBanner.html"
+        ],
+        "name": "圈内觅秘",
+        "nodeId": "",
+        "parentId": 253,
+        "parentName": "文化休闲",
+        "path": "/qnmw",
+        "priorty": "11",
+        "pubType": "1",
+        "rankCount": "10",
+        "rankIds": "",
+        "useFor": "1",
+        "pushIndex": "1",
+        "titleImgWidth": "210",
+        "titleImgHeight": "160",
+        "staticContent": "true",
+        "staticChannel": "false",
+        "totalCount": "",
+        "tplChannel": "",
+        "tplContent": "",
+        "bindAccount": [
+            {
+                "id": 1,
+                "ssoUserId": 4403254006,
+                "ssoUserName": "xh2013",
+                "bindInfo": [
+                    "10",
+                    "40"
+                ]
+            },
+            {
+                "id": 1,
+                "ssoUserId": 440540306,
+                "ssoUserName": "xh2014",
+                "bindInfo": [
+                    "10",
+                    "40"
+                ]
+            }
+        ]
+    },
+    "modelList": [
+        {
+            "modelId": 5,
+            "modelName": "云悦知图片"
+        },
+        {
+            "modelId": 15,
+            "modelName": "云悦知"
+        },
+        {
+            "modelId": 17,
+            "modelName": "图集"
+        },
+        {
+            "modelId": 18,
+            "modelName": "视频"
+        }
+    ],
+    "channelTplList": [
+        "/red/channel/cloudRead.html",
+        "/red/channel/cloudRead_beta.html",
+        "/red/channel/cloudRead_catBlockList.html",
+        "/red/channel/cloudRead_catBlockListVSec.html",
+        "/red/channel/cloudRead_ccxw.html",
+        "/red/channel/cloudRead_cloudNewsVersionApk.json",
+        "/red/channel/cloudRead_cloudNewsVersionIos.json",
+        "/red/channel/cloudRead_detail_right.json",
+        "/red/channel/cloudRead_earlyeven.html",
+        "/red/channel/cloudRead_everyoneOn.html",
+        "/red/channel/cloudRead_feed.html",
+        "/red/channel/cloudRead_months.html",
+        "/red/channel/cloudRead_newsface.html",
+        "/red/channel/cloudRead_newsIndex.html",
+        "/red/channel/cloudRead_newsIndex_0422.html",
+        "/red/channel/cloudRead_newsSidebar.html",
+        "/red/channel/cloudRead_noLink.html",
+        "/red/channel/cloudRead_picture.json",
+        "/red/channel/cloudRead_right.html",
+        "/red/channel/cloudRead_rightFast.html",
+        "/red/channel/cloudRead_showList.html",
+        "/red/channel/cloudRead_together.html",
+        "/red/channel/cloudRead_togetherOld.html",
+        "/red/channel/cloudRead_topic.html",
+        "/red/channel/cloudRead_topicva.html",
+        "/red/channel/cloudRead_vFourthBanner.html",
+        "/red/channel/cloudRead_videos.html",
+        "/red/channel/cloudRead_vSec.html",
+        "/red/channel/cloudRead_vSecBanner.html",
+        "/red/channel/cloudRead_vThird.html",
+        "/red/channel/cloudRead_vThirdBanner.html",
+        "/red/channel/cloudRead_xhtt.html"
+    ],
+    "contentTplList": [
+        "/red/content/cloudRead.html",
+        "/red/content/cloudRead.json",
+        "/red/content/cloudRead_attr.html",
+        "/red/content/cloudRead_beta.html",
+        "/red/content/cloudRead_c.html",
+        "/red/content/cloudRead_cloud.html",
+        "/red/content/cloudRead_empty.html",
+        "/red/content/cloudRead_f.html",
+        "/red/content/cloudRead_map.html",
+        "/red/content/cloudRead_page.html",
+        "/red/content/cloudRead_pageByData.html",
+        "/red/content/cloudRead_ra.html",
+        "/red/content/cloudRead_share.html",
+        "/red/content/cloudRead_store.html",
+        "/red/content/cloudRead_timeline.html",
+        "/red/content/cloudRead_timelineMobile.html",
+        "/red/content/cloudRead_v.html",
+        "/red/content/cloudRead_videos.json"
+    ]
+}

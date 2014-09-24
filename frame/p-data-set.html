@@ -1,0 +1,270 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人信息设置</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body class="inner-frame">
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">基本信息</a></li>
+		<li><a href="#tabs-2">修改密码</a></li>
+		<li><a href="#tabs-3">修改头像</a></li>
+	</ul>
+	<div id="tabs-1">
+		<form id="data_form" name="basicinfor" onsubmit="" method="">
+			<div class="form_setup">
+				<div class="item clearfix">
+					<span class="lable">用户名:</span>
+					<div class="text">
+						<input type="text" class="disabled" name="username" style="border:none" value="username" readonly="readonly" onfocus="this.blur()" id="username"/>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">姓名:</span>
+					<div class="text">
+						<input type="text" name="realname" id="realname"/>
+						<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">性别:</span>
+					<div class="text text_radio">
+						<input type="radio" class="radio" name="sex" id="radio0" value="male"> <label for="radio0">男</label>
+						<input type="radio" class="radio" name="sex" id="radio1" value="female"> <label for="radio1">女</label>
+						<input type="radio" class="radio" name="sex" id="radio2" value="confidential"> <label for="radio2">保密</label>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">联系邮箱:</span>
+					<div class="text">
+						<input type="text" name="email" id="email"/>
+						<span class='tip tip-default'></span>
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">好友账号:</span>
+					<div class="text">
+						<input type="text" name="weiboUrl" id="weiboUrl"/>
+					</div>
+					<span class="text-tip">用于关注</span>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">外链地址:</span>
+					<div class="text">
+						<input type="text" name="blogUrl" id="blogUrl"/>
+					</div>
+				</div>
+				<div class="info_submit">
+					<input type="submit" class="fm-button" value="提交">
+				</div>
+			
+			</div>
+		</form>
+	</div>
+	<div id="tabs-2">
+		<form id="change_password" name="changePassword" onsubmit="" method="">
+			<div class="form_setup">
+				<div class="item clearfix">
+					<span class="lable">原密码:</span>
+					<div class="text">
+						<input type="password" name="oldPassword" id="pass" value="">
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">新密码:</span>
+					<div class="text">
+						<input type="password" name="newPassword1" id="pass1" />
+					</div>
+				</div>
+				<div class="item clearfix">
+					<span class="lable">确认密码:</span>
+					<div class="text">
+						<input type="password" name="newPassword2" id="pass2"/>
+					</div>
+				</div>
+				<div class="info_submit">
+					<input type="submit" class="fm-button" value="提交">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div id="tabs-3">
+		<form id="alter_portrait">
+			<div class="form_setup">
+				<div class="item clearfix">
+					<span class="lable">头像:</span>
+					<div class="text">
+						<input type="hidden" id="zoomWidth1" value="162" size="5" /> 
+						<input type="hidden" id="zoomHeight1" value="162" size="5" />
+						<input type="hidden" id="uploadImgPath1" name="uploadImgPath1"/>
+						<input type="hidden" id="middlePath1" name="middlePath1" />
+						<input type="text" id="originalPath1" class="upload-sma" name="smallImage" value="" />
+					</div>
+					<div class="Upload_bt">
+						<input type="button" class="fm-button" value="浏览" onclick="selectFile(1)" />
+					</div>
+				</div>
+				<div class="head_img">
+					<img class="img1" src="../images/img.png" />
+					<img class="img2" src="../images/img.png"/>
+					<img class="img3" src="../images/img.png"/>
+				</div>
+				<div class="info_submit">
+					<input type="submit" class="fm-button" value="提交">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="js/frame.js"></script>
+<script>
+(function(){
+	var dataSetURL=$.initFrame('dataSet').URL;
+	require(["requestAFrame","form-style","alerts","tabs","formValid"],function(r){
+		$(".radio").toRadio();
+		$("#tabs").tabs();
+		$.ajax({
+			url:dataSetURL.dataSet,
+			dataType:'json',
+			type:"Get",
+			success:function(data){
+				$("#username").val(data.user.username);
+				$("#realname").val(data.user.realname);
+				switch(data.user.sex){
+					case "male":
+						$("#radio0").trigger("click");
+						 break;
+					case "female":
+						$("#radio1").trigger("click");
+						 break;
+					case "confidential":
+						$("radio2").trigger("click");
+						 break;
+				};
+				$("#email").val(data.user.email);
+				$("#weiboUrl").val(data.user.weiboUrl);
+				$("#blogUrl").val(data.user.blogUrl);
+			}
+		});
+
+		$.form.settings = {
+			initTip:function(input,defaultTip){
+				input.parents(".text").children('.tip').html(defaultTip || "");
+				input.on('focus',function(){
+					input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+				});
+			},
+			validTip : function(input,errorInfo, defaultTip){
+				if(errorInfo){
+					input.parents(".text").children('.tip').removeClass('tip-default').addClass("tip-error").html(errorInfo);
+				}else{
+					input.parents(".text").children('.tip').removeClass('tip-error').addClass("tip-default").html(defaultTip || "");
+				}
+			}
+		};
+		$.form.render({
+			"#realname":{
+				requiredTip : "请填写收件人信息"
+			},
+			"#email":{
+				requiredTip : "请填写邮箱",
+				// defaultTip: "请填写站内信标题",
+				// maxlen: 30,
+				// lenTip: "站内信标题过长",
+				regexp: new RegExp( "^((([a-z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])+(\\.([a-z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])+)*)|((\\x22)((((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(([\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]|\\x21|[\\x23-\\x5b]|[\\x5d-\\x7e]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(\\\\([\\x01-\\x09\\x0b\\x0c\\x0d-\\x7f]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF]))))*(((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(\\x22)))@((([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])([a-z]|\\d|-|\\.|_|~|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])*([a-z]|\\d|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])))\\.)+(([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])|(([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])([a-z]|\\d|-|\\.|_|~|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])*([a-z]|[\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF])))\\.?"),
+				errorTip : "邮箱格式不正确"
+			}
+			
+		},{
+			required: true,
+			option:"change blur"
+		})
+
+
+		$("#data_form").on("submit",function(e){
+			if( $(this).formValid() ){
+				$.ajax({
+					url:dataSetURL.dataUp,
+					type:"Post",
+					data: $(this).serialize(),
+					dataType:"json",
+					success:function(data){
+						jAlert("提交成功","信息");
+					}
+				});
+			}
+			e.preventDefault();
+		});
+		$("#change_password").on("submit",function(e){
+			var tip=$("<span id='tipafter'></span>")
+			$("#tipafter").remove();
+			if($("#pass").val()==""){
+				tip.html("请填写原密码");
+				$("#pass").after(tip);
+				return false;	
+			};
+			if($("#pass1").val()==""){
+				tip.html("请填写新密码");
+				$("#pass1").after(tip);
+				return false;
+			};
+			if($("#pass2").val()==""){
+				tip.html("请填确认新密码");
+				$("#pass2").after(tip);
+				return false;
+			};
+			if($("#pass1").val()!==$("#pass2").val()){
+				tip.html("两次填写的密码不一致");
+				$("#pass2").after(tip);
+				return false;
+			};
+			e.preventDefault();
+			$.ajax({
+				url:dataSetURL.changePassword,
+				type:"POST",
+				data:$(this).serialize(),
+				dataType:"json",
+				success:function(data){
+					if(data.error){
+						tip.html("旧密码不正确");
+						$("#pass").after(tip);
+					}else{
+						jAlert("修改密码成功")
+					}
+				}
+			})
+		});
+	});
+
+	require(["requestAFrame"],function(r){
+		var originalPath1 = "";
+		r.addTimeout("listen-val", (function(){
+			var fn = function(){
+				if ($("#originalPath1").val() != originalPath1) {
+					$(".head_img").find('img').attr("src", "http://tpic.home.news.cn/xhCloudNewsPic/"+$("#originalPath1").val());
+					originalPath1 = $("#originalPath1").val();
+				}
+			};
+			fn();
+			return fn;	
+		})());
+	});
+})();
+</script>
+
+<script>
+function selectFile(n) {
+	var width = document.getElementById('zoomWidth' + n).value;
+	var height = document.getElementById('zoomHeight' + n).value;
+	window.open('../xhadmin/common/open.do?width=' + width+ "&height=" + height + "&type=" + n, '_blank','height=800,width=1000,top=0,left=0,toolbar=no,scrollbars=no,resizable=no');
+}
+</script>
+</body>
+</html>

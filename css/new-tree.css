@@ -1,0 +1,17 @@
+.tree-module .ztree{padding: 20px 0; overflow-y:scroll;}
+.tree-module .ztree * {color:#fff; font-size: 14px;}
+.tree-module .ztree li{line-height:30px}
+.tree-module .ztree>li{padding-left: 1.5em; }
+.tree-module .ztree li span{margin-left:2px}
+.tree-module .ztree li a{height:30px;text-decoration: none;}
+.tree-module .ztree>li>a{font-weight:bold;}
+.tree-module .ztree .ico_close, .tree-module .ztree .ico_open{display: none;}
+.tree-module .ztree li span.button.switch{width:22px;height:22px;}
+.tree-module .ztree>li span.button.center_close, .tree-module .ztree>li span.button.bottom_close, .tree-module .ztree>li span.button.root_close{background:url(../images/tree-icons.png) 0 0 no-repeat }
+.tree-module .ztree>li span.button.center_open, .tree-module .ztree>li span.button.bottom_open, .tree-module .ztree>li span.button.root_open{background:url(../images/tree-icons.png) 0 -30px no-repeat }
+.tree-module .ztree>li span.button.roots_close, .tree-module .ztree>li span.button.roots_open{ display: none;}
+.tree-module .ztree li ul.line,.tree-module .ztree li span.button.bottom_docu{background: none;}
+.tree-module .ztree li span.button{background: none;}
+.tree-module .ztree li span.button.ico_docu{display: none;}
+.tree-module .ztree li a.curSelectedNode{border:0; background-color:#8ddacb;padding-top: 1px;}
+.tree-module .ztree li a.curSelectedNode span{color: #188b75;}

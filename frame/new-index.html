@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style type="text/css">
+		.index-main{margin:auto; margin-top:94px;position: relative; width: 982px; height: auto; background: #fff; border-radius: 7px; overflow: visible;}
+		.headimg{position: absolute; left:20px; top:-54px; background: #fff; box-shadow: 2px 2px 4px #a7a7a7 ; width: 200px; height:200px; padding: 2px;}
+		.headimg img{ width: 200px; height: 200px; }
+		.headwelcome{ position: absolute;left: 250px; top:-32px;}
+		.headleft{margin-left:240px; width: 730px; }
+		.headmessage{ height: 158px; padding-top:23px;  border-bottom:1px dotted #c3c3c3;}
+		.index-main h2{ height: 76px; line-height: 76px; color:#515151; font-size: 18px; font-family: "微软雅黑"; font-weight: normal; color:#515151;}
+		.index-main .headmessage h2{ float: left; font-size: 18px; font-family: "微软雅黑"; font-weight: normal; height: 20px; line-height: 20px; }
+		.index-main .headmessage h3{ float: left; margin-left: 10px; font-size: 14px; color:#515151; font-family: "微软雅黑"; font-weight: normal; height: 20px; line-height: 20px;}
+		.headmessage p{height:24px; line-height:24px; color: #aaaaaa; font-size: 12px;}
+		.headmessage p span{padding-left: 8px;color: #5d5d5d;}
+		.headmessage p.headreceive{height: 35px; padding-left:32px;  background: url(../images/head_icon.png) -4px -128px no-repeat;line-height: 35px;}
+		.headmessage p.headreceive a{ font-family: "微软雅黑"; font-size: 18px; color:#ff815c; padding: 0px 4px; margin-top: 10px;}
+		.headmessage .headicon{ display: block; float: right; margin-left: 20px; height: 32px; line-height: 32px; }
+		.cont_entrance{ height: 202px;  border-bottom:1px dotted #c3c3c3; }
+		.cont_entrance a,.workload a{display: block; float: left; margin-top: 10px; margin-right: 32px; width: 170px; height: 70px;  text-align: center;  color: #FFF;cursor: pointer;}
+		.cont_entrance .entrance{line-height: 70px;background:#2cac93;}
+		.workload .works{ margin: 10px 32px 10px 0px;}
+		.workload .works span{ display: block; height:35px;line-height:40px; text-align: center;}
+		.workload .works strong{font-size: 24px; font-weight: normal;}
+		.workload .daynews_amount{ background: #e89d80;}
+		.workload .weeknews_amount{ background: #eab162;}
+		.workload .monthnews_amount{ background: #668e83;}
+		.workload .allnews_amount{ background: #ae6a57;}
+		.over_percent{ padding-bottom: 60px;}
+		.over_percent h2{ height: 110px; line-height: 110px; text-indent:115px;}
+		.over_percent a{ display:block; width: 176px;height: 176px; margin-left: 100px; position: relative;}
+		.masker{display: block; width: 100%; height: 100%; position: absolute; left: 0; top: 0; z-index: 1;background: #fff; opacity: 0; filter: alpha(opacity=0);}
+
+		.index_bottom{ margin:auto; width: 930px; height: auto;  padding-top: 35px; border-top: 1px solid #e5e5e5;}
+		.visitor_volume{ float: left; width: 415px; height: 450px; position: relative;}
+		.stage_volume{ position: relative; }
+		.stage_volume .title{ display: block; float:left; margin-right: 22px; width:62px; height: 30px; border: 1px solid #e5e5e5; text-align: center; line-height: 30px; color: #515151; font-size: 12px;  cursor: pointer;}
+		.stage_volume .current .title{width:64px; height: 32px;  background: #2cac93; border: none; color: #fff;}
+		.stage_volume .trend{ position: absolute; top:50px; left: 0; padding-top: 32px; display: none; width: 320px;height: 180px; background: #ddf1e4; border-radius: 7px;}
+		.stage_volume .current .trend{ display: block; _margin-left: -86px;}
+
+		.visitor_volume .stage_label{position: absolute; clear: both; left: 30px; top: 140px;}
+		.stage_label li{ width: 60px; float: left; }
+		.stage_label li em{ width: 12px; height: 12px; float: left; background: #000; margin: 2px;}
+		.stage_label li.label_uv{ color: #ee5a30; }
+		.stage_label li.label_ip{ color: #ac75ca; }
+		.stage_label li.label_pv{ color: #89ba34; }
+		.stage_label li.label_uv em{ background: #ee5a30; }
+		.stage_label li.label_ip em{ background: #ac75ca; }
+		.stage_label li.label_pv em{ background: #89ba34; }
+
+		.system_py{float: left; width: 515px; height: 380px;}
+		.system_py .properties{ width: 515px; height: 244px; padding-top: 18px; background: #ededed;}
+		.system_py .properties p{word-wrap:break-word; }
+		.system_py .properties p span{float:left; width: 170px; text-align: right; margin-right:22px;line-height: 30px;color: #515151; font-weight: bold;}
+		.system_py .properties p a{float: left; width: 310px;line-height: 30px;color: #515151; word-wrap:break-word; }
+		.memory_stat{ margin-top: 20px;}
+		.memory_stat p{ float: left; width: 142px; font-size: 12px;}
+		.memory_stat span{ display: inline-block; width:60px; height: 26px; border: 1px solid #cecece; line-height: 26px; text-align: center; color: #7f7f7f;}
+		.memory_stat a{ display: inline-block; text-indent: 10px;color: #7f7f7f;}
+
+	</style>
+</head>
+<body>
+	<div class="index-main">
+		<div class="headimg">
+			<img src="../images/img.png">
+		</div>
+		<div class="headwelcome"><img src="../images/welcome.png"></div>
+		<div class="headleft">
+			<div class="headmessage">
+				<h2><a><span class="data-hole">realname</span></a></h2>
+				<h3><span class="data-hole">role</span></h3>
+				<a class="fm-button headicon head_quit" href="../../xhadmin/logout.do?returnUrl=/xhcms_2014/html/index.html" onclick="return confirm('您确定退出吗？')">退出</a>
+				<a class="fm-button headicon head_modified" href="javascript:void(0);" onclick="window.parent.document.getElementById('personal-settings').click();">修改资料</a>
+				<div style="clear:both"></div>
+				<p>本次登录地点:<span><span class="data-hole">ip</span></span></p>
+				<p>上次登录时间:<span><span class="data-hole">lastLoginTime</span></span></p>
+				<p>上次登录地点:<span><span class="data-hole">lastLoginAddress</span>  <span class="data-hole">lastLoginIp</span></span></p>
+				<p class="headreceive" id="count-receiving"></p>
+			</div>
+			<div class="cont_entrance">
+				<h2>内容发布入口</h2>
+				<a class="entrance yyz_Platform" href="#" onclick="window.parent.document.getElementById('top-nav-2').click(); return false;" >新华新闻主站</a>
+				<!-- <a class="entrance yyz_testStation">云月知测试站</a> -->
+			</div>
+			<div class="workload clearfix">
+				<h2>工作量</h2>
+				<a class="works daynews_amount"><span>今天发稿量</span><strong></strong>开发中...</a>
+				<a class="works weeknews_amount"><span>本周发稿量</span><strong></strong>开发中...</a>
+				<div style="clear:both"></div>
+				<a class="works monthnews_amount"><span>本月发稿量</span><strong></strong>开发中...</a>
+				<a class="works allnews_amount"><span>累积发稿量</span><strong></strong>开发中...</a>
+			</div>
+			<div class="over_percent">
+				<h2>你的发稿量超过了</h2>
+				<a id="chart_percent">
+					<span class="masker"></span>
+				</a>	
+			</div>
+		</div>
+		<div class="index_bottom clearfix">
+			<div class="visitor_volume">
+				<h2>访问量</h2>
+				<div class="stage_volume">
+					<div class="volume">
+						<a class="title">今日</a>
+						<div class="trend" id="trend_1">
+							
+						</div>
+					</div>
+					<div class="volume">
+						<a class="title">昨日</a>
+						<div class="trend" id="trend_2">
+							
+						</div>
+					</div>
+					<div class="volume">
+						<a class="title">本周</a>
+						<div class="trend" id="trend_3">
+							
+						</div>
+					</div>
+					<div class="volume">
+						<a class="title">本月</a>
+						<div class="trend" id="trend_4">
+							
+						</div>
+					</div>
+				</div>
+				<ul class="stage_label">
+					<li class="label_uv">
+						<em></em><label>UV</label>
+					</li>
+					<li class="label_ip">
+						<em></em><label>IP</label>
+					</li>
+					<li class="label_pv">
+						<em></em><label>PV</label>
+					</li>
+				</ul>
+			</div>
+			<div class="system_py">
+				<h2>系统属性</h2>
+				<div class="properties">
+					<p><span>操作系统版本</span><a><span class="data-hole">systemInfo/os.name</span> <span class="data-hole">systemInfo/os.version</span></a></p>
+					<p><span>操作系统类型</span><a><span class="data-hole">systemInfo/os.arch</span></a></p>
+					<p><span>用户、目录、临时目录</span>
+						<a>
+							<span class="data-hole">username</span>, 
+							<span class="data-hole">systemInfo/user.dir</span>, 
+							<span class="data-hole">systemInfo/java.io.tmpdir</span>
+						</a>
+					</p>
+					<p><span>java运行环境</span>
+						<a>
+							<span class="data-hole">systemInfo/java.runtime.name</span>  
+							<span class="data-hole">systemInfo/java.runtime.version</span>
+						</a>
+					</p>
+					<p><span>java虚拟机</span>
+						<a>
+							<span class="data-hole">systemInfo/java.vm.name</span>  
+							<span class="data-hole">systemInfo/java.vm.version</span>
+						</a>
+					</p>
+					<p><span>服务器ip</span> 
+						<a>
+							<span class="data-hole">serverIp</span> : 
+							<span class="data-hole">serverPort</span>
+						</a>
+					</p>		
+				</div>
+				<div class="memory_stat clearfix">
+					<p><span>已用内存</span><a><span class="data-hole storage-num">usedMemory</span></a></p>
+					<p><span>剩余内存</span><a><span class="data-hole storage-num">freeMemoery</span></a></p>
+					<p><span>最大内存</span><a><span class="data-hole storage-num">useableMemory</span></a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="js/frame.js"></script>
+<script>
+(function($){
+
+	$(function(){
+		if( window.top != window ){
+			window.top.autoHeight = true;
+			window.top.document.body.className = "in-index";
+			var targetFrame = window.top.document.getElementById("targetFrame");
+			targetFrame.style.height = targetFrame.parentNode.style.height =  $(document).height() + 200 + "px";
+			top.reHeight();
+
+			$(window).on('unload',function(){
+				window.top.autoHeight = false;
+				window.top.document.body.className = "";
+				top.reHeight();
+			});
+		}
+	});
+
+	$.ajax({
+		url : isLocal ? "../html/json/system.json" : "http://172.18.11.80/web/current/system.json",
+		dataType: "json",
+		success: function(data){
+			var o = data.systemInfo;
+			function get( key ){
+				var keys = key.split("/");
+				switch( keys.length ){
+					case 1: return o[key];
+					case 2: return o[keys[1]];
+					case 3: return o[keys[1]][keys[2]];
+					case 4: return o[keys[1]][keys[2]][keys[3]];
+				}
+			}
+			require(["numberUtil"],function(NU){
+				$(".data-hole").each(function(){
+					var result = get( this.innerHTML );
+
+					if($(this).hasClass('storage-num')){
+						result = NU.toStorage( result, "MB" );
+					}
+
+					var tNode = document.createTextNode( result || "开发中..." );
+					$(this).before(tNode).remove();
+				});
+			});
+		}	
+	});
+	
+	$.ajax({
+		url: isLocal ? "../html/json/v_countUnreadMsg.json" : "../../xhadmin/message/v_countUnreadMsg.do",
+		type:"post",
+		dataType:"json",
+		success: function(data){
+			// data.count = 2; //测试数据
+			if(data.result){
+				 $("#count-receiving").html( '你收到<a href="#" onclick="window.parent.document.getElementById(\'count-receiving\').click(); return false;">' + data.count + '</a>条站内信' ).css({
+				 	visibility: (data.count > 0 ? "visible" : "hidden")
+				 });
+			}else{
+				alert("请先登录");
+			}
+		}
+	});
+
+	$(".stage_volume .title").on("click",function(){
+		$(this).parent().addClass("current").siblings().removeClass('current');
+	}).first().trigger('click');
+
+	require(["morris"],function(){
+
+		/**
+		 * api: http://www.oesmith.co.uk/morris.js/lines.html
+		**/
+		/*
+		Morris.Line({
+			element: 'trend_1',
+			data: [
+				{ y: '2007', a: 75, b: 175,  c: 65 },
+				{ y: '2008', a: 50, b: 5,  c: 80 },
+				{ y: '2009', a: 75, b: 25,  c: 65 },
+				{ y: '2010', a: 250, b: 200, c: 40 },
+				{ y: '2011', a: 75, b: 175,  c: 165 },
+				{ y: '2012', a: 100, b: 10, c: 90 },
+				{ y: '2013', a: 70, b: 100, c: 190 }
+			],
+			xkey: 'y',
+			ykeys: ['a', 'b', 'c'],
+			labels: ['Series A', 'Series B', 'Series C'],
+			lineColors: ['#ee5a30','#ac75ca',"#89ba34"],
+			pointStrokeColors: ['#ee5a30','#ac75ca',"#89ba34"],
+			smooth:false
+		});
+*/
+
+		var per = .83;
+		Morris.Donut({
+			element: 'chart_percent',
+			data: [
+				{label:"", value: 1-per},
+				{label:100*per + "%", value: per}
+			],
+			colors:["#fff","#2cac93"],
+			formatter:function(y,data){
+				return "的编辑";
+			}
+		}).select(1);
+
+
+	});
+
+})(jQuery);
+</script>
+
+</body>
+</html>

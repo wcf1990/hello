@@ -1,0 +1,332 @@
+$belong[temp/main.html]
+<div class="mainRight">
+	<h1>栏目配置</h1>
+	<div class="station_menu">
+		<input type="checkbox" name="checkbox" class="checkbox" id="all" value="0"> <label for="all">全选</label>
+		<a class="fm-button btn-add round" href="#">添加分站</a>
+		<a class="fm-button btn-delete round" href="#">删除</a>
+		<a class="list-move"><span class="list-move-up">上移</span> <span class="list-move-down">下移</span></a>
+		<a class="fm-button btn-top round" href="#">置顶</a>
+	</div>
+	<div id="list-sites">
+		
+	</div>
+	<div class="pager-line page-style">
+		<p id="pager" class="fm-pager"></p>
+	</div>
+</div>
+
+<script type="template/html" id="md-list-sites">
+	<table class="table station_table">
+		<tr>
+			<th width="8%">ID</th>
+			<th>栏目名称</th>
+			<th>访问路径</th>
+			<th>显示</th>
+			<th width="26%">操作</th>
+		</tr>
+		{{#each list}}
+		<tr>
+			<td><input type="checkbox" name="checkbox" class="checkbox ids" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+			<td style="color:#2cac93;">{{name}}</td>
+			<td>{{url}}</td>
+			<td>{{show}}</td>
+			<td style="color:#2cac93;"><a href="#" data-id="{{id}}" >修改</a> | <a class="delete" href="#" data-id="{{id}}">删除</a>  |  <a class="optstaticChannel" href="#" data-id="{{id}}" >栏目静态化</a> | <a class="optstaticContent" href="#" data-id="{{id}}">内容静态化</a></td>
+		</tr>
+		{{/each}}
+	</table>
+</script>
+<script>
+(function($){
+	require(["form-style","alerts","draggable","template","WdatePicker"],function(){
+		var template = Handlebars.compile($("#md-list-sites").html()); //创建模板编译器
+
+		var refreshList = function(){
+			$.ajax({
+				url : "json/list-collocate.json",
+				dataType : "json",
+				success: function(data){
+					$("#list-sites").html( template(data) );
+					$("#list-sites").find(".ids").toCheckbox();
+				} 
+			});
+		};
+		refreshList();
+		$(".checkbox").toCheckbox();
+
+		/*全选*/
+		$(".station_menu").find(".checkbox").on("click",function(){
+			var _this = $(this);
+			$("#list-sites").find(".ids").each(function(){
+				if( $(this).is(":checked") !== _this.is(":checked") ){
+					$(this).trigger('click')
+				}
+			});
+		});
+
+
+		
+		/*menu删除*/
+		$(".station_menu").find(".btn-delete").on("click",function(){
+			var deLists=$(".station_table").find(".ids");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find(".ids")[i].value)			
+					}
+				}
+				if(arr[0]){
+					jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result ){
+							$.ajax({
+								url : "json/list-collocate.json",
+								data:arr,
+								dataType : "json",
+								success: function(data){
+									refreshList();
+								}
+							})
+						}
+					});	
+				};
+				if(arr[0]&&arr[1]){
+					$(".delete_content").html("是否删除多条信息");
+				};
+				if(!arr[0])	{
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择删除项</p>');
+				}
+			}
+		});
+
+
+		/*menu编辑*/
+		$(".station_menu").find(".btn-edit").on("click",function(){
+			var deLists=$(".station_table").find(".ids");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find(".ids")[i].value)			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]){
+					$.ajax({
+						url : "json/list-collocate.json",
+						data:sub,
+						dataType : "json",
+						success: function(data){
+							refreshList();
+						}
+					})
+				};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+		/*menu上下移动*/
+		$(".station_menu").find(".list-move").on("click","span",function(){
+			var newNu=0;
+			var index;
+			var contentform=$("#list-sites").find(".station_table");
+			var contentlength=contentform.find(".ids").length;
+			if(contentlength>0){
+				function newmo(){
+					for(var i=0;i<contentlength;i++){
+						if(contentform.find(".ids")[i].checked==true){
+							newNu+=1;
+							index=i;
+						}
+					}
+					if(newNu>1){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">抱歉，只能选择一项</p>');
+					}else if(newNu==0){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+
+					}
+				}			
+				if($(this).index()==0){
+					newmo();
+					if(newNu==1&&index==0){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">已经置顶</p>');
+					}
+					else if(newNu==1&&index>0){	
+						$.ajax({ 
+							url: "json/list-collocate.json",
+							data:"",
+							dataType : "json",
+							success: function(data){
+								refreshList();
+							},
+							error: function (XMLHttpRequest, textStatus, errorThrown) { 
+								alert("请求异常"); 
+							} 
+						});
+					}
+				}
+				if($(this).index()==1){
+					newmo();
+					if(newNu==1&&index==contentlength-1){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">已经置底</p>');
+					}
+					else if(newNu==1&&index<contentlength){	
+						$.ajax({ 
+							url: "json/list-collocate.json",
+							data:"",
+							dataType : "json",
+							success: function(data){
+								refreshList();
+							},
+							error: function (XMLHttpRequest, textStatus, errorThrown) { 
+								alert("请求异常"); 
+							} 
+						});
+					}
+				}
+			}
+		});
+
+
+		/*menu顶置*/
+		$(".station_menu").find(".btn-top").on("click",function(){
+			var deLists=$(".station_table").find(".ids");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find(".ids")[i].value)			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]){
+					$.ajax({
+						url : "json/list-collocate.json",
+						data:sub,
+						dataType : "json",
+						success: function(data){
+							refreshList();
+						}
+					})
+				};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+		/*table  delete*/
+		$("#list-sites").on("click",".delete",function(){
+			var newIndex=$(".station_table").find(".delete").index(this);
+			var ID=$(".station_table").find(".delete").eq(newIndex).attr("data-id");
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					$.ajax({
+						url : "json/list-collocate.json",
+						data : ID,
+						dataType : "json",
+						success: function(data){
+							refreshList();
+						}
+					})
+				}
+			});	
+		});
+
+		/*table  static*/
+		$("#list-sites").on("click",".optstaticChannel, .optstaticContent",function(){
+			if($(this).hasClass("optstaticChannel")){
+				var newIndex=$(".station_table").find(".optstaticChannel").index(this);
+				var ID=$(this).attr("data-id");
+				jConfirm('<h2 class="title"></h2> <form class="form_setup form_chdialog"><div class="item clearfix"><span class="lable">是否包含子栏目:</span><div class="text rise"><select name="containChildSel" id="select0" class="select"><option value="true">是</option><option value="false">否</option></select></div></div> <div class="item clearfix"><span class="lable">是否只生成第一页:</span><div class="text"><select name="staticFirstSel" id="select1" class="select"><option value="true">只生成第一页</option><option value="false">生成全部</option></select></div></div></form>',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						$.ajax({
+							url : "json/list-collocate.json",
+							data : obj,
+							dataType : "json",
+							success: function(data){
+								refreshList();
+							}
+						})
+					}
+				});
+				var obj={}
+				$(".select").toSelect({
+					width: 120,
+					colorful: false
+				}).on('change',function(){
+					//jAlert( this.value, "你选择的值为：" );
+					$(".select-result").html( "你选择的值为："+this.value );
+					obj["containChildSel"]=$("#select0").val();
+					obj["staticFirstSel"]=$("#select1").val();
+				}).trigger("change");
+			}else if($(this).hasClass("optstaticContent")){
+				var newIndex=$(".station_table").find(".optstaticContent").index(this);
+				var ID=$(this).attr("data-id");
+				jConfirm('<h2 class="title"></h2> <form class="form_setup form_chdialog"><div class="item clearfix"><span class="lable">开始时间：</span><div class="text rise"><input name="startDate" class="Wdate" type="text"></div></div> <div class="item clearfix"><span class="lable">增量/全量生成：</span><div class="text rise"><select name="needRegenerateAllSel" id="select2" class="select"><option value="false">增量生成静态页</option><option value="true">全量生成静态页</option></select></div></div></form>',"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						$.ajax({
+							url : "json/list-collocate.json",
+							data : obj,
+							dataType : "json",
+							success: function(data){
+								refreshList();
+								console.log(obj);
+							}
+						})
+					}
+				});
+				var obj={};
+				$(".Wdate").on('click',function(){WdatePicker.call(window);});
+				$(".select").toSelect({
+					width: 120,
+					colorful: false
+				}).on('change',function(){
+					//jAlert( this.value, "你选择的值为：" );
+					$(".select-result").html( "你选择的值为："+this.value );
+					obj["startDate"]=$(".Wdate").val();
+					obj["needRegenerateAllSel"]=$("#select2").val();
+				}).trigger("change");
+				$(".Wdate").on('focus',function(){
+					obj["startDate"]=$(".Wdate").val();
+				});
+			}
+		});
+
+		/*分页*/
+		$("#pager").toPager({
+			totalPage : 6,
+			currentPage: 2,
+			'switch':function(eve,e){
+				//jAlert( "你翻到了第 <span style='color:red;'>"+e.toPage+"</span> 页","提示" );
+			}
+		}); 
+	});
+})(jQuery);
+
+</script>
+</body>
+</html>

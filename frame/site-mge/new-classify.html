@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻分类管理</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="outter-frame">
+	<h1>新闻分类管理</h1>
+	<p class="search-style">
+		<span>搜索：</span>
+		<span class="fm-search gray1">
+			<input type="text" name="kw2" id="kw2" placeholder="请输入搜索关键字">
+			<a href="javascript:void(0);" class="btn-search">搜索</a>
+		</span>
+	</p>
+	<div id="list-sites">
+		
+	</div>
+	<div class="pager-line">
+		<p id="pager" class="fm-pager"></p>
+	</div>
+
+<script type="template/html" id="md-list-sites" data-target="#list-sites" data-pagination="#pager">
+	<table class="table station_table">
+		<tr>
+			<th width="8%">ID</th>
+			<th>分类名称</th>
+			<th>分类描述</th>
+			<th>社区名称</th>
+			<th>访问路径</th>
+			<th>好友账号</th>
+			<th width="10%">操作</th>
+		</tr>
+		{{#each news}}
+		<tr>
+			<td><input type="checkbox" name="checkbox" class="checkbox ids" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+			<td class="nameColor">{{name}}</td>
+			<td>{{classify}}</td>
+			<td>{{community}}</td>
+			<td>{{visit}}</td>
+			<td>{{account}}</td>
+			<td class="nameColor"><a href="#" data-id="{{id}}" >修改</a> | <a class="delete" href="#" data-id="{{id}}">删除</a></td>
+		</tr>
+		{{/each}}
+	</table>
+	<span class="currentPage">{{currentPage}}</span>
+	<span class="totalPage">{{{division totalCount pageSize }}}</span>
+</script>
+<script type="text/javascript" src="../js/frame.js"></script>
+<script>
+(function($){
+	var URL = $.initFrame('newsClassify').URL;
+
+	require(["template-init","form-style","alerts","draggable","template"],function(T){
+		var template = Handlebars.compile($("#md-list-sites").html()); //创建模板编译器
+
+		var refreshList = function(){
+			$.ajax({
+				url : "json/site-config.json",
+				dataType : "json",
+				success: function(data){
+					$("#list-sites").html( template(data) );
+					$("#list-sites").find(".ids").toCheckbox();
+				} 
+			});
+		};
+		refreshList();
+		$(".checkbox").toCheckbox();
+		
+		//新闻分类管理加载列表数据
+		T.init({
+			tmpl:"#md-list-sites",
+			sourceUrl:URL.newsClassify,
+			callback:function(){
+				$("#list-sites").find(".ids").toCheckbox();
+
+				//table tr拖拽
+				require(['sortable'],function(){
+					var index = null;
+					//获取tr的父级进行sortable操作，因为浏览器会为table添加tbody。
+					$('#list-sites tr').parent().sortable({
+						start:function(e,ui){
+							index = ui.item.index();
+						},
+						stop:function(e,ui){
+							var n = ui.item.index() - index;
+							if(!n)return; //没有移动, 直接返回
+							jAlert( "向<span style='color:green'>"+(n>0?'后':'前')+"</span>移动了 <span style='color:red'>" + Math.abs(n) + "</span> 个" );
+						}
+					});
+				});
+			}
+		});
+
+		/*全选*/
+		// $(".station_menu").find(".checkbox").on("click",function(){
+		// 	var _this = $(this);
+		// 	$("#list-sites").find(".ids").each(function(){
+		// 		if( $(this).is(":checked") !== _this.is(":checked") ){
+		// 			$(this).trigger('click')
+		// 		}
+		// 	});
+		// });
+
+		/*table  delete*/
+		// $("#list-sites").on("click",".delete",function(){
+		// 	var newIndex=$(".station_table").find(".delete").index(this);
+		// 	var ID=$(".station_table").find(".delete").eq(newIndex).attr("data-id");
+		// 	jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+		// 		okButton : "是",
+		// 		cancelButton : "否"
+		// 	},function(result){
+		// 		if(result ){
+		// 			$.ajax({
+		// 				url : "json/site-config.json",
+		// 				data : ID,
+		// 				dataType : "json",
+		// 				success: function(data){
+		// 					refreshList();
+		// 				}
+		// 			})
+		// 		}
+		// 	});	
+		// });
+
+		/*table  delete(2)*/
+		$("#list-sites").on("click",".delete",function(){
+			var ID=$(this).attr("data-id");
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					T.refresh({
+						tmpl:"#md-list-sites",
+						sourceUrl:URL.newsClassify,
+						callback:function(){
+							$("#list-sites").find("input[name='checkbox']").toCheckbox();
+						},
+						sourceData:function(){
+							return {
+								deleteId:ID
+							};
+						}
+					});
+				}
+			});	
+		});
+		
+
+		/*paging*/
+		// $("#pager").toPager({
+		// 	totalPage : 6,
+		// 	currentPage: 2,
+		// 	'switch':function(eve,e){
+		// 		//jAlert( "你翻到了第 <span style='color:red;'>"+e.toPage+"</span> 页","提示" );
+		// 	}
+		// });
+	});
+})(jQuery);
+</script>
+</body>
+</html>

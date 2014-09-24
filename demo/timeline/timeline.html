@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>timeline-index</title>
+    <link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/form.css"/>
+    <link rel="stylesheet" type="text/css" href="css/my-timeline.css"/>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/require.js"></script>
+    <script src="../../js/require-config.js"></script>
+  </head>
+  <body>
+    <!--wrapper 开始-->
+  	<div class="wrapper">
+  	
+      <!--tabnum 点击换背景部分 开始-->
+  		<div class="tabnum">
+  			<dl class="addbg">
+  				<dt>
+  					<h4>搜索新闻</h4>
+					  <P>可指定时间段，输入关键词搜索新闻</P>  					
+  				</dt>
+  				<dd class="addbg2">1</dd>
+  			</dl>
+        <div class="arrow addbg3"></div>
+
+        <dl>
+          <dt>
+            <h4>设置时间轴</h4>
+            <P>调整、设置时间轴样式， 预览时间轴</P>           
+          </dt>
+          <dd>2</dd>
+        </dl>   
+  		</div><!--tabnum 点击换背景部分 结束-->
+
+      <!--发布起始时间 开始-->
+      <div class="select-all">
+        <div class="issue">
+          <label>发布起始时间：</label>
+          <div class="times">
+            <input type="text" class="Wdate" id="start-time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />&nbsp;至&nbsp;<input type="text" class="Wdate" id="end-time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+          </div>
+        </div>
+
+        <!--新闻类型 开始-->
+        <div class="news_type"> 
+            <label>新闻类型：</label>
+            <select name="sel" id="select1" class="select">
+
+            </select>
+         </div><!--新闻类型 结束-->
+
+        <div class="search">
+            <label>搜索关键词：</label><div class="txt" id="txt"><input type="text" id="txts" value="" /></div>
+            <span class="sou" id="sou"></span>
+        </div>
+      </div><!--发布起始时间 结束-->
+
+
+      <!--关键词 开始-->
+      <div class="keyword">
+        <label>关键词：</label>
+        <ul id="keyword">
+          
+        </ul>
+        <input type="hidden" id="search-result" name="search">
+      </div>
+      <!--关键词 结束-->
+
+      <!--后台生成部分 开始-->
+      <div class="loading">
+        <p class="addnews" id="addnews">手动添加稿件</p>
+        <div class="load_left" id="load_left">
+          <div class="title">
+            <h4>新闻标题</h4><h4>发生时间</h4>
+          </div>
+          <ul>
+             
+          </ul>
+          <input type="hidden" id="option-result" name="option">
+        </div>
+        <div class="load_right">
+        <!-- <div class="topic-list" id="topic-list">
+            <div class="title">
+              <h4>新闻标题</h4><h4>发生时间</h4>
+            </div>
+            <ul>
+              <li><a href="javascript:void(0)"><span class="time0">2014-03-09 12:35:11</span>国庆雾霾波及七省市：气象是诱因排放是根源</span><span class="editing"></span></a></li>
+            </ul>
+        </div> -->
+          <iframe id="show-frame" src="" border="0" width="100%" height="100%"></iframe>
+        </div>
+
+      </div>
+      <!--后台生成部分 结束-->
+
+      <div class="prev-next">
+        <a href="timeline2.html" style="margin-left:160px;" class="btn-next" id="btn-submit">下一步</a>
+      </div>
+
+  	</div> <!--wrapper 结束-->
+    
+    <script type="text/javascript" src="js/my-timeline.js"></script>
+  </body>
+</html>  

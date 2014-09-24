@@ -1,0 +1,85 @@
+.page{
+	margin-bottom: 35px;
+}
+
+/* 4站点管理 - 2栏目配置 - 3模板配置 */
+.fm-button.btn-set{
+	background-position: 8px -344px;
+	padding-left: 30px;
+}
+.formSet1{
+	border-bottom: 1px solid #d5d5d5;
+	padding: 0px 0px 46px 50px;
+	margin-bottom: 45px;
+}
+.formSet1 .item .lable {
+	width: 100px;
+}
+
+.formSet1 .item input.ipt{
+	width: 253px;
+}
+
+.item-sel .paging {
+	display: inline-block;
+	padding-left: 8px;
+	line-height: 26px;
+	padding-top: 3px;
+	color: #000;
+}
+.items {
+	clear: both;
+	height: 30px;
+}
+.items select.select{
+	float: left;
+}
+.fm-button.btn-text{
+	background-position: 8px -368px;
+	padding-left: 30px;
+}
+
+.text_edit{
+	width: 90%;
+	height: 560px;
+	border: 1px solid #d5d5d5;
+	margin-bottom: 30px;
+	overflow: hidden;
+}
+.text_edit textarea{
+	width: 96%;
+	height: 95%;
+	margin-left: 25px;
+	padding-right: 2%;
+	padding-top: 2%;
+	line-height: 22px;
+	border: none;
+	border: 0px;
+}
+.btns{
+	margin-left: 81%;
+	margin-bottom: 70px;
+}
+
+
+/* 4站点管理 - 2栏目配置 - 2栏目模型配置 - 1列表 */
+
+
+
+
+
+
+/* 4站点管理 - 3新闻信息管理 - 1新闻分类 */
+.search-style{
+	width: 260px;
+	margin-bottom: 20px;
+}
+.fm-search.gray1 {
+  background-color: #e8e8e8;
+}
+	.fm-search.gray1 input {
+	  background-color: #e8e8e8;
+	  border: none;
+	}
+
+

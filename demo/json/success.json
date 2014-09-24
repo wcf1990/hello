@@ -1,0 +1,1 @@
+{"status":true,"files":<%=JSON.stringify(request.files)%>}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test-number-util</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+	<div id="result1"></div>
+	<textarea id="result2" style="width:100%;height:800px;" spellcheck="false"></textarea>
+<script>
+	require(["json"], function(JSON){
+		
+		/*
+		var str = '{"m":{"id":1,"leaf":false,"name":"channel1","new":false,"parentId":0,"parentIds":"0/","root":true,"show":true,"site":[{"channels":[{"$ref":"$.m"}],"friendlinks":[{"id":1,"name":"friend1","new":false,"show":true,"site":[{"$ref":"$.m.site[0]"}],"weight":1}],"id":9,"new":false,"siteName":"abc"}],"weight":1},"op":"查看"}';
+		
+		var json = JSON.parse(str);						//兼容性JSON.parse
+		console.log( "JSON.parse([string]):\t" );
+		console.log( json );
+
+		$('#result1').html( JSON.stringify(json) );			//兼容性JSON.stringify
+
+		console.log( "\nJSON.expend([json]):\t" );		//携带$ref展开效果
+		console.log( JSON.expend(JSON.parse(str)) );
+
+		var jsonExpend = JSON.expend(str);				//携带$ref展开效果JSON.parse
+		console.log( "\nJSON.expend([str]): \t" );
+		console.log( jsonExpend );
+
+		$('#result2').val( JSON.format(jsonExpend,'  ',true) );	//循环引用json的stringify 抛出异常: 已兼容
+		*/
+	
+		/*
+		$.get('json/ref.json',function(data0){		//修改ajax
+
+			
+			alert( JSON.format(data0,'--') );
+
+			$('#result').val( JSON.format(data0,'  ') );
+
+			$.get('json/ref.json?t='+new Date().getTime(),function(data1){		//修改ajax
+
+				window.console ? console.log( data1 ) : alert(data1);
+
+			},'refJson');
+
+		},'json');
+
+		*/	
+
+		var t = {a:2,s:{m:2},b: function(m) { alert(m) },c:{}};
+		t.c.a = t.s;
+		var m = JSON.stringifyWithFunction(t);
+		console.log(m);
+		var t1 = JSON.expendWithFunction( JSON.parse(m) );
+		console.log(t1);
+		t1.b(123);
+	});
+</script>
+</body>
+</html>

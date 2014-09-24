@@ -1,0 +1,81 @@
+
+<form id="write_form" name="basicinfor"  method="">
+	<div class="item top_item clearfix">
+		<span class="lable">模型ID：</span>
+		<div class="text">
+			<input name="ids" value="15" style="border:none; background:none;" disabled>
+		</div>
+	</div>
+	<dl>
+		<dd class="item clearfix">
+			<span class="lable"><i>&nbsp;</i>栏目名称：</span>
+			<div class="text">
+				<input type="password" name="pass">
+			</div>
+		</dd>
+		<dd class="item clearfix">
+			<span class="lable">模型路径：</span>
+			<div class="text">
+				<input type="password" name="pass">
+			</div>
+		</dd>
+	</dl>
+	<dl>
+		<dd class="item clearfix">
+			<span class="lable">栏目模板前缀：</span>
+			<div class="text">
+				<input type="text" name="pass1" />
+			</div>
+		</dd>
+		<dd class="item clearfix">
+			<span class="lable">内容模板前缀：</span>
+			<div class="text">
+				<input type="text" name="pass1" />
+			</div>
+		</dd>
+	</dl>
+	<dl>
+		<dd class="item clearfix">
+			<span class="lable">栏目标题图：</span>
+			<div class="text">
+				<span class="fm-label-item">
+					<label for="label-item1">宽</label>
+					<input id="label-item1" type="text" name="titleImgWidth" value="110" style="width:60px;" placeholder="240">
+				</span>
+				<span class="fm-label-item" style=" margin-left:30px;">
+					<label for="label-item1">高</label>
+					<input id="label-item1" type="text" name="titleImgHeight" value="84" style="width:60px;"  placeholder="240">
+				</span>
+			</div>
+		</dd>
+		<dd class="item clearfix">
+			<span class="lable">栏目内容图：</span>
+			<div class="text">
+				<span class="fm-label-item">
+					<label for="label-item1">宽</label>
+					<input id="label-item1" type="text" name="titleImgWidth" value="110" style="width:60px;" placeholder="240">
+				</span>
+				<span class="fm-label-item" style=" margin-left:30px;">
+					<label for="label-item1">高</label>
+					<input id="label-item1" type="text" name="titleImgHeight" value="84" style="width:60px;"  placeholder="240">
+				</span>
+			</div>
+		</dd>
+	</dl>
+	<dl>						
+		<dd class="item clearfix">
+			<span class="lable">是否有内容：</span>
+			<div class="text">
+				<input type="checkbox" name="switch" id="switch" class="switch" checked>
+			</dd>
+		</dd>
+	</dl>
+</form>
+<script type="text/javascript">
+(function(){
+	require(["form-style"],function(){
+		$("#tabs").find(".switch").toSwitch();
+	})
+})
+
+</script>

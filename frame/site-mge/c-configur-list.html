@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>栏目设置列表</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="outter-frame">
+<div class="mainRight">
+	<h1>栏目配置</h1>
+	<div class="station_menu">
+		<input type="checkbox" name="checkbox" class="checkall" id="_checkAll" value="0"> <label for="_checkAll">全选</label>
+		<a class="fm-button btn-add round" href="#">添加分站</a>
+		<a class="fm-button btn-delete round" href="#">删除</a>
+		<a class="list-move"><span class="list-move-up">上移</span> <span class="list-move-down">下移</span></a>
+		<a class="fm-button btn-top round" href="#">置顶</a>
+	</div>
+	<div id="list-sites">
+		
+	</div>
+	<script type="template/html" id="md-list-sites" data-target="#list-sites"  data-method="post">
+		<table class="table station_table">
+			<tr>
+				<th width="8%">ID</th>
+				<th width="22%">栏目名称</th>
+				<th width="22%">访问路径</th>
+				<th width="22%">显示</th>
+				<th width="26%">操作</th>
+			</tr>
+			{{#each list}}
+			<tr data-clmCludeVal="{{clmCludeVal}}" data-clmProduceVal="{{clmProduceVal}}" data-contTimeVal="{{contTimeVal}}" data-contAmountVal="{{contAmountVal}}">
+				<td><input type="checkbox" name="checkbox" class="checkbox" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+				<td class="nameColor">{{name}}</td>
+				<td>{{url}}</td>
+				<td>{{show}}</td>
+				<td class="nameColor"><a href="#" data-id="{{id}}" >修改</a> | <a class="delete" href="#" data-id="{{id}}">删除</a>  |  <a class="optstaticChannel" href="#" data-id="{{id}}" >栏目静态化</a> | <a class="optstaticContent" href="#" data-id="{{id}}">内容静态化</a></td>
+			</tr>
+			{{/each}}
+		</table>
+	</script>
+</div>
+
+<script id="list-sites-static" type="text/template">
+    <form id="form1" method="post" action="#" class="form_setup form_chdialog">
+        <div class="item clearfix">
+            <span class="lable">
+                是否包含子栏目:
+            </span>
+            <div class="text rise">
+                <select name="containChildSel" id="select0" class="select" value="{{select0}}">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </div>
+        </div>
+        <div class="item clearfix">
+            <span class="lable">
+                是否只生成第一页:
+            </span>
+            <div class="text">
+                <select name="staticFirstSel" id="select1" class="select" value="{{select1}}">
+                    <option value="1">只生成第一页</option>
+                    <option value="0">生成全部</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script id="list-cont-static" type="text/template">
+	<form class="form_setup form_chdialog">
+	    <div class="item clearfix">
+	        <span class="lable">
+	            开始时间：
+	        </span>
+	        <div class="text rise">
+	            <input name="startDate" id="select2" class="Wdate" type="text" value="{{select0}}">
+	        </div>
+	    </div>
+	    <div class="item clearfix">
+	        <span class="lable">
+	            增量/全量生成：
+	        </span>
+	        <div class="text rise">
+	            <select name="needRegenerateAllSel" id="select3" class="select" value="{{select1}}">
+	                <option value="1">增量生成静态页</option>
+	                <option value="0">全量生成静态页</option>
+	            </select>
+	        </div>
+	    </div>
+	</form>
+</script>
+
+<script src="../js/frame.js"></script>
+<script>
+(function($){
+	var URL = $.initFrame('clmConfigur').URL;
+
+	require(["template-init","form-style"],function(T){
+		$(".checkall").toCheckbox();
+		//栏目列表加载和美化
+		T.init({
+			tmpl:"#md-list-sites",
+			sourceUrl:URL.clmConfigur,
+			callback:function(){
+				$("#list-sites").find("input[name='checkbox']").toCheckbox();
+			}
+		});
+	});
+	
+	/*全选*/
+	require(["formUtil"],function(F){
+		F.selectAll({
+			handle : "#_checkAll",
+			checkList : "#list-sites .checkbox",
+			checkListHolder: "#list-sites"
+		});
+	});
+
+	require(["template-init","form-style","alerts","WdatePicker"],function(T){
+		
+		/*menu删除*/
+		$(".station_menu").find(".btn-delete").on("click",function(){
+			var deLists=$(".station_table").find("input[name='checkbox']");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find("input[name='checkbox']")[i].value)			
+					}
+				}
+				if(arr[0]){
+					jConfirm('<p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result ){
+							T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.clmConfigur,
+								callback:function(){
+									$("#list-sites").find("input[name='checkbox']").toCheckbox();
+								},
+								sourceData:function(){
+									return {
+										deleteIds:arr.join(",")
+									};
+								}
+							});
+						}
+					});	
+				};
+				if(arr[0]&&arr[1]){
+					$(".delete_content").html("是否删除多条信息");
+				};
+				if(!arr[0])	{
+					jAlert('<p class="delete_content">请选择删除项</p>');
+				}
+			}
+		});
+
+
+
+		/*menu上下移动*/
+		$(".station_menu").find(".list-move").on("click","span",function(){
+			var newNu=0;
+			var index;
+			var dataid;
+			var contentform=$("#list-sites").find(".station_table");
+			var contentlength=contentform.find("input[name='checkbox']").length;
+			if(contentlength>0){
+				function newmo(){
+					for(var i=0;i<contentlength;i++){
+						if(contentform.find("input[name='checkbox']")[i].checked==true){
+							newNu+=1;
+							index=i;
+							dataid=contentform.find("input[name='checkbox']").eq(i).val();
+						}
+					}
+					if(newNu>1){
+						jAlert('<p class="delete_content">抱歉，只能选择一项</p>');
+					}else if(newNu==0){
+						jAlert('<p class="delete_content">请选择一项</p>');
+
+					}
+				}			
+				if($(this).index()==0){
+					newmo();
+					if(newNu==1&&index==0){
+						jAlert('<p class="delete_content">已经置顶</p>');
+					}
+					else if(newNu==1&&index>0){	
+						dataidup=contentform.find("input[name='checkbox']").eq(index-1).val();
+						T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.clmConfigur,
+								callback:function(){
+									$("#list-sites").find("input[name='checkbox']").toCheckbox();
+								},
+								sourceData:function(){
+									return {
+										thisId:dataid,
+										Idto:dataidup
+									};
+								}
+							});
+					}
+				}
+				if($(this).index()==1){
+					newmo();
+					if(newNu==1&&index==contentlength-1){
+						jAlert('<p class="delete_content">已经置底</p>');
+					}
+					else if(newNu==1&&index<contentlength-1){
+						dataiddown=contentform.find("input[name='checkbox']").eq(index+1).val();	
+						T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.clmConfigur,
+								callback:function(){
+									$("#list-sites").find("input[name='checkbox']").toCheckbox();
+								},
+								sourceData:function(){
+									return {
+										thisId:dataid,
+										Idto:dataiddown
+									};
+								}
+							});
+					}
+				}
+			}
+		});
+
+
+		/*menu顶置*/
+		$(".station_menu").find(".btn-top").on("click",function(){
+			var deLists=$(".station_table").find("input[name='checkbox']");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				var index;
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find("input[name='checkbox']")[i].value)	
+						index=i;		
+					}
+				};
+				if(arr[0]&&!arr[1]){
+					if(index==0){
+						jAlert('<p class="delete_content">已经置顶</p>');
+					}else{T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.clmConfigur,
+								callback:function(){
+									$("#list-sites").find("input[name='checkbox']").toCheckbox();
+								},
+								sourceData:function(){
+									return {
+										idTop:arr.join()
+									};
+								}
+							});
+					}
+				};
+				if(!arr[0]){
+					jAlert('<p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+		/*table  delete*/
+		$("#list-sites").on("click",".delete",function(){
+			var ID=$(this).attr("data-id");
+			jConfirm('<p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					// $.ajax({
+					// 	url : "json/list-collocate.json",
+					// 	data : ID,
+					// 	dataType : "json",
+					// 	success: function(){
+					// 		T.init({
+					// 			tmpl:"#md-list-sites",
+					// 			sourceUrl:URL.clmConfigur,
+					// 			callback:function(){
+					// 				$("#list-sites").find("input[name='checkbox']").toCheckbox();
+					// 			}
+					// 		});
+					// 	}
+					// })
+					T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.clmConfigur,
+								callback:function(){
+									$("#list-sites").find("input[name='checkbox']").toCheckbox();
+								},
+								sourceData:function(){
+									return {
+										deleteId:ID
+									};
+								}
+							});
+				
+				}
+			});	
+		});
+
+		/*table  static*/
+		$("#list-sites").on("click",".optstaticChannel, .optstaticContent",function(){
+			if($(this).hasClass("optstaticChannel")){
+				var ID = $(this).attr("data-id"), tr = $(this).parents('tr');
+				var dialogcont = $('#list-sites-static').html();
+				var data = {
+					select0 : tr.attr("data-clmCludeVal"),
+					select1 : tr.attr("data-clmProduceVal")
+				};
+					
+
+				jConfirm( dialogcont.replace(/\{\{(\w+)\}\}/g,function(m,key){ return data[key] }),"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						$.ajax({
+							url : "../json/success.json",
+							type:"post",
+							data : obj,
+							dataType : "json",
+							success: function(data){
+
+							}
+						})
+					}
+				});
+				var obj={};
+				$("#select0").toSelect({
+					width: 120,
+					colorful: false
+				}).on('change',function(){
+
+					obj["id"]=ID;
+					obj["data-clmCludeVal"]=$("#select0").val();
+					obj["data-clmProduceVal"]=$("#select1").val();
+				}).trigger("change");
+
+				$("#select1").toSelect({
+					width: 120,
+					colorful: false
+				}).on('change',function(){
+					obj["id"]=ID;
+					obj["data-clmCludeVal"]=$("#select0").val();
+					obj["data-clmProduceVal"]=$("#select1").val();
+				}).trigger("change");
+			}else if($(this).hasClass("optstaticContent")){
+				var ID=$(this).attr("data-id"), tr=$(this).parents('tr');
+				var dialogcont=$("#list-cont-static").html();
+				var data = {
+					select0 : tr.attr("data-contTimeVal"),
+					select1 : tr.attr("data-contAmountVal")
+				};
+				jConfirm( dialogcont.replace(/\{\{(\w+)\}\}/g,function(m,key){ return data[key] }),"",{
+					okButton : "是",
+					cancelButton : "否"
+				},function(result){
+					if(result ){
+						$.ajax({
+							url : "../json/success.json",
+							type : "post",
+							data : obj,
+							dataType : "json",
+							success: function(data){
+								
+							}
+						})
+					}
+				});
+				var obj={};
+				$(".Wdate").on('click',function(){WdatePicker.call(window);});
+				$(".select").toSelect({
+					width: 120,
+					colorful: false
+				}).on('change',function(){
+					obj["id"]=ID;
+					obj["data-contTimeVal"]=$("#select2").val();
+					obj["data-contAmountVal"]=$("#select3").val();
+				}).trigger("change");
+				$(".Wdate").on('focus',function(){
+					obj["data-contTimeVal"]=$(".Wdate").val();
+				});
+			}
+		});
+	});
+})(jQuery);
+
+</script>
+</body>
+</html>

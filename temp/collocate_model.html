@@ -1,0 +1,322 @@
+<form id="tableForm"  method="post">
+	<div class="form_setup">
+		<div class="station_menu">
+			<input type="checkbox" name="checkbox" class="checkbox" id="all_column" value="0"> <label for="all_column">全选</label>
+			<a class="fm-button btn-add round field_columntop" href="javascript:void(0)">添加字段</a>
+			<a class="fm-button btn-delete round" href="#">删除</a>
+			<a class="list-move"><span class="list-move-up">上移</span> <span class="list-move-down">下移</span></a>
+			<a class="fm-button btn-top round" href="#">置顶</a>
+		</div>
+		<div class="list-sites">
+
+		</div>
+	</div>
+	<div class="add_field field_column"><a>添加字段</a></div>
+	<div class="info_bt clear">
+		<input class="fm-button submit_bt" type="submit" value="提交">
+		<input class="fm-button reset_bt" type="button" value="取消">
+	</div>
+</form>
+
+<!--栏目模型-->
+<script type="template/html" id="md-list-sites">
+	<table class="table station_table column_table">
+		<tr>
+			<th style="width:1%"></th>
+			<th style="width:7%">字段</th>
+			<th style="width:12%; *width:8%">名称</th>
+			<th style="width:8%; *width:10%">数据类型</th>
+			<th style="width:8%">默认值</th>
+			<th style="width:8%">宽度</th>
+			<th style="width:8%">独占一行</th>
+			<th style="width:8%">显示</th>
+			<th style="width:8%; *width:10%">帮助信息</th>
+			<th style="width:8%">帮助位置</th>
+			<th style="width:8%">可选项</th>
+			<th style="width:6%">行数</th>
+			<th style="width:6%">列数</th>
+		</tr>
+		{{#each list}}
+		<tr>
+			<td><input type="checkbox" name="checkbox" class="checkbox ids" id="{{id}}" value="{{id}}"></td>
+			<td><input type="text" value="{{name}}" name="field" class="pn-frequired" style="width:100%;"></td>
+			<td><input type="text" value="{{label}}" name="label" class="pn-frequired" style="width:80%;"></td>
+			<td>
+				<select name="dataType" class="select dataType" value="{{data_type}}">
+					<option value="1">选项1</option>
+					<option value="2">选项2选项2</option>
+					<option value="3">选项3选项2选项2</option>
+					<option value="4" selected="selected">文本字符串</option>
+					<option value="5">选项5选项2选项2选项2</option>
+					<option value="6">选项6</option>
+					<option value="7">选项7</option>
+					<option value="8">选项8选项2选项2选项2选项2选项2</option>
+					<option value="9">选项9</option>
+				</select>
+			</td>
+			<td><input type=text value="{{default_data}}" name="default_data" style="width:80%;"></td>
+			<td><input type=text value="{{width}}" name="width" style="width:80%;"></td>
+			<td><input type="checkbox" name="row" class="switch" value="1" {{#if row}}checked="checked"{{/if}}></td>
+			<td><input type="checkbox" name="value" class="switch" value="1" {{#if value}}checked="checked"{{/if}}></td>
+			<td>
+				<select name="help" class="select help_select" value="{{help}}">
+					<option value="1">帮助1</option>
+					<option value="2">帮助2</option>
+					<option value="3">帮助3</option>
+					<option value="4">帮助4</option>
+					<option value="5">帮助5</option>
+					<option value="6">帮助6</option>
+					<option value="7">帮助7</option>
+					<option value="8">帮助8</option>
+					<option value="9"  selected="selected">帮助帮助帮助帮助帮助帮助</option>
+				</select>
+			</td>
+			<td><input type=text value="{{helpPosition}}" style="width:80%;"></td>
+			<td><input type=text value="{{optValue}}" style="width:80%;"></td>
+			<td><input type=text value="{{rows}}" style="width:80%;"></td>
+			<td><input type=text value="{{rank}}" style="width:80%;"></td>
+		</tr>
+		{{/each}}
+		<tr class="adding last">
+			<td><input type="checkbox" name="checkbox" class="checkbox ids"></td>
+			<td><input type=text name="field" class="pn-add" style="width:100%;"></td>
+			<td><input type=text name="label" class="pn-add"  style="width:80%;"></td>
+			<td>
+				<select name="dataType" class="select dataType">
+					<option value="1">选项1</option>
+					<option value="2">选项2选项2</option>
+					<option value="3">选项3选项2选项2</option>
+					<option value="4" selected="selected">文本字符串</option>
+					<option value="5">选项5选项2选项2选项2</option>
+					<option value="6">选项6</option>
+					<option value="7">选项7</option>
+					<option value="8">选项8选项2选项2选项2选项2选项2</option>
+					<option value="9">选项9</option>
+				</select>
+			</td>
+			<td><input type=text name="default_data" style="width:80%;"></td>
+			<td><input type=text name="width" style="width:80%;"></td>
+			<td><input type="checkbox" name="row" class="switch" value="1"></td>
+			<td><input type="checkbox" name="value" class="switch" value="1"></td>
+			<td>
+				<select name="help" class="select help_select">
+					<option value="1">帮助1</option>
+					<option value="2">帮助2</option>
+					<option value="3">帮助3</option>
+					<option value="4">帮助4</option>
+					<option value="5">帮助5</option>
+					<option value="6">帮助6</option>
+					<option value="7">帮助7</option>
+					<option value="8">帮助8</option>
+					<option value="9"  selected="selected">帮助帮助帮助帮助帮助帮助</option>
+				</select>
+			</td>
+			<td><input type=text style="width:80%;"></td>
+			<td><input type=text style="width:80%;"></td>
+			<td><input type=text style="width:80%;"></td>
+			<td><input type=text style="width:80%;"></td>
+		</tr>
+	</table>
+</script>
+
+<script>
+(function(){
+	require(["form-style","alerts","tabs","template"],function(){
+		/*栏目模板初始化*/
+		var template = Handlebars.compile($("#md-list-sites").html()); //创建模板编译器
+		var refreshList = function(){
+			$.ajax({
+				url : "json/list-columnModel.json",
+				dataType : "json",
+				success: function(data){
+					$(".list-sites").html( template(data) );
+					$(".list-sites tr:not(.adding)").find(".checkbox").toCheckbox();
+					$(".list-sites tr:not(.adding)").find(".switch").toSwitch();
+					$(".list-sites tr:not(.adding)").find(".select").toSelect({
+						width: "100%",
+						colorful: false
+					}).on('change',function(){
+						//jAlert( this.value, "你选择的值为：" );
+						$(".select-result").html( "你选择的值为："+this.value );
+					}).trigger("change");
+					for(i=0;i<$(".list-sites").find(".fm-select").length; i++){
+						$(".list-sites").find(".fm-select").eq(i).css("zIndex", 10000-i);
+					};
+					$("body").addClass("widthMin");
+				} 
+			});
+		};
+		refreshList();
+
+		/*栏目模板添加字段*/
+		$(".field_column a,.field_columntop").on("click",function(){
+			var new_tr=$(".column_table").find("tr.last").clone();
+			new_tr.find(".pn-add").addClass("pn-frequired");
+			new_tr.removeClass("last");
+			$(".column_table").append(new_tr);
+			var addlen=$(".column_table").find(".adding").length-1;
+			$(".list-sites .adding").eq(addlen).find(".checkbox").toCheckbox();
+			$(".list-sites .adding").eq(addlen).find(".switch").toSwitch();
+			$(".list-sites .adding").eq(addlen).find(".select").toSelect({
+				width: "100%",
+				colorful: false
+			}).on('change',function(){
+				//jAlert( this.value, "你选择的值为：" );
+				$(".select-result").html( "你选择的值为："+this.value );
+			}).trigger("change");
+			$("body").addClass("widthMin");	
+		});
+		
+		/*栏目模型全选*/
+		$("#tabs-2").find("#all_column").on("click",function(){
+			console.log(this);
+			var _this = $(this);
+			$(".column_table").find(".ids").each(function(){
+				if( $(this).is(":checked") !== _this.is(":checked") ){
+					$(this).trigger('click')
+				}
+			});
+		});
+
+		/*栏目模型menu删除*/
+		$("#tabs-2").find(".btn-delete").on("click",function(){
+			var deLists=$(".column_table tr:not(.last)").find(".ids");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".column_table").find(".ids").eq(i))			
+					}
+				}
+				if(arr[0]){
+					jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result ){
+							for(i=0; i<arr.length;i++){
+								arr[i].parent().parent().parent().remove();
+							}
+						}
+					});	
+				};
+				if(arr[0]&&arr[1]){
+					$(".delete_content").html("是否删除多条信息");
+				};
+				if(!arr[0])	{
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择删除项</p>');
+				}
+			}
+		});
+
+		/*栏目模型menu上下移动*/
+		$("#tabs-2").find(".list-move").on("click","span",function(){
+			var newNu=0;
+			var index;
+			var contentform=$("#tabs-2").find(".column_table");
+			var contentlength=contentform.find(".ids").length;
+			if(contentlength>0){
+				function newmo(){
+					for(var i=0;i<contentlength;i++){
+						if(contentform.find(".ids")[i].checked==true){
+							newNu+=1;
+							index=i;
+						}
+					}
+					if(newNu>1){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">抱歉，只能选择一项</p>');
+					}else if(newNu==0){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+
+					}
+				}			
+				if($(this).index()==0){
+					newmo();
+					if(newNu==1&&index==0){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">已经置顶</p>');
+					}
+					else if(newNu==1&&index>0){	
+						var onthis=$("#tabs-2").find(".column_table").find("tr").eq(index+1);
+						var getup=onthis.prev();
+						getup.before(onthis);
+					}
+				}
+				if($(this).index()==1){
+					newmo();
+					if(newNu==1&&index==contentlength-2){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">已经置底</p>');
+					}
+					else if(newNu==1&&index<contentlength-1){	
+						var onthis=$("#tabs-2").find(".column_table").find("tr").eq(index+1);
+						var getdown=onthis.next();
+						getdown.after(onthis);
+					}
+				}
+			}
+		});
+
+
+		/*栏目模型menu顶置*/
+		$("#tabs-2").find(".btn-top").on("click",function(){
+			var deLists=$(".column_table").find(".ids");
+			var len=deLists.length;
+			var index;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".column_table").find(".ids")[i].value);
+						index=i;			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]&&index!==0){
+					var onthis=$("#tabs-2").find(".column_table").find("tr").eq(index+1);
+					var getup=$("#tabs-2").find(".column_table").find("tr").eq(1);
+					getup.before(onthis);
+			};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+				if(arr[0]&&index==0){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">已经置顶</p>');
+				}
+			}
+		});
+		
+		/*提交*/
+		$("#tabs-2").find(".submit_bt").on("click",function(){
+			var require=$(".column_table").find(".pn-frequired");
+			var len=0;
+			for(i=0;i<require.length; i++){
+				if(require.eq(i).val()==""){
+					require.eq(i).addClass("requireKey");
+					len+=1;
+				}
+				else{
+					require.eq(i).removeClass("requireKey");
+				}
+				if(require.eq(i).hasClass("requireKey")){
+					require.eq(i).on("blur", function(){
+						if($(this).val()!==""){
+							$(this).removeClass("requireKey")
+						}
+					})
+				}
+			};
+			if(len!==0){
+				return false;
+			};
+		});
+		$(".radio").toRadio();
+		$("#tabs").tabs();
+		$("#tabs").find(".switch").toSwitch();
+		$(".checkbox").toCheckbox();
+	});
+})();
+
+</script>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test-date-util</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+
+<script>
+	require(["dateUtil"], function(DU){
+		var dStr = "33分22秒2015年20时2日3月";
+		var dFmt = "mm分ss秒yy年hh时dd日MM月";
+		var dFmt2 = "yy年MM月dd日 hh时mm分ss秒";
+
+		var d = DU.parse(dStr,dFmt);
+		document.write( DU.format(d,dFmt2) );
+	});
+</script>
+</body>
+</html>

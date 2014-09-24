@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>站点设置列表</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="outter-frame">
+<div class="mainRight">
+	<h1>站点配置</h1>
+	<div class="station_menu">
+		<input type="checkbox" name="checkbox" class="checkall" id="_checkAll" value="0"> <label for="_checkAll">全选</label>
+		<a class="fm-button btn-add round" href="addstatic.html">添加站点</a>
+		<a class="fm-button btn-edit round" href="#">编辑</a>
+		<a class="fm-button btn-delete round" href="#">删除</a>
+	</div>
+	<div id="list-sites">
+		
+	</div>
+	<script type="template/html" id="md-list-sites" data-target="#list-sites"  data-method="post">
+		<table class="table station_table">
+			<tr>
+				<th width="8%">ID</th>
+				<th>名称</th>
+				<th>域名</th>
+				<th>路径</th>
+				<th>动态页后缀</th>
+				<th>静态页后缀</th>
+				<th>前台本地化</th>
+				<th>操作</th>
+			</tr>
+			{{#each list}}
+			<tr>
+				<td><input type="checkbox" name="checkbox" class="checkbox" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+				<td class="nameColor">{{name}}</td>
+				<td>{{domain}}</td>
+				<td>{{url}}</td>
+				<td>{{d_suffix}}</td>
+				<td>{{s_suffix}}</td>
+				<td>{{fe_suffix}}</td>
+				<td class="nameColor"><a href="#" data-id="{{id}}" >编辑</a> | <a class="delete" href="#" data-id="{{id}}">删除</a></td>
+			</tr>
+			{{/each}}
+		</table>
+	</script>
+</div>
+
+<script src="../js/frame.js"></script>
+<script>
+(function($){
+	var URL = $.initFrame('siteConfigur').URL;
+
+	require(["template-init","form-style"],function(T){
+		$(".checkall").toCheckbox();
+		//栏目列表加载和美化
+		T.init({
+			tmpl:"#md-list-sites",
+			sourceUrl:URL.siteConfigur,
+			callback:function(){
+				$("#list-sites").find("input[name='checkbox']").toCheckbox();
+			}
+		});
+	});
+	require(["formUtil"],function(F){
+		F.selectAll({
+			handle : "#_checkAll",
+			checkList : "#list-sites .checkbox",
+			checkListHolder: "#list-sites"
+		});
+	});
+
+
+	require(["template-init","form-style","alerts"],function(T){
+
+		/*menu删除*/
+		$(".station_menu").find(".btn-delete").on("click",function(){
+			var deLists=$(".station_table").find("input[name='checkbox']");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find("input[name='checkbox']")[i].value)			
+					}
+				}
+				if(arr[0]){
+					jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result ){
+							T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.siteConfigur,
+								callback:function(){
+									$("#list-sites").find("input[name='checkbox']").toCheckbox();
+								},
+								sourceData:function(){
+									return {
+										deleteIds:arr.join(",")
+									};
+								}
+							});
+						}
+					});	
+				};
+				if(arr[0]&&arr[1]){
+					$(".delete_content").html("是否删除多条信息");
+				};
+				if(!arr[0])	{
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择删除项</p>');
+				}
+			}
+		});
+
+
+		/*menu编辑*/
+		$(".station_menu").find(".btn-edit").on("click",function(){
+			var deLists=$(".station_table").find("input[name='checkbox']");
+			var len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table").find("input[name='checkbox']")[i].value)			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]){
+					$.ajax({
+						url : "../json/success.json",
+						data:sub,
+						dataType : "json",
+						success: function(data){
+							
+						}
+					})
+				};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+		/*table  delete*/
+		$("#list-sites").on("click",".delete",function(){
+			var ID=$(this).attr("data-id");
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					T.refresh({
+						tmpl:"#md-list-sites",
+						sourceUrl:URL.siteConfigur,
+						callback:function(){
+							$("#list-sites").find("input[name='checkbox']").toCheckbox();
+						},
+						sourceData:function(){
+							return {
+								deleteId:ID
+							};
+						}
+					});
+				}
+			});	
+		});
+	});
+})(jQuery);
+
+</script>
+</body>
+</html>

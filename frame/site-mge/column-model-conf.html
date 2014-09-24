@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>栏目模型配置</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+</head>
+<body class="outter-frame">
+	<h1>栏目模型配置</h1>
+	<div class="station_menu">
+		<input type="checkbox" name="checkbox" class="checkAll" id="all" value="0"> <label for="all">全选</label>
+		<a class="fm-button btn-add round">添加栏目模型</a>
+		<a class="fm-button btn-edit round">编辑</a>
+		<a class="fm-button btn-delete round">删除</a>
+		<a class="list-move"><span class="list-move-up">上移</span> <span class="list-move-down">下移</span></a>
+		<a class="fm-button btn-top round">置顶</a>
+		<input type="submit" class="fm-button round" style="height:30px; vertical-align: top; border:none;" action="o_delete.do" value="保存">
+	</div>
+	<div id="list-sites">
+
+	</div>
+	<div class="pager-line">
+		<p id="pager" class="fm-pager"></p>
+	</div>
+</div>
+
+<script type="template/html" id="md-list-sites" data-target="#list-sites" data-pagination="#pager" data-method="post">
+	<table class="table station_table">
+		<tr>
+			<th width="8%">ID</th>
+			<th>模型名称</th>
+			<th>栏目模板前缀</th>
+			<th>内容模板前缀</th>
+			<th>默认</th>
+			<th>启用</th>
+			<th width="26%">操作</th>
+		</tr>
+		{{#each list}}
+		<tr>
+			<td><input type="checkbox" name="checkbox" class="ids" id="cb-{{id}}" value="{{id}}"> <label for="cb-{{id}}">{{id}}</label></td>
+			<td class="nameColor">{{name}}</td>
+			<td>{{p-column}}</td>
+			<td>{{p_content}}</td>
+			<td class="defIdTd"><input type="checkbox" name="defId" class="checkbox"  {{#if defaults}}checked{{/if}} value="{{id}}"></td>
+			<td class="enabledTd"><input type="checkbox" name="enabled" class="switch switchIds" {{#if enabled}}checked{{/if}}  value="{{id}}"></td>
+			<td class="nameColor"><a href="v_edit.do?id={{id}}"  data-id="{{id}}">基本信息</a> | <a href="../item/v_list.do?modelId={{id}}&isChannel=true" data-id="{{id}}" >栏目模型</a> | <a  href="../item/v_list.do?modelId=15&isChannel=false" data-id="{{id}}">内容模型</a> | <a class="delete" href="#" data-id="{{id}}">删除</a> </td>
+		</tr>
+		{{/each}}
+	</table>
+	<span class="currentPage">{{currentPage}}</span>
+	<span class="totalPage">{{{division totalCount pageSize }}}</span>
+</script>
+<script type="text/javascript" src="../js/frame.js"></script>
+<script>
+(function($){
+	/* 加载（获取）列表数据 */
+	var URL = $.initFrame('columnModelConf').URL;
+	require(['template-init','form-style'],function(T){
+		$('.checkAll').toCheckbox();
+		T.init({
+			tmpl:"#md-list-sites",
+			sourceUrl:URL.columnModelConf,
+			callback:function(){
+				var listSites=$("#list-sites")
+				$(".ids",listSites).toCheckbox();
+				$(".checkbox",listSites).toCheckbox();
+				$(".switch",listSites).toSwitch();
+
+				//table tr拖拽
+				require(['sortable'],function(){
+					var index = null;
+					//获取tr的父级进行sortable操作，因为浏览器会为table添加tbody。
+					$('#list-sites tr').parent().sortable({
+						start:function(e,ui){
+							index = ui.item.index();
+						},
+						stop:function(e,ui){
+							var n = ui.item.index() - index;
+							if(!n)return; //没有移动, 直接返回
+							jAlert( "向<span style='color:green'>"+(n>0?'后':'前')+"</span>移动了 <span style='color:red'>" + Math.abs(n) + "</span> 个" );
+						}
+					});
+				});
+				
+			}
+		})
+	})
+
+	/* 全选（2） */
+	require(['formUtil'],function(F){
+		F.selectAll({
+			handle : "#all",
+			checkList : "#list-sites .ids",
+			checkListHolder : "#list-sites"
+		});
+	});
+
+	require(["template-init","form-style","alerts"],function(T){
+		
+		/*menu删除*/
+		$(".station_menu .btn-delete").on("click",function(){
+			var deLists=$(".station_table .ids"), len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table .ids").eq(i).val())			
+					}
+				}
+				if(arr[0]){
+					jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+						okButton : "是",
+						cancelButton : "否"
+					},function(result){
+						if(result ){
+							T.refresh({
+								tmpl:"#md-list-sites",
+								sourceUrl:URL.columnModelConf,
+								callback:function(){
+									var listSites=$("#list-sites")
+									$(".ids",listSites).toCheckbox();
+									$(".checkbox",listSites).toCheckbox();
+									$(".switch",listSites).toSwitch();
+
+								},
+								sourceData:function(){
+									return {
+										deleteIds:arr.join(",")
+									};
+								}
+
+							})
+						}
+					});	
+				};
+				if(arr[0]&&arr[1]){
+					$(".delete_content").html("是否删除多条信息");
+				};
+				if(!arr[0])	{
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择删除项</p>');
+				}
+			}
+		});
+	
+		/*menu添加*/
+		$(".station_menu .btn-add").on("click",function(){
+			window.location.href="column-model-edit.html";
+			delete window.top.modelId;
+		})
+
+		/*menu编辑*/
+		$(".station_menu .btn-edit").on("click",function(){
+			var deLists=$(".station_table .ids"), len=deLists.length;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table .ids")[i].value)			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]){
+					$.ajax({
+						url : "../json/success.json",
+						data:sub,
+						dataType : "json",
+						success: function(data){
+							window.top.modelId=sub;
+							window.location.href="column-model-edit.html"
+						}
+					})
+				};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+
+		/*menu上下移动*/
+		$(".station_menu").find(".list-move").on("click","span",function(){
+			var contentform=$("#list-sites .station_table"), contentlength=$(".ids",contentform).length, newNu=0, index, dataid;
+			if(contentlength>0){
+				function newmo(){
+					for(var i=0;i<contentlength;i++){
+						if($(".ids",contentform)[i].checked==true){
+							newNu+=1;
+							index=i;
+							dataid=contentform.find("input[name='checkbox']").eq(i).val();
+						}
+					}
+					if(newNu>1){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">抱歉，只能选择一项</p>');
+					}else if(newNu==0){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+
+					}
+				}			
+				if($(this).index()==0){
+					newmo();
+					if(newNu==1&&index==0){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">已经置顶</p>');
+					}
+					else if(newNu==1&&index>0){	
+						dataidup=$("input[name='checkbox']",contentform).eq(index-1).val();
+						T.refresh({
+							tmpl:"#md-list-sites",
+							sourceUrl:URL.columnModelConf,
+							callback:function(){
+								var listSites=$("#list-sites");
+								$(".ids",listSites).toCheckbox();
+								$(".checkbox",listSites).toCheckbox();
+								$(".switch",listSites).toSwitch();
+							},
+							sourceData:function(){
+								return {
+									thisId:dataid,
+									Idto:dataidup
+								};
+							}
+						})
+					}
+				}
+				if($(this).index()==1){
+					newmo();
+					if(newNu==1&&index==contentlength-1){
+						jAlert('<h2 class="title"></h2> <p class="delete_content">已经置底</p>');
+					}
+					else if(newNu==1&&index<contentlength){	
+						dataiddowm=$("input[name='checkbox']",contentform).eq(index+1).val();
+						T.refresh({
+							tmpl:"#md-list-sites",
+							sourceUrl:URL.columnModelConf,
+							callback:function(){
+								var listSites=$("#list-sites");
+								$(".ids",listSites).toCheckbox();
+								$(".checkbox",listSites).toCheckbox();
+								$(".switch",listSites).toSwitch();
+
+							},
+							sourceData:function(){
+								return {
+									thisId:dataid,
+									Idto:dataiddowm
+								};
+							}
+						})
+						
+					}
+				}
+			}
+		});
+
+
+		/*menu顶置*/
+		$(".station_menu .btn-top").on("click",function(){
+			var deLists=$(".station_table,.ids"), len=deLists.length, index;
+			if(len!==0){
+				var arr=[];
+				for(i=0; i<len; i++){
+					if(deLists[i].checked){
+						arr.push($(".station_table .ids")[i].value);
+						index=i;			
+					}
+				};
+				var sub=arr.join();
+				if(arr[0]&&!arr[1]){
+					T.refresh({
+						tmpl:"#md-list-sites",
+						sourceUrl:URL.columnModelConf,
+						callback:function(){
+							var listSites=$("#list-sites");
+							$(".ids",listSites).toCheckbox();
+							$(".checkbox",listSites).toCheckbox();
+							$(".switch",listSites).toSwitch();
+
+						},
+						sourceData:function(){
+							return {
+								idTop:arr.join(",")
+							};
+						}
+					})
+				};
+				if(!arr[0]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">请选择一项</p>');
+				}
+				if(arr[1]){
+					jAlert('<h2 class="title"></h2> <p class="delete_content">只能选择一项</p>');
+				}
+			}
+		});
+
+
+		/*table  delete*/
+		$("#list-sites").on("click",".delete",function(){
+			var ID=$(this).attr("data-id");
+			jConfirm('<h2 class="title"></h2> <p class="delete_content">是否删除该条信息</p> ',"",{
+				okButton : "是",
+				cancelButton : "否"
+			},function(result){
+				if(result ){
+					T.refresh({
+						tmpl:"#md-list-sites",
+						sourceUrl:URL.columnModelConf,
+						callback:function(){
+							var listSites=$("#list-sites");
+							$(".ids",listSites).toCheckbox();
+							$(".checkbox",listSites).toCheckbox();
+							$(".switch",listSites).toSwitch();
+
+						},
+						sourceData:function(){
+							return {
+								deleteId:ID
+							};
+						}
+
+					})
+				}
+			});	
+		});
+
+		$("#list-sites").on("click",".defIdTd i",function(){
+			var Ini=$(this).find("input[name='defId']"), defIdData={};
+			defIdData.id=Ini.val();
+			if(Ini[0].checked){
+				defIdData.defId=true;
+			}else{
+				defIdData.defId=false;
+			}
+
+			$.ajax({
+				url : "../json/success.json",
+				type:"post",
+				data:defIdData,
+				dataType : "json",
+				success: function(data){
+					
+				}
+			})
+		})
+
+		$("#list-sites").on("click",".enabledTd i",function(){
+			var Ini=$(this).find("input[name='enabled']"), enabledData={};
+			enabledData.id=Ini.val();
+			if(Ini[0].checked){
+				enabledData.enabled=true;
+			}else{
+				enabledData.enabled=false;
+			}
+
+			$.ajax({
+				url : "../json/success.json",
+				type:"post",
+				data:enabledData,
+				dataType : "json",
+				success: function(data){
+					
+				}
+			})
+		})
+
+	});
+})(jQuery);
+</script>
+</body>
+</html>

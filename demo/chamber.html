@@ -1,0 +1,428 @@
+﻿<!doctype html>
+<html lang="zn">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻辩论</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+		*{margin: 0;padding: 0;}
+		body{padding: 0 16px;}
+		h2{font: bold 16px/2.5 'Microsoft Yahei';}
+		table{width: 100%;line-height: 40px;}
+		td,th{vertical-align: top;}
+		th{text-align: right;padding-right: .5em; font:normal 14px/40px 'Arial';}
+		td>input[type=text], textarea{width: 98%;line-height: 24px;height: 24px; padding: 0;}
+		textarea{height:auto;}
+		td>input.Wdate{width: 44%;}
+		.required,.error{color: #f60;}
+		td>input.inp-search{
+			margin-top: 6px;
+			float: left;
+			width: 80%;
+		}
+		.btn-search{
+			color: #fff;
+			margin-top: 6px;
+			height:28px;
+			background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAFcSURBVHjatJSxagJBEIZ/E4gEhDzDwT2AlSCkEqxsU+VhBNsUaVJdlQcQbAOpTmx9gIBVAmkODoQTQkLCn2YWhmVvb3fxFobR3Z35dnTmH5BEn+vCczYHUADYA/gFQPlcyFnYImlbTrJk9yrlLnxmb9ySrCVBQ3JFckryUmwqe43cqSUmCJCr5CXJzBOYqSprXyX6iwnYdJWtbKMe5AXM1GtGEYCRqnrmumO66E78I4BTRBeeJEbncHbRQV4xjni9sbHEHlznAxm0bwBXAIYAfiJn6QbAUeKGbYP2Jf46YVj/LO8EfIrPEgC5+A8fYCt+kQBYWDmcf7Jp0yqhTStfg7gGbR0BWHcNpy0VRwl4DZCKFyV8D6lityQ5UecT2Wsc6roMAZhKdgFyvSP51AXx/b5zkgXJvUrwRvLZ0p2VD4IEaXBZK+RcgFbIOQE2pOoDYCDvJO+1mva2/gcAhSr7FM97IiIAAAAASUVORK5CYII=") center center no-repeat #00b6aa;
+			text-indent: -9999em;
+			float:left;
+			width:18%;
+			border-radius: 0 3px 3px 0;
+		}
+		.search-result{height:180px;}
+		.search-result ul{
+			width: 98%;
+			border: 1px solid #d2d2d2;
+			height: 180px;
+			overflow-y:scroll;
+		}
+		.search-result ul li{
+			height: 36px;
+			line-height: 36px;
+			clear: both;
+			overflow: hidden;
+		}
+		.search-result ul li a{
+			display: block;
+			color: #666;
+		}
+		.search-result ul li a .con{
+			overflow:hidden;
+			white-space: nowrap;
+			text-overflow:ellipsis;
+		}
+		.search-result ul li a i{
+			font-style: normal;
+		} 
+		.search-result ul li.addlisbg{
+			background: #dbede9;
+		}
+		.search-result ul li a span{
+			display: block;
+			float: right;
+			width: 56px;
+			height: 20px;
+			line-height: 20px;
+			text-align: center;
+			margin: 8px 12px 0 0;
+			border: 1px solid #00b6aa;
+		}
+		.search-result ul li.addlisbg span{
+			background: #00b6aa;
+			border: 1px solid #00b6aa;
+			color: #fff;
+		}
+		.search-result ul li.addlisbg:hover span{
+			color:#fff;
+		}    
+		.search-result ul li a{
+			display: block;
+			padding-left: 10px;
+		}
+		.search-result ul li a:hover{
+			background: #dbede9;
+		}
+		.search-result ul li a:hover span{
+			border: 1px solid #00b6aa;
+			color: #00b6aa;
+			cursor: pointer;
+		}
+		.search-result ul li a em{
+			display: block;
+			float: right;
+			width: 20px;
+			height: 20px;
+			margin: 8px 12px 0 0;
+			background: url("../images/bind.png") -40px -180px; 
+			text-indent: -9999em;
+		}
+		#base-chamber{
+			padding: 20px 0;
+		}
+		#close-chamber{
+			display: none;
+			border-top: 1px solid #f2f2f2;
+			padding: 20px 0;
+		}
+		#submit-line{
+			display: none;
+			text-align: right;
+			padding-bottom: 20px;
+		}
+		#submit-line input{
+			margin-right: 2em;
+		}
+		#submit-line .fm-cancel{
+			background: #d2d2d2;
+			border-color: #d2d2d2;
+		}
+	</style>
+</head>
+<body style="min-width:800px;background:none;">
+	<form action="#" id="form">
+		<div id="base-chamber">
+			<h2>提交辩论</h2>
+			<table>
+				<colgroup style="width:12%"></colgroup>
+				<colgroup style="width:44%"></colgroup>
+				<colgroup style="width:44%"></colgroup>
+				<tr>
+					<th>标题:<i class="required">*</i></th>
+					<td><input type="text" name="title" id="title" maxlength="20"></td>
+					<td class="text-tip">20字以内</td>
+				</tr>
+				<tr>
+					<th>描述:<i class="required">*</i></th>
+					<td><textarea name="content" id="content" rows="5" maxlength="800"></textarea></td>
+					<td class="text-tip">800字以内</td>
+				</tr>
+				<tr>
+					<th>蓝方观点:<i class="required">*</i></th>
+					<td><input type="text" name="positive" id="positive" maxlength="20"></td>
+					<td class="text-tip">20字以内</td>
+				</tr>
+				<tr>
+					<th>红方观点:<i class="required">*</i></th>
+					<td><input type="text" name="negative" id="negative" maxlength="20"></td>
+					<td class="text-tip">20字以内</td>
+				</tr>
+				<tr>
+					<th>标题图:</th>
+					<td>
+						<div style="position:relative;width:100%;">
+							<img style="width:300px;height:200px;" id="pic-show">
+							<a href="javascript:void(0);" class="fm-button" id="pic-upload">上传图片</a>
+							<input type="hidden" name="pic" id="pic-value" value="">
+						</div>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>有效期:</th>
+					<td>
+						<input type="text" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});">
+						<span>至</span>
+						<input type="text" name="endTime" id="endTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" style="float:right;margin:8px 1.2%;">
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<th>背景资料:</th>
+					<td>
+						<input type="text" id="inp-search" class="inp-search" placeholder="输入搜索关键字" >
+						<a href="javascript:void(0);" class="btn-search">搜索</a>
+					</td>
+					<td>已选择背景资料</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td class="search-result"><ul id="search-result" style="background: #f3f3f3;"></ul></td>
+					<td class="search-result"><ul id="select-result"></ul></td>
+				</tr>
+			</table>
+			<script type="handlebars/template" id="tmpl-search" data-url="/agent?http://172.18.11.69:8080/xhCNS/search.htm?" data-target="#search-result">
+				{{#if content.length}}
+				{{#each content}}
+				<li class="{{addlisbg}}" data-id="{{docId}}" data-description="{{description}}" data-name="{{docName}}" data-href="{{docUrl}}">
+					<a href="{{docUrl}}" target="_blank">
+						<span class="sel-handle">{{#if addlisbg}}已选择{{else}}选择{{/if}}</span>
+						<div class="con" title="{{description}}">{{{docName}}}</div>
+					</a>
+				</li>
+				{{/each}}
+				{{else}}
+				<h3 style="color:#c00;text-align:center;">没有查询结果!</h3>
+				{{/if}}
+			</script>
+			<script type="handlebars/template" id="tmpl-select">
+				<li data-id="{{docId}}">
+					<a href="javascript:void(0);">
+						<em class="sel-handle">删除</em>
+						<div class="con" title="{{description}}"><a data-id="{{docId}}" href="{{docUrl}}" target="_blank">{{{docName}}}</a></div>
+					</a>
+				</li>
+			</script>
+		</div>
+			
+		<div id="close-chamber">
+			<h2>结束辩论</h2>
+			<table>
+				<colgroup style="width:12%"></colgroup>
+				<colgroup style="width:44%"></colgroup>
+				<colgroup style="width:44%"></colgroup>
+				<tr>
+					<th>结语专家昵称:</th>
+					<td><input type="text" name="summaryUser" id="summaryUser" maxlength="20"></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<th>结语:</th>
+					<td><textarea name="summaryContent" id="summaryContent" rows="3" maxlength="800"></textarea></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<th>当事者昵称:</th>
+					<td><input type="text" name="participateUser" id="participateUser" maxlength="20"></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<th>当事者说:</th>
+					<td><textarea name="participateContent" id="participateContent" rows="3" maxlength="800"></textarea></td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+			
+		<div id="submit-line">
+			<input type="submit" value="确定" class="fm-button">
+			<input type="button" value="取消" class="fm-button fm-cancel">
+		</div>
+	</form>
+<script>
+
+require(["WdatePicker"]);
+
+require(['template'],function(){
+	var compile = Handlebars.compile( $('#tmpl-select').html() ),
+		result = $('#search-result'),
+		panel = $('#select-result');
+
+	result.on('click','.sel-handle',function(e){
+		var _t = $(this), p = _t.parent().parent(), data = p.data();
+		if( p.hasClass('addlisbg') ){
+			panel.children().filter( '[data-id="'+p.data('id')+'"]' ).remove();
+			p.removeClass('addlisbg');
+			_t.html('选择');
+		}else{
+			panel.append( compile({
+				docId : data.id,
+				docUrl: data.href,
+				docName: data.name,
+				description: data.description
+			}) );
+			p.addClass('addlisbg');
+			_t.html('已选择');
+		}
+		e.stopPropagation();
+		e.preventDefault();
+	});
+
+	panel.on('click','.sel-handle',function(){
+		var p = $(this).parent().parent(), handle = result.find( '[data-id="'+p.data('id')+'"]' );
+		handle.length ? handle.children().children('.sel-handle').trigger('click') : p.remove();
+	});
+
+});
+
+require(['template-init'],function(T){
+	var kw = $('#inp-search'); 
+	$('.btn-search').on('click',function(show_alert){
+		var keyword = $.trim( kw.val() );
+		if( !keyword ){
+			show_alert||alert( "请输入查询关键字" );
+			return;
+		}
+		T.init({
+			tmpl : "#tmpl-search",
+			sourceUrl: top.xhconfig ? top.xhconfig.newsSearch : undefined,
+			sourceData : function(){
+				return {
+					retype : 'json',
+					searchType: 'union',
+					keyword: keyword
+				};
+			},
+			begin : function(o){
+				var list = o.source.content;
+				for (var i = 0; i < list.length; i++) {
+					if( $('[data-id="'+list[i].docId+'"]','#select-result').length ) list[i].addlisbg = 'addlisbg';
+				};
+			}
+		});
+	}).trigger('click',true);
+});
+
+require(['queryparam'],function(Q){
+	var docId = Q('id'), debateId = top.cacheDetail.debateId, tag = Q('tag');
+	var form = $('#form'), panel = $('#select-result');
+
+	$('#inp-search').val( tag );
+	if( docId ){ //有docId才能提交
+		$('#submit-line').show();
+	}
+	// 根据debateId判断是修改还是新增
+	form.attr({
+		action: debateId ? '../../xhadmin/basic/modifyDebate.do' : '../../xhadmin/basic/addDebate.do'
+	});
+
+	if( debateId ){
+		$.ajax({
+			url: '../../admin/debate/'+debateId+'/getDebate.json',
+			cache: false,
+			dataType:'json',
+			success:function(json){
+				if( json.code == '1' ){
+					var o = json.content;
+					for(var i in o){
+						$('[name="'+i+'"]').val( o[i] );
+						if( i === 'resource' ){
+							panel.html( o[i].replace(/<br\/>/g,'').replace(/<a\s(data\-id\S+)[^<]+<\/a>/g,function(match,dataId){
+								return '<li '+dataId+'><a href="javascript:void(0);"><em class="sel-handle">删除</em><div class="con">'+match+'</li>';
+							}) );
+						}else if( i === 'pic' ){
+							$('#pic-show').attr('src',o[i]);
+						}
+					}
+					$('#close-chamber').show();
+				}else{
+					alert('获取辩论厅信息失败！\n'+json.message);
+				}
+			},
+			error:function(){
+				alert('获取辩论厅信息失败！');
+			}
+		});
+	}
+
+	form.on('submit',function(e){
+
+		var data = $(this).serializeArray(), resource = panel.html().match( /<a\sdata\-id[^<]+<\/a>/g );
+		
+		data = data.concat([
+			{
+				name : 'contentId',
+				value: docId
+			},
+			{
+				name : 'resource',
+				value: resource ? resource.join('<br/>') : ''
+			}
+		]);
+
+		if( debateId ){
+			data.push({
+				name : 'id',
+				value: debateId
+			});
+		}
+
+
+		$.ajax({
+			url : this.action,
+			data: $.param(data),
+			type:'post',
+			dataType: 'json',
+			success: function(json){
+				if(json.code=='1'){
+					if(json.debateId)top.cacheDetail.debateId = json.debateId;
+					top.debateFN.init(top.cacheDetail.debateId,function(){
+						top.jTip( json.message );
+					});
+					$('.ui-dialog-titlebar-close',top.document).trigger('click');
+				}else{
+					alert( '保存辩题失败! \n'+json.message );					
+				}
+			}
+		});
+
+		e.preventDefault();
+
+	});
+
+	$('#submit-line .fm-cancel').on('click',function(){
+		$('.ui-dialog-titlebar-close',top.document).trigger('click');
+	});
+});
+
+require(['frameUpload'],function(FrameUpload){
+	var upload= $('#pic-upload'),
+		show  = $('#pic-show'),
+		value = $('#pic-value');
+
+	new FrameUpload({
+		el: upload[0],
+		action: "../../admin/ueditor/uploadPic.json",
+		ajax: true,
+		onchange: function(){
+			this.submit();
+		},
+		afterUpload: function(data){
+			if( data && data.state == "SUCCESS" ){
+				show.attr("src",data.imageUrl),
+				value.val(data.imageUrl);
+			}
+		},
+		ready: function(){
+			this.setAttribute("accept","image/*");
+		}
+	});
+});
+
+</script>
+</body>
+</html>

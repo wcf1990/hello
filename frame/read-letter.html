@@ -1,0 +1,103 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>查看站内信</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body class="inner-frame">
+	<div class="mainBox">
+		<!--<div class="mainHead">
+				<a href="#">首页</a><a> &gt; </a><span class="text-normal">站内信</span>
+		</div>-->
+		<div class="mainCenter see_mainCenter">
+			<a class="fm-button back_list" href="msg.html?#tabs-3">返回列表</a>
+			<form id="later_content">
+
+			</form>
+			<script type="template/html" id="temp_send_lists" data-target="#later_content">
+					<ul class="content_lists">
+						{{#m}}
+						<li>
+							<strong>发件人:</strong>
+							<span>{{sendUser/username}}</span>
+						</li>
+						<li>
+							<strong>发件时间:</strong>
+							<span>{{{Date text/createDate}}}</span>
+						</li>
+						<li>
+							<strong>主题:</strong>
+							<span>{{text/title}}</span>
+						</li>
+						<li>
+							<strong>内容:</strong>
+							<span>{{text/body}}</span>
+						</li>
+					</ul>
+					<div class="bt_lists">
+						<a class="fm-button replyRead">回复</a>
+						<a class="fm-button transpond" href="msg.html?id={{id}}">转发</a>
+						<a class="fm-button deleteLetter" href="#">删除</a>
+					</div>
+					{{/m}}
+			</script>
+			
+		</div>
+	</div>
+<script src="js/frame.js"></script>
+<script>
+var URL=$.initFrame('letterContent').URL;
+var URLmsg=$.initFrame('msg').URL;
+(function($){
+	require(["template-init","queryparam","requestAFrame","dateUtil","alerts"],function(T,Q,R,DateUtil){
+		Handlebars.registerHelper('Date', function(t) {
+			if( !t ) return t;
+			var d = new Date(); d.setTime(t);
+	        return DateUtil.format(d,"yy-MM-dd hh:mm:ss");
+	    });
+		var id = Q("id");
+		T.init({
+			tmpl:"#temp_send_lists",
+			sourceUrl:URL.letterContent.replace("{{id}}",id),
+			callback:function(){
+				$(".replyRead").on("click",function(){
+					 window.location.href="msg.html?id="+id;
+					 window.top.reply_read=true;
+				});
+				$(".transpond").on("click",function(){
+					window.location.href="msg.html?id="+id;
+					window.top.transpond=true;
+				});
+				$(".deleteLetter").on("click",function(){
+					$.ajax({
+						url:URLmsg.deleteMsg.replace("{{id}}",id),
+						data:id,
+						success:function(data){
+							jTip( '删除成功', 2000 );
+							var fn = function(){
+								$(".back_list")[0].click();
+							}
+							setTimeout(fn,3000);	
+						}
+					})
+				});
+			},
+			sourceData:function(){
+				return {
+					id:id
+				};
+			}
+		});	
+
+
+	});
+})(jQuery);
+</script>
+
+</body>
+</html>

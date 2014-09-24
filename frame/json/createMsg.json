@@ -1,0 +1,21 @@
+{
+    "m": {
+        "new": true,
+        "sendStatus": "send",
+        "status": "unread"
+    },
+    "op": "新增",
+    "statusList": [
+        "unread",
+        "read",
+        "recycle",
+        "deleted",
+        "send",
+        "all"
+    ],
+    "typeList": [
+        "user",
+        "sys",
+        "all"
+    ]
+}

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>template-init</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+</head>
+<body>
+<style type="text/css">
+    .pager{
+        line-height: 30px;
+    }
+    .pager span, .pager a{
+        padding: 4px 6px;
+        margin: 0 8px;
+        cursor: pointer;
+    }
+    .pager .pagination-curr{
+        background: #f26c4f;
+        color: #fff;
+    }
+    body{
+        padding-bottom: 80px;
+    }
+    h3{
+        margin: 30px 0 0;
+    }
+    .nocon-bid{ display:block; margin:0 auto; width:132px; height:132px; background:url(../images/no-conbid.png) no-repeat;}
+.nocon-detail{ display:block; margin: 0 auto; margin-top:30px; height:34px; width:200px; line-height:34px; font-size:24px; text-align:center; font-family:'Microsoft Yahei'; color:#afafaf;}
+</style>
+<h3>基于xtemplate的数据加载通用方案</h3>
+<h3>基本样例：</h3>
+<script type="text/html" id="base-model">{{data}}</script>
+<strong id="base-show">我是待填充标签【点击我开始填充】</strong>
+<script type="text/javascript">
+    require(["template-init"],function(T){
+        $("#base-show").on("click",function(){
+            T.init({
+                tmpl: "#base-model",    //模板标签选择器
+                source : {code:200,data:"赐予我力量吧！ 我是希曼。"},   //元数据
+                target : "#base-show",      //待填充标签选择器
+                callback: function(o,pager){    //回调方法
+                    alert( "填充完毕！" );
+                }
+            });
+        });
+    });
+</script>
+
+<h3>基本样例追加模式：</h3>
+<script type="text/html" id="append-model">{{data}}</script>
+<strong id="append-show">我是待填充标签【点击我开始填充】 <br></strong>
+
+<script type="text/javascript">
+    require(["template-init"],function(T){
+        $("#append-show").on("click",function(){
+            T.init({
+                tmpl: "#append-model",    //模板标签选择器
+                source : {code:200,data:"赐予我力量吧！ 我是希曼。"},   //元数据 ，
+                prepend: true,              //前置填充 优先于append
+                append : true,              //以追加模式填充
+                target : "#append-show",      //待填充标签选择器
+                callback: function(o,pager){    //回调方法
+                    alert( "填充完毕！" );
+                }
+            });
+        });
+    });
+</script>
+
+<h3>支持分页：</h3>
+<script type="text/html" id="page-model">{{data}}<span class="currentPage">{{ currentPage }}</span><span class="totalPage">{{ totalPage }}</span></script>
+<strong id="page-show">我是待填充标签【点击我开始填充】</strong>
+<div class="for-page-show pager">我是分页区域</div>
+<script type="text/javascript">
+    require(["template-init"],function(T){
+        $("#page-show").on("click",function(){
+            T.init({
+                tmpl: "#page-model",    //模板标签选择器
+                source : {code:200,data:"赐予我力量吧！ 我是希曼。",currentPage:1,totalPage:30},   //元数据
+                target : "#page-show",      //待填充标签选择器
+                pagination : ".for-page-show"
+            });
+        });
+    });
+</script>
+
+<h3>支持异步获取数据并分页：</h3>
+<script type="text/html" id="ajax-model" data-url="json/test.js" data-type="jsonp">{{#each data}}{{name}}<br>{{/each}}<span class="currentPage">{{currentPage}}</span><span class="totalPage">{{{division totalCount pageSize }}}</span></script>
+<strong id="ajax-show">我是待填充标签【点击我开始填充】</strong>
+<div class="for-ajax-show pager">我是分页区域</div>
+
+<script type="text/javascript">
+    require(["template-init"],function(T){
+        $("#ajax-show").on("click",function(){
+            T.init({
+                tmpl: "#ajax-model",    //模板标签选择器
+                target : "#ajax-show",      //待填充标签选择器
+                pagination : ".for-ajax-show"
+            });
+        });
+    });
+</script>
+
+
+<h3>支持异步获取数据并分页：</h3>
+<script type="text/html" id="data-model">{{#each data}}{{name}}<br>{{/each}}<span class="currentPage">{{currentPage}}</span><span class="totalPage">{{{division totalCount pageSize }}}</span></script>
+<strong id="data-show">我是待填充标签【点击我开始填充】</strong>
+<div class="for-data-show pager">我是分页区域</div>
+<div>
+    <label for="totalPage">totalPage:</label>
+    <input type="text" id="totalPage" name="totalPage" class="totalPage"/> 修改我的值将传递给服务端修改totalPage
+</div>
+
+<script type="text/javascript">
+    require(["template-init"],function(T){
+        $("#data-show").on("click",function(){
+            T.init({
+                tmpl: "#data-model",    //模板标签选择器
+                target : "#data-show",      //待填充标签选择器
+                pagination : ".for-data-show",
+                sourceData : function(){
+                    return {
+                        totalPage : $("#totalPage").val()
+                    }
+                },
+                sourceUrl:"json/test.json",
+                nonResult:"<p>nonResult</p>"
+            });
+        });
+    });
+</script>
+
+
+
+
+<h3>TemplateInit.refresh()</h3>
+<div><strong>TemplateInit.refresh() 和 init的参数和作用基本相同，只是不会在分页标签上绑定事件。可以在外部绑定触发重新渲染事件时使用refresh</strong></div>
+<h3>支持options参数(不支持tmpl\sourceData\callback\source)直接定义在模板标签上面，对应关系：</h3>
+<dl style="background: #272822; color: #fff; padding: 10px 20px;" >
+    <dt>target:</dt>        <dd>data-target</dd>
+    <dt>append:</dt>        <dd>data-append</dd>
+    <dt>prepend:</dt>       <dd>data-prepend</dd>
+    <dt>pagination:</dt>    <dd>data-pagination</dd>
+    <dt>sourceUrl:</dt>     <dd>data-url</dd>
+    <dt>sourceMethod:</dt>  <dd>data-method</dd>
+</dl>
+</body>
+</html>

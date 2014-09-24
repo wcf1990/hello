@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zn">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻辩论</title>
+	<link rel="stylesheet" href="../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../css/form.css">
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/require.js"></script>
+	<script src="../js/require-config.js"></script>
+	<style>
+		*{margin: 0;padding: 0;}
+		html{background:#fff;}
+		body{padding:0;font-family:"微软雅黑";}
+		h2{font: bold 16px/2.5 'Microsoft Yahei';}
+		em{font-style:normal;font-weight:normal;}
+		table{width: 100%;line-height: 40px;}
+		td,th{vertical-align: top;}
+		th{text-align: right;padding-right: .5em; font:normal 14px/40px 'Arial';}
+		td>input[type=text], textarea{width: 98%;line-height: 24px;height: 24px; padding: 0;}
+		textarea{height:auto;}
+		td>input.Wdate{width: 44%;}
+		.required,.error{color: #f60;}
+		td>input.inp-search{
+			margin-top: 6px;
+			float: left;
+			width: 80%;
+		}
+		.argument-wrap{min-width:600px;}
+
+		.argument-content{
+			padding:20px;
+			background:#fff;
+		}
+		/**/
+		.argument-search{margin-bottom:20px;}
+		.argument-search .term{
+			width:100%;
+			height: 30px;
+			margin-bottom:10px;
+		}
+		.argument-search .term .title{
+			display: block;
+			float: left;
+			width: 90px;
+			height: 30px;
+			line-height: 30px;font-weight:normal;font-size:14px;
+			padding-right: 10px;
+			text-align: right;
+		}
+		.argument-search .term input{
+			float: left;
+			width: 300px;
+			height: 16px;
+			padding: 6px 5px;
+			border: 1px solid #e1e1e1;
+		}
+		.argument-search .term  .search-icon{
+			display: block;
+			float: left;
+			margin-left: 8px;
+			width: 45px;
+			height: 30px;
+			border-radius: 5px;
+			background: url(img/search-icon.png) #00b6aa no-repeat center top;
+			cursor: pointer;
+		}
+		.fm-select,.fm-select.selecting{
+			border: 1px solid #e1e1e1;
+			border-radius: 0;
+			background:url(img/search-icon.png) no-repeat right -32px;
+		}
+		.value-holder,.option-holder{font-size:14px;font-family:"微软雅黑";}
+		/**/
+		.argument-result{
+			height:300px;padding-right:20px;
+			overflow:auto;
+		}
+		.argument-result li{
+			height:150px;
+		}
+		.argument-box{
+			height:99px;padding:1px 20px;
+			border:1px dotted #ccc;
+			background:#f1f1f1;cursor:pointer;
+		}
+		.argument-box-on{height:98px;padding-top:0;padding-left:19px;border:2px solid #00b6aa;}
+		.argument-box span{display:block;padding-top:10px;
+			font-size:16px;color:#5682c2;
+			line-height:30px;font-weight:bold;
+		}
+		.argument-box strong{color:#333;font-weight:bold;}
+		.argument-box p{height:30px;margin-top:10px;}
+		.argument-box p b{display:block;float:left;width:80px;height:30px;
+			margin-right:20px;
+			text-align:center;
+			line-height:30px;font-size:16px;color:#fff;font-weight:normal;
+			background: #5682c2;}
+		.argument-box p em{float:left;line-height:30px;font-size:16px;color:#5682c2;}
+		.argument-box p b.last{background:#e57979;margin-left:150px;}
+		.argument-box p em.last{color:#e57979;}
+		.argument-info{
+			height:50px;
+			font-size:12px;color:#333;line-height:30px;
+		}
+		.argument-info span{padding-right:30px;}
+		.argument-info em{color:#00b6aa;}
+		.argument-info strong{color:#5682c2;}
+		.argument-info strong.last{color:#e57979;}
+		.argument-info .argument-info-time{color:#999;}
+
+		.argument-func{height:30px;}
+		.argument-func a{float:left;margin-right:20px;}
+		.argument-func a.last{background:#aaa;color:#fff;border:1px solid #ccc;}
+
+	</style>
+</head>
+<body class="argument-wrap">
+	
+	<div class="argument-content argument-content-chart">
+		<div class="argument-search">
+			<div class="term key-words">
+				<span class="title">关键词：</span>
+				<input type="text" name="keyword" id="keyword">
+				<a class="search-icon"></a>
+			</div>
+			<div class="term argument-from">
+				<span class="title">来源：</span>
+				<select name="argumentType" id="argumentType">
+					<option value="2">全部</option>
+					<option value="1">发稿平台</option>	
+					<option value="0">炫空间</option>
+				</select>
+			</div>
+		</div>
+		<div class="argument-result">
+			<!-- <ul>
+				<li>
+					<div class="argument-box">
+						<span>辩论话题：<strong>全民“免费医疗”在中国可行吗？</strong></span>
+						<p>
+							<b>支持</b><em>应该</em>
+							<b class="last">支持</b><em class="last">不应该</em>
+						</p>
+					</div>
+					<div class="argument-info">
+						<span>来源：<em>发稿后台</em></span>
+						<span>发起人：<em>范琳琳</em></span>
+						<span>观点数：<em><strong>5</strong>:<strong class="last">8</strong></em></span>
+						<span>创建时间：<em class="argument-info-time">2014-07-14 10:51</em></span>
+					</div>
+				</li>
+			</ul> -->
+		</div>
+		<div class="pager-line">
+			<p id="pager" class="fm-pager"></p>
+		</div>
+		<div class="argument-func"><div style="float:right;">
+			<a href="" id="submit" class="fm-button">选用</a>
+			<a href="" id="editorNext" class="fm-button">选用并编辑</a>
+			<a href="" id="closeNext" class="fm-button last">取消</a>
+		</div></div>
+	</div>
+
+
+<script type="template/html" id="argument-list" data-target=".argument-result" data-pagination="#pager" data-method="get">
+	<ul>
+		{{#each content}}
+			<li>
+				<div class="argument-box" id="{{id}}">
+					<span>辩论话题：<strong>{{title}}</strong></span>
+					<p>
+						<b>支持</b><em>应该</em>
+						<b class="last">支持</b><em class="last">不应该</em>
+					</p>
+				</div>
+				<div class="argument-info">
+					<span>来源：<em>{{sourceName}}</em></span>
+					<span>发起人：<em>{{postUserId}}</em></span>
+					<span>观点数：<em><strong>{{positiveCount}}</strong>:<strong class="last">{{negativeCount}}</strong></em></span>
+					<span>创建时间：<em class="argument-info-time">{{publicTime}}</em></span>
+				</div>
+			</li>
+		{{/each}}
+	</ul>
+	<span class="currentPage">{{currentPage}}</span>
+	<span class="totalPage">{{totalPage}}</span>
+</script>
+<script type="text/javascript">
+
+$(function(){
+
+	require(["template-init","dateUtil","form-style","template"],function(T,DateUtil){
+
+		$("#argumentType").toSelect({
+			width: 268,
+			colorful: false
+		});
+		var beginFn = function(o){
+			var data=o.source;
+			$.each(data.content,function(k,v){
+					if(data.content[k].source==1){
+						data.content[k].sourceName='发稿平台';
+					}else{
+						data.content[k].sourceName='炫空间';
+					}
+			})
+		};
+		var first = true;
+		var refreshFunc=function(){
+			T[first?'init':'refresh']({
+				tmpl:"#argument-list",
+				sourceUrl:"../../xhadmin/basic/searchDebate.do",
+				sourceData:function(){
+					return {
+						keyWord : $("input[name=keyword]").val(),
+						Source : $("#argumentType").val()
+					}
+				},
+				begin:beginFn,
+				page:{size:'pageSize',to:'pageNum'}
+			});
+			first=false;
+		}
+		$(".search-icon").on("click",function(){
+			refreshFunc();
+		});
+		$('#argumentType').change(function(){
+			refreshFunc();
+		})
+
+		$('#submit').click(function(){
+			var cid=window.top.cacheDetail.id;
+			var did=$('.argument-box-on').attr('id');
+			if(did){
+				$.ajax({
+					type:"post",
+					url:"../../xhadmin/basic/chooseDebate.do",
+					data:{'debateId':did,'contentId':cid},
+					dataType:"json",
+					success:function(res){
+						if(res.code == '0'){	//增加异常判断,如果选择失败弹出错误 BY:shiyangyang
+							alert(res.message);
+						}else{
+							top.debateFN.closeDialog();
+							top.debateFN.init(did);
+						}
+					}
+				});
+			}else{
+				alert('请选择辩题');
+			}
+			return false;
+		});
+
+		$('#editorNext').click(function(){
+			var cid=window.top.cacheDetail.id;
+			var did=$('.argument-box-on').attr('id');
+			if(did){
+				$.ajax({
+					type:"post",
+					url:"../../xhadmin/basic/chooseDebate.do",
+					data:{'debateId':did,'contentId':cid},
+					dataType:"json",
+					success:function(res){
+						if(res.code == '0'){	//增加异常判断,如果选择失败弹出错误 BY:shiyangyang
+							alert(res.message);
+						}else{
+							top.debateFN.closeDialog();
+							top.debateFN.init(did,function(){
+								top.debateFN.clickToEditor();
+							});
+						}
+							
+					}
+				});
+			}else{
+				alert('请选择辩题');
+			}
+			return false;
+		})
+		$('#closeNext').click(function(){
+			top.debateFN.closeDialog();
+			return false;
+		})
+
+	})
+
+	$('.argument-result').on('click','.argument-box',function(e){
+		$('.argument-box').removeClass('argument-box-on');
+		$(this).addClass('argument-box-on');
+	});
+})
+</script>
+</body>
+</html>

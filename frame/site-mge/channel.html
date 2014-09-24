@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>栏目配置页面</title>
+	<link rel="stylesheet" href="../../css/jqueryui/jquery-ui.css">
+	<link rel="stylesheet" href="../../css/form.css">
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/require.js"></script>
+	<script src="../../js/require-config.js"></script>
+	<script type="text/javascript" src="../../js/jquery.base64.min.js"></script>
+</head>
+<body class="inner-frame">
+	<div class="collocate-cont clearfix">
+		<form class="ropt clearfix">
+			<input type="hidden" id="root" name="root"/>
+			<select class="select1" name="modelId" onchange="if(this.options[this.selectedIndex].value!=''){this.form.action='v_add.do';this.form.submit();}">
+				<option>--添加子栏目--</option>
+			</select>
+			<input class="fm-button" type="submit" value="返回列表" onclick="this.form.action='v_list.do';">
+			<script type="html/template" id="modelId-options" data-target=".select1" data-append="true">
+				{{#each channel}}
+				<option value="{{code}}">{{name}}</option>
+				{{/each}}
+			</script>
+		</form>
+		<form id="jvForm" class="collocate-form clearfix">
+			<div class="collocate-left clearfix">
+				<div class="basis-collocate clearfix">
+					<h2>基本配置</h2>
+					<div class="basis-left">
+						<div class="basis-about clearfix">
+                            <span>栏目名称</span>
+                            <div><input type="text" value="" name="name" id="name"/></div>
+                        </div>
+                         <div class="basis-about clearfix">
+                            <span>访问路径</span>
+                            <div><input type="text" value="" name="path" id="path"/></div>
+                        </div>
+                         <div class="basis-about clearfix">
+                            <span>上级栏目</span>
+                            <div id="parentId_input">
+								<input type="text" class="collocate_up"  value="" />
+								<div id="parentId_cont"></div>
+								<input type="hidden" class="upcollocate" name="parentId" id="parentId" value="">
+							</div>
+                        </div>
+                        <div class="basis-about clearfix">
+                            <span>栏目模型</span>
+                            <div>
+								<select class="select2" name="modelId" id="modelId">
+									<option>添加子栏目</option>
+								</select>
+								<script type="html/template" id="addChannel-options" data-target=".select2" data-append="true">
+									{{#each channel}}
+										<option value="{{code}}">{{name}}</option>
+									{{/each}}
+								</script>
+							</div>
+                        </div>
+                        <div class="basis-about clearfix">
+                            <span>排列顺序</span>
+                            <div><input type="text" value="" name="priority" id="priority"/></div>
+                        </div>
+                        <div class="basis-about clearfix">
+                            <span>更新方式</span>
+                            <div>
+                            	<select class="select3" name="pubType" id="pubType">
+									<option value="1">手动</option>
+									<option value="2">自动</option>
+									<option value="3">混合</option>
+								</select>
+                            </div>
+                        </div>
+                        <div class="basis-about clearfix">
+							<span>栏目分类</span>
+							<div id="category_input">
+								<input type="text"  class="category" value="" />
+								<div id="category_cont"></div>
+								<input name="catelog" id="catelog" value="" type="hidden" class="required">
+							</div>
+                        </div>
+					</div>
+					<div class="basis-right">
+                    	<div class="model-all">栏目模板（按住ctrl多选）</div>
+                    	<div id="ctrl_lists">
+						</div>
+						<script type="html/template" id="channelModel-divs" data-target="#ctrl_lists" data-append="true">
+							{{#each channelTplList}}
+								<div value="{{this}}">{{this}}</div>
+							{{/each}}
+						</script>
+						<select multiple="multiple" name="mtplChannel" class="mtplChannel">
+
+						</select>
+						<script type="html/template" id="channelModel-optins" data-target=".mtplChannel" data-append="true">
+							{{#each channelTplList}}
+								<option value="{{this}}">{{this}}</option>
+							{{/each}}
+						</script>
+                    </div>
+				</div>
+				<div class="basis-collocate details-collocate clearfix">
+					<h2>内容配置</h2>
+					<div class="basis-left">
+						 <div class="basis-about clearfix">
+                            <span>终审级别</span>
+                            <div>
+                            	<input type="text" name="finalStep" id="finalStep" value="">
+                            </div>
+                        </div>
+                        <div class="basis-about clearfix">
+                            <span>发布到</span>
+                            <div>
+                            	<select id="postTo"  name="useFor" id="useFor" class="select4">
+                            		<option value="1">pc</option>
+									<option value="2">手机</option>
+									<option value="3">通用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="basis-about clearfix">
+                            <span>数据来源</span>
+                            <div>
+                            	<select name="data-origin" id="data-origin" class="select5">
+									<option value="origin">请选择</option>
+                                	<option value="origin1">新华网节点</option>
+                                    <option value="origin2">URL</option>
+                                    <option value="origin3">RSS聚合</option>
+									<option value="origin4">主题词搜索</option>
+									<option value="origin5">排行榜</option>
+									<option value="origin6">自定义节点</option>
+                                </select>
+                                <i class="new-node"></i>
+                            </div>
+                        </div>
+                        <div  class="internal-node"></div>
+                        <script type="html/template" id="data-sources" data-target=".internal-node" data-append="true">
+                        	<div class='internal-node-con clearfix disNone'>
+							    <p class='internal-con-top'>
+							        <a class='internal-co-a'> 新华网节点</a>
+							        <span class='internal-co-span'>(逗号分离)</span>
+							    </p>
+							    <textarea class='node-content-input' id='id_open' type='text' name='nodeId' value="{{channel.nodeId}}">{{channel.nodeId}}</textarea>
+							    <div class='node-bottom-but clearfix'>
+							        <input type='button' class='calloff' value='取消'>
+							        <input type='button' class='ensure' value='确定'>
+							    </div>
+							</div>
+							<div name='title_name' class='internal-node-title clearfix'>
+							    <div class='node-but'>
+							        <a>新华网节点</a>
+							        <font>&mdash;</font>
+							    </div>
+							    <div class='link-file'>
+							        <input type='checkbox' id='nodeId-link-open' name="use" class="checkbox" value="1" data-id="{{channel.use}}">
+							        <label for='nodeId-link-open'>
+							            <span>启用</span>
+							        </label>
+							        <input type='checkbox' id='nodeId-link-file' name="datasourceLink" class="checkbox" value="1" data-id="{{channel.datasourceLink}}">
+							        <label for='nodeId-link-file'>
+							            <span>链接稿</span>
+							        </label>
+							    </div>
+							    <p class='node-edit'>编辑</p>
+							</div>
+							<div class='internal-node-con clearfix disNone'>
+							    <p class='internal-con-top'>
+							        <a class='internal-co-a'>URL</a>
+							        <span class='internal-co-span'>(逗号分离)</span>
+							    </p>
+							    <textarea class='node-content-input' type='text' name='url' value="{{channel.url}}">{{channel.url}}</textarea>
+							    <div class='node-bottom-but clearfix'>
+							        <input type='button' class='calloff' value='取消'>
+							        <input type='button' class='ensure' value='确定'>
+							    </div>
+							</div>
+							<div name='title_name' class='internal-node-title clearfix'>
+							    <div class='node-but'>
+							        <a>URL</a>
+							        <font>&mdash;</font>
+							    </div>
+							    <div class='link-file'>
+							        <input type='checkbox' id='url-link-open' name="use" class="checkbox" value="2" data-id="{{channel.use}}">
+							        <label for='url-link-open'>
+							            <span>启用</span>
+							        </label>
+							        <input type='checkbox' id='url-link-file' name="datasourceLink" class="checkbox"  value="2" data-id="{{channel.datasourceLink}}">
+							        <label for='url-link-file'>
+							            <span>链接稿</span>
+							        </label>
+							    </div>
+							    <p class='node-edit'>编辑</p>
+							</div>
+							<div class='internal-node-con clearfix disNone'>
+							    <p class='internal-con-top'>
+							        <a class='internal-co-a'>RSS聚合</a>
+							        <span class='internal-co-span'>(逗号分离)</span>
+							    </p>
+							    <textarea class='node-content-input clearfix' type='text' name='rss' value="{{channel.rss}}">{{channel.rss}}</textarea>
+							    <div class='node-bottom-but'>
+							        <input type='button' class='calloff' value='取消'>
+							        <input type='button' class='ensure' value='确定'>
+							    </div>
+							</div>
+							<div name='title_name' class='internal-node-title clearfix'>
+							    <div class='node-but'>
+							        <a>RSS聚合</a>
+							        <font>&mdash;</font>
+							    </div>
+							    <div class='link-file'>
+							        <input type='checkbox' id='rss-link-open' name="use" class="checkbox" value="3" data-id="{{channel.use}}">
+							        <label for='rss-link-open'>
+							            <span>启用</span>
+							        </label>
+							        <input type='checkbox' id='rss-link-file' name="datasourceLink" class="checkbox" value="3" data-id="{{channel.datasourceLink}}">
+							        <label for='rss-link-file'>
+							            <span>链接稿</span>
+							        </label>
+							    </div>
+							    <p class='node-edit'>编辑</p>
+							</div>
+							<div class='internal-node-con clearfix disNone'>
+							    <p class='internal-con-top'>
+							        <a class='internal-co-a'>主题词搜索</a>
+							        <span class='internal-co-span'>(逗号分离)</span>
+							    </p>
+							    <textarea class='node-content-input' type='text' name='subject' value="{{channel.subject}}">{{channel.subject}}</textarea>
+							    <div class='node-bottom-but clearfix'>
+							        <input type='button' class='calloff' value='取消'>
+							        <input type='button' class='ensure' value='确定'>
+							    </div>
+							</div>
+							<div name='title_name' class='internal-node-title clearfix'>
+							    <div class='node-but'>
+							        <a>主题词搜索</a>
+							        <font>&mdash;</font>
+							    </div>
+							    <div class='link-file'>
+							        <input type='checkbox' id='subject-link-open' name="use" class="checkbox" class="checkbox" value="4" data-id="{{channel.use}}">
+							        <label for='subject-link-open'>
+							            <span>启用</span>
+							        </label>
+							        <input type='checkbox' id='subject-link-file' name="datasourceLink" class="checkbox" class="checkbox" value="4" data-id="{{channel.datasourceLink}}">
+							        <label for='subject-link-file'>
+							            <span>链接稿</span>
+							        </label>
+							    </div>
+							    <p class='node-edit'>编辑</p>
+							</div>
+							<div class='internal-node-con clearfix disNone'>
+							    <p class='internal-con-top'>
+							        <a class='internal-co-a'>排行榜节点源</a>
+							        <span class='internal-co-span'>(逗号分离)</span>
+							    </p>
+							    <textarea type='text' class='node-content-input node-ranking-list' name='rankIds' value="{{channel.rankIds}}">{{channel.rankIds}}</textarea>
+							    <div id='type-ranking-list'>
+							        <div class='ranking-list-detail clearfix'>
+							            <span>榜单类型</span>
+							            <select class='type-select' name='rankType'>
+							                <option value='1'>综合</option>
+							                <option value='2'>新闻</option>
+							                <option value='3'>互动</option>
+							                <option value='4'>概览</option>
+							            </select>
+							        </div>
+							        <div class='ranking-list-detail clearfix'>
+							            <span>抓取条数：</span>
+							            <input type='text' class='Grabfew' name='rankCount' value=''>
+							            条
+							        </div>
+							        <div class='ranking-list-detail' style='display:none'>
+							            <span>抓取时间：</span>
+							            <input type='radio' name='Grabfewself' value='0' class='Grabfewradio'>
+							            <select class='timeGrabfew' name='rankTime'>
+							                <option value='2'>每2分钟</option>
+							                <option value='10'>每10分钟</option>
+							                <option value='30'>每半小时</option>
+							                <option value='60'>每小时</option>
+							                <option value='720'>每12小时</option>
+							                <option value='1440'>每24小时</option>
+							                <option value='2880'>每48小时</option>
+							            </select>
+							            <input type='radio' name='Grabfewself' value='1' class='Grabfewradio'>
+							            每
+							            <input type='text' name='rankTimeWrite' class='Grabfewwrite'>
+							            分钟
+							        </div>
+							    </div>
+							    <div class='node-bottom-but clearfix'>
+							        <input type='button' value='取消' class='calloff'>
+							        <input type='button' value='确定' class='ensure'>
+							    </div>
+							</div>
+							<div class='internal-node-title clearfix' name='title_name'>
+							    <div class='node-but'>
+							        <a>排行榜节点</a>
+							        <font class="mark-5-9">&mdash;</font>
+							    </div>
+							    <div class='link-file'>
+							        <input type='checkbox' id='rankTime-link-open' name="use" class="checkbox" class="checkbox" value="5" data-id="{{channel.use}}">
+							        <label for='rankTime-link-open'>
+							            <span>启用</span>
+							        </label>
+							        <input type='checkbox' id='rankTime-link-file' name="datasourceLink" class="checkbox" class="checkbox" value="5" data-id="{{channel.datasourceLink}}">
+							        <label for='rankTime-link-file'>
+							            <span>链接稿</span>
+							        </label>
+							    </div>
+							    <p class='node-edit'>编辑</p>
+							</div>
+							<div class='internal-node-con clearfix disNone'>
+							    <p class='internal-con-top'>
+							        <a class='internal-co-a'>自定义节点</a>
+							        <span class='internal-co-span'>(逗号分离)</span>
+							    </p>
+							    <textarea class='node-content-input' id='id_open' type='text' name='userDefined' value="{{channel.userDefined}}">{{channel.userDefined}}</textarea>
+							    <div class='node-bottom-but clearfix'>
+							        <input type='button' class='calloff' value='取消'>
+							        <input type='button' class='ensure' value='确定'>
+							    </div>
+							</div>
+							<div name='title_name' class='internal-node-title clearfix'>
+							    <div class='node-but'>
+							        <a>自定义节点</a>
+							        <font>&mdash;</font>
+							    </div>
+							    <div class='link-file'>
+							        <input type='checkbox' id='userDefined-link-open' name="use" class="checkbox" class="checkbox" value="6" data-id="{{channel.use}}">
+							        <label for='userDefined-link-open'>
+							            <span>启用</span>
+							        </label>
+							        <input type='checkbox' id='userDefined-link-file' name="datasourceLink" class="checkbox" class="checkbox" value="6" data-id="{{channel.datasourceLink}}">
+							        <label for='userDefined-link-file'>
+							            <span>链接稿</span>
+							        </label>
+							    </div>
+							    <p class='node-edit'>编辑</p>
+							</div>
+                        </script>
+					</div>
+					<div class="basis-right">
+                    	<div class="model-all">内容模板（按住ctrl多选）</div>
+                    	<div id="cont_ctrl_lists">
+						</div>
+						<script type="html/template" id="contModel-divs" data-target="#cont_ctrl_lists" data-append="true">
+							{{#each contentTplList}}
+								<div value="{{this}}">{{this}}</div>
+							{{/each}}
+						</script>
+						<select multiple="multiple" name="mtplContent" class="mtplContent">
+
+						</select>
+						<script type="html/template" id="contModel-optins" data-target=".mtplContent" data-append="true">
+							{{#each contentTplList}}
+								<option value="{{this}}">{{this}}</option>
+							{{/each}}
+						</script>
+                    </div>
+				</div>
+			</div>
+			<div class="collocate-right">
+				<h2>开关配置</h2>
+				<div class="collocate-right-cont clearfix">
+					<div class="on-off-set">
+						<h3>栏目开关</h3>
+						<input type="checkbox" class="whether-513" id="display"/>
+						<input type="hidden"   name="display"/>
+					</div>
+					<div class="new-amount">
+						<span>链接栏目</span>
+						<input type="text" id="link" name="link"/>
+					</div>
+					<div class="column-setup clearfix">
+						<h3 class="no-padding">栏目顶置</h3>
+						<input type="checkbox" class="number-513" id="isTop">
+						<input type="hidden" name="isTop">
+						<h3>系统栏目</h3>
+						<input type="checkbox" class="number-513" id="isSystem">
+						<input type="hidden" name="isSystem">
+						<h3>默认栏目</h3>
+						<input type="checkbox" class="number-513" id="isDefault">
+						<input type="hidden" name="isDefault">
+						<div style="clear:both; height:15px;"></div>
+						<h3  class="no-padding">启用收费</h3>
+						<input type="checkbox" class="whether-513" id="free"/>
+						<input type="hidden"   name="free"/>
+						<h3>允许顶踩</h3>
+						<input type="checkbox" class="whether-513"  id="allowUpdown"/>
+						<input type="hidden"   name="allowUpdown"/>
+					</div>
+					<div class="comment-on comment-onnm">
+						<h3>启用评论</h3>
+						<input type="checkbox" id="commentControl"  onclick="this.checked?$('#cont').show():$('#cont').hide();"/>
+						<input type="hidden" name="commentControl">
+						<a class="comment-cont" id="cont">
+							<select  id="commentCons" name="commentCons" onchange="$('#commentControl, input[name=commentControl]').val($(this).val())">
+								<option value="3">可评可看</option>
+								<option value="1">可评不可看</option>
+								<option value="2">可看不可评</option>		
+							</select>
+						</a>
+					</div>
+					<div class="collocate-ribottom clearfix">
+						<div class="comment-on">
+							<h3>标题图</h3>
+							<input type="checkbox"id="hasTitleImg"/>
+							<input type="hidden"  class="afterState-513"  name="hasTitleImg"/>
+							<a class="comment-able">
+								<div class="comment-able-length"><i>宽</i><input type="text" id="titleImgWidth"  name="titleImgWidth"/><font>px</font></div>
+								<div class="comment-able-wide"><i>高</i><input type="text" id="titleImgHeight" name="titleImgHeight"/><font>px</font></div>
+							</a>
+						</div>
+						<div class="comment-on">
+							<h3>内容图</h3>
+							<input type="checkbox"id="hasContentImg"/>
+							<input type="hidden"  class="afterState-513"  name="hasContentImg"/>
+							<a class="comment-able">
+								<div class="comment-able-length"><i>宽</i><input type="text" id="contentImgWidth"  name="contentImgWidth"/><font>px</font></div>
+								<div class="comment-able-wide"><i>高</i><input type="text" id="contentImgHeight" name="contentImgHeight"/><font>px</font></div>
+							</a>
+						</div>
+						<div class="comment-on">
+							<h3>内容静态化</h3>
+							<input type="checkbox" id="staticContent"/>
+							<input type="hidden" class="afterState-513" name="staticContent" />
+							<a><input type="text" name="contentRule" id="contentRule" placeholder="内容静态化规则" /></a>
+						</div>
+						<div class="comment-on">
+							<h3>栏目静态化</h3>
+							<input type="checkbox"  id="staticChannel"/>
+							<input type="hidden" class="afterState-513" name="staticChannel"/>
+							<a><input type="text" name="channelRule" id="channelRule" placeholder="栏目静态化规则" /></a>
+						</div>
+						<div class="new-amount new-amounts">
+							<span>发布概览总数</span>
+							<input type="text" title="留空继承上层设置，0为不限制" value="" id="totalCount" name="totalCount">
+						</div>
+						<div class="comment-on collocate-bindbottom">
+							<h3>炫空间绑定</h3>
+							<label class="column-lable">
+								<input id="bindConsole" type="checkbox" onclick="$('#bindingcont').toggle(this.checked); $('#binding').val(this.checked);"/>
+							</label>
+							<input type="hidden" class="overhead_input" id="binding" value=""/>
+							<input type="hidden" class="overhead_input" id="isBind"  name="isBind" value=""/>
+							<div style="clear:both"></div>
+							<div id="bindingcont" style="display:none">
+								<div class="bind-list">
+
+								</div>
+
+								<div class="beginBind">
+									<h3>炫空间账号</h3>
+									<input type="text" name="username" id="bindusername" placeholder="账号"></input>
+									<input type="passWord" name="password" id="bindpassword" placeholder="密码"></input>
+									<a class="beginBt">开始绑定</a>
+								</div>
+							</div>
+							<script id="listTemplate" type="text/x-handlebars-template">  
+									 {{#each list}} 
+									 <div class="hasBind clearfix">
+									 <h3>已绑定账号</h3> 
+										<h4>{{ssoUserName}}</h4>
+										<div class="listCont">
+											<i class="sina" data-blog="sina"></i> <i class="tengxun" data-blog="tengxun"></i> <i class="wangyi"  data-blog="wangyi"></i> <i class="souhu"  data-blog="souhu"></i>
+										</div>
+										<i class="deleteBind" data-ssoUserName="{{ssoUserName}}" data-ssoUserId="{{ssoUserId}}" data-bindInfo="{{bindInfo}}"></i><i class="setBind"  data-ssoUserName="{{ssoUserName}}" data-ssoUserId="{{ssoUserId}}" data-bindInfo="{{bindInfo}}"></i>
+									</div> 
+									{{/each}}  
+								 	<a class="goBind">继续绑定炫空间</a>
+							</script> 
+						</div>
+					</div>
+				</div>
+				<div class="info_bt info_bt-edit clear">
+					<input class="fm-button" type="submit" value="提交">
+					<input class="fm-button" type="button" onclick="window.location.href='channel-edit.html'" value="取消">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="dialog_mask"></div>
+
+	<!--微博绑定框start-->
+	<div class="dialog_bind">
+		<div class="dialog_title">
+			<span class="dialog_title_tx">绑定设置</span>
+			<span class="dialog_close_btn sureBindClose">×</span>
+		</div>
+		
+		<div class="dialog_content dialogbind_content clearfix">
+		</div>
+	</div>
+	<script id="dialogTemplate" type="text/x-handlebars-template">
+			<P>已绑定炫空间账号：<span id="ssousernamespan"></span></p>
+			<P>可继续绑定第三方账号，绑定后所有已绑定账号将同步发布该栏目新闻。</p>
+			<div class="twitterList clearfix">
+				<a class="sina bloglist" data-blog="sina" data-type="10"  data-id="{{ssoUserId}}"><p class="innerlist"><i></i>绑定新浪微博</p><span>取消绑定</span></a>
+				<a class="tengxun bloglist" data-blog="tengxun" data-type="30" data-id="{{ssoUserId}}"><p class="innerlist"><i></i>绑定腾讯微博</p><span>取消绑定</span></a>
+				<a class="wangyi bloglist" data-blog="wangyi" data-type="40" data-id="{{ssoUserId}}"><p class="innerlist"><i></i>绑定网易微博</p><span>取消绑定</span></a>
+				<a class="souhu bloglist" data-blog="souhu" data-type="20" data-id="{{ssoUserId}}"><p class="innerlist"><i></i>绑定搜狐微博</p><span>取消绑定</span></a>
+			</div>
+			<div class="sureBind"><a class="sureBindClose sure-bind">确定</a></div>
+	</script>
+	<!--微博绑定框end-->
+
+	<!--新华网节点选择框start-->
+	<div class="dialog_wrap">
+		<div class="dialog_title">
+			<span class="dialog_title_tx">选择节点</span>
+			<span class="dialog_close_btn">×</span>
+		</div>
+		<div class="dialog_content clearfix">
+			<div class="aready_choose clearfix">
+				<span class="choose_span">已选择节点：</span>
+				<div class="aready_choose_con">
+					<ul id="logs">
+					</ul>
+				</div>
+			</div>
+			<div id="list" class="list">
+				
+			</div>
+			<div id="stage" class="stage">
+			</div>
+			<a href="#" id="finish_selected" class="finish_selected">确定</a>
+		</div>
+	</div>
+	<!--新华网节点选择框end-->
+
+	<script type="text/javascript" src="../js/frame.js"></script>
+	<script>
+		(function(){
+ 			require(["queryparam"],function(queryparam){
+ 				var root = queryparam("root");
+ 			});
+			var URL=$.initFrame('channelEdit').URL;
+			$.ajax({
+				url:URL.dataSource,
+				success:function(data){
+					for (var key in data.channel) {
+						$("input").each(function(){
+							if(($(this).attr("id")&&$(this).attr("id")==key)||($(this).attr("name")&&$(this).attr("name")==key)){
+								$(this).val(data.channel[key])
+							}
+						})
+					};
+					require(["template-init"],function(T){
+						/*模板多选--start*/
+						T.init({
+							tmpl:"#channelModel-divs",
+							sourceUrl:URL.dataSource,
+							callback:function(){
+								T.init({
+									tmpl:"#channelModel-optins",
+									sourceUrl:URL.dataSource,
+									callback:function(){
+										var contList=$("#ctrl_lists div"), optList=$(".mtplChannel option"), mark="on";
+										for(var j=0; j<data.channelTplList.length; j++){
+											for(var i=0; i<data.channel.mtplChannel.length; i++){
+												if(data.channel.mtplChannel[i]==data.channelTplList[j]){
+													contList.eq(i).addClass(mark);
+												}
+											}
+										}
+										ctrlList(contList,optList,mark);
+									}
+								});
+							}
+						});
+
+						T.init({
+							tmpl:"#contModel-divs",
+							sourceUrl:URL.dataSource,
+							callback:function(){
+								T.init({
+									tmpl:"#contModel-optins",
+									sourceUrl:URL.dataSource,
+									callback:function(){
+										var contList=$("#cont_ctrl_lists div"), optList=$(".mtplContent option"), mark="on";
+										ctrlList(contList,optList,mark);
+									}
+								});
+							}
+						});
+
+						function ctrlList(contentList,optionList,mark){
+							for(j=0;j<optionList.length;j++){
+								if(optionList.eq(j).attr("selected")=="selected"){
+									contentList.eq(j).addClass(mark);			
+								}
+							};
+							contentList.each(function(){
+								$(this).on("click", function(){
+									$(this).toggleClass(mark);
+									for(i=0;i<contentList.length;i++){
+										if(contentList.eq(i).hasClass(mark)){
+											optionList.eq(i).attr("selected","selected")
+										}
+										else{
+											optionList.eq(i).removeAttr("selected")
+										}
+									}
+								})
+							})
+						}
+						/*模板多选--end*/
+					});
+
+					/*右侧开关配置--start*/
+					$(".collocate-right input[type=checkbox]").each(function(){
+						$(this).val()=="true"&&$(this).attr("checked","checked");
+						$(this).val()!="0"&&$(this).val()!=("false"||"true")&&$(this).attr("checked","checked");
+					});
+					$(".whether-513").each(function(){
+						$(this).on("click",function(){
+							$(this).val(this.checked);
+							$(this).parent().next("input[type=hidden]").val(this.checked);
+						})
+					});
+					$(".number-513").each(function(){
+						$(this).on("click",function(){
+							this.checked?$(this).val(1):$(this).val(0);
+							$(this).parent().next("input[type=hidden]").val($(this).val());
+						})
+					});
+
+					if($(".commentControl").val()!==0){
+						$("#cont").show();
+						$(".commentControl").trigger("click");
+						$("#commentCons").val($("#commentControl").val())
+					}else{
+						$("#cont").hide();
+					}
+					$("#commentControl").on("click",function(){
+						this.checked?$(this).val($("#commentCons").val()):$(this).val(0);
+						$("input[name=commentControl]").val($(this).val());
+					});
+
+					$(".afterState-513").each(function(){
+						if($(this).val()=="false"){
+							$(this).next("a").hide();
+						}
+						$(this).on("click",function(){
+							$(this).val(this.checked);this.checked?$(this).next("a").show():$(this).next("a").hide();
+							$(this).parent().next("input[type=hidden]").val($(this).val());
+						})
+					})
+					/*右侧开关配置--end*/
+
+					/*炫空间微博绑定--start*/	
+					require(["template","alerts"],function(){
+						var overlayHeight=$("body").height()+130;
+						function judge(){
+							var obj={"sina":"10","souhu":"20", "tengxun":"30","wangyi":"40"};
+							$(".hasBind").each(function(){
+								var Judge=$(this).find(".setBind").attr("data-bindinfo");
+								var Judge=Judge.split(",");
+								for(var key in obj){
+									for(var i in Judge){
+										if(obj[key]==Judge[i]){
+											$(this).find(".listCont i").each(function(){
+												if($(this).attr("data-blog")==key){
+													$(this).addClass("Judge")
+												}
+											})
+										}
+									}
+								}
+							})
+						};
+						
+						if($("#isBind").val()==1){
+							$("#binding").val("true");
+							if($("#binding").val()=="true"){
+								$("#bindConsole").trigger("click");
+								$(".bind-list").html("");
+								$.ajax({
+									url:"../../../xhadmin/basic/bindList.do?channeId="+$("#root").val(),
+									async:false,
+									type:"GET",
+									success:function(data){
+										if(data.list&&data.list[0]){
+											var source   = $("#listTemplate").html();  
+											var template = Handlebars.compile(source); 
+											$(".bind-list").append(template(data)); 
+											judge();
+											$(".beginBind").hide();
+										}else{
+											$(".beginBind").show();
+											$("#bindusername")[0].value=""; 
+											$("#bindpassword")[0].value=""; 
+										}
+									},
+									error:function(e){
+										alert("服务器异常");
+									}
+								})
+							}
+						}else{
+							$("#binding").val("false");
+						};
+
+						//绑定开关
+						$("#bindConsole").on("click",function(){
+							if(this.checked){
+								$('#isBind').val(1);
+							}else{
+								$('#isBind').val(0);
+							}
+							$(".bind-list").html("");
+							$.ajax({
+								url:"../../../xhadmin/basic/bindList.do?channeId="+$("#root").val(),
+								async:false,
+								type:"GET",
+								success:function(data){
+									if(data.list&&data.list[0]){
+										var source   = $("#listTemplate").html();  
+										var template = Handlebars.compile(source); 
+										$(".bind-list").append(template(data)); 
+										judge();
+										$(".beginBind").hide();
+									}else{
+										$(".beginBind").show();
+										$("#bindusername")[0].value=""; 
+										$("#bindpassword")[0].value=""; 
+									}
+								},
+								error:function(e){
+									alert("服务器异常");
+								}
+							})
+						});
+						
+						//继续绑定
+						$("#bindingcont").on("click",".goBind",function(){
+							$(".beginBind").show();
+							$(".goBind").hide();
+							$("#bindusername")[0].value=""; 
+							$("#bindpassword")[0].value=""; 
+						})
+						
+						//用户名登录绑定
+						var base = new Base64(); 
+						$(".beginBt").on("click",function(){
+							var username=$("input[name='username']", $(this).parent()).val();
+							$("body").append("<div class='edit-overlay'></div>");
+							$(".edit-overlay").css("height",overlayHeight);
+							var str=base.encode($("input[name='password']", $(this).parent()).val());
+							$.ajax({
+								url:"../../../xhadmin/basic/xuanLogin.do",
+								type:"GET",
+								data:"username="+$("input[name='username']", $(this).parent()).val()+"&password="+str+"&channeId="+$("#root").val(),
+								success:function(magess){
+									//var magess={"code":"1","message":"获取成功","ssoUserId":44054006,"bindInfo":["20","10","40"]}
+									if(magess.code==1||magess.code==2){
+										$(".bind-list").html("");
+										$(".dialog_bind").show();
+										$(".dialog_mask").show();
+										//jud();
+										var source   = $("#listTemplate").html();  
+				    					var template = Handlebars.compile(source); 
+										$(".bind-list").append(template(magess)); 
+										judge();
+										$.ajax({
+											url:"../../../xhadmin/basic/getBindStatus.do",
+											type:"GET",
+											data:"ssoUserId="+magess.latestId,
+											success:function(magess){
+												$(".edit-overlay").remove();
+												if(magess.code==1){
+													$(".dialogbind_content").html("");
+													var dialogsource   = $("#dialogTemplate").html();  
+							    					var dialogtemplate = Handlebars.compile(dialogsource); 
+													$(".dialogbind_content").append(dialogtemplate(magess));
+													var obj={"sina":"10","souhu":"20", "tengxun":"30","wangyi":"40"};
+													var Judge=magess.bindInfo;
+													for(var key in obj){
+														for(var i in Judge){
+															if(obj[key]==Judge[i]){
+																$(".twitterList .bloglist").each(function(){
+																	if($(this).attr("data-blog")==key){
+																		$(this).addClass("Judge")
+																	}
+																})
+															}
+														}
+													}
+													
+													$('#ssousernamespan').text(username);
+													$(".beginBind").hide(); 
+												}
+											}
+										})
+										
+									}else{
+										$(".edit-overlay").remove();
+										jAlert("<h2>绑定失败！</h2><P>炫空间账号或密码输入错误，请重新输入。</p>","提示");
+									}
+								},
+								error:function(e){
+									alert("服务器异常");
+								}
+							})
+
+						});
+						
+						//设置绑定框
+						$("#bindingcont").on("click",".setBind",function(){
+							$("body").append("<div class='edit-overlay'></div>");
+							$(".edit-overlay").css("height",overlayHeight);
+							var ssoUserName=$(this).attr("data-ssoUserName");
+							$.ajax({
+								url:"../../../xhadmin/basic/getBindStatus.do",
+								type:"GET",
+								data:"ssoUserId="+$(this).attr("data-ssouserid"),
+								success:function(magess){
+									$(".edit-overlay").remove();
+									if(magess.code==1){
+										$(".dialog_bind").show();
+										$(".dialog_mask").show();
+										$(".dialogbind_content").html("");
+										var dialogsource   = $("#dialogTemplate").html();  
+				    					var dialogtemplate = Handlebars.compile(dialogsource); 
+										$(".dialogbind_content").append(dialogtemplate(magess));
+										var obj={"sina":"10","souhu":"20", "tengxun":"30","wangyi":"40"};
+										var Judge=magess.bindInfo;
+										for(var key in obj){
+											for(var i in Judge){
+												if(obj[key]==Judge[i]){
+													$(".twitterList .bloglist").each(function(){
+														if($(this).attr("data-blog")==key){
+															$(this).addClass("Judge")
+														}
+													})
+												}
+											}
+										}
+										
+										$('#ssousernamespan').text(ssoUserName);
+										$(".beginBind").hide(); 
+									}else{
+										jAlert("<h2>绑定失败！</h2><P>炫空间账号或密码输入错误，请重新输入。</p>","提示");
+									}
+								}
+							})
+						});
+						
+						//删除绑定账户
+						$("#bindingcont").on("click",".deleteBind",function(){
+							
+							$.ajax({
+								url:"../../../xhadmin/basic/deleteSsoUser.do",
+								type:"GET",
+								data:"ssoUserId="+$(this).attr("data-ssouserid")+"&channeId="+$("#root").val(),
+								success:function(magess){
+									if(magess.code==1){
+										$.ajax({
+											url:"../../../xhadmin/basic/bindList.do?channeId="+$("#root").val(),
+											type:"GET",
+											success:function(data){
+												if(data.list[0]){
+													$(".bind-list").html("");
+													var source   = $("#listTemplate").html();  
+													var template = Handlebars.compile(source); 
+													$(".bind-list").append(template(data)); 
+													judge();
+													$(".beginBind").hide();
+												}else{
+													$(".bind-list").html("");
+													$(".beginBind").show();
+													$("#bindusername")[0].value=""; 
+													$("#bindpassword")[0].value=""; 
+												}
+											}
+										})
+									}
+								}
+							})	
+						})
+						
+						//取消绑定
+						$(".dialog_bind").on("click",".twitterList .bloglist",function(e){
+							var _this=this
+							if($(this).hasClass("Judge")){
+								$.ajax({
+									url:"../../../xhadmin/basic/unBind.do",
+									type:"GET",
+									data:"ssoUserId="+$(this).attr("data-id")+"&appId="+$(this).attr("data-type"),
+									success:function(magess){
+										if(magess.code==1){
+											$(_this).removeClass("Judge");
+											$.ajax({
+												url:"../../../xhadmin/basic/bindList.do?channeId="+$("#root").val(),
+												type:"GET",
+												success:function(data){
+													if(data.list[0]){
+														$(".bind-list").html("");
+														var source   = $("#listTemplate").html();  
+														var template = Handlebars.compile(source); 
+														$(".bind-list").append(template(data)); 
+														judge();
+														$(".beginBind").hide();
+													}else{
+														$(".beginBind").show();
+														$("#bindusername")[0].value=""; 
+														$("#bindpassword")[0].value=""; 
+													}
+												}
+											})
+											
+										}
+									}
+								})
+							}else{
+								var _this=this;
+								$.ajax({
+									url:"../../../xhadmin/basic/bindWeiBo.do",
+									type:"GET",
+									async:false,
+									data:"type="+$(this).attr("data-type")+"&ssoUserId="+$(this).attr("data-id"),
+									success:function(mag){
+										$(_this).attr("href",mag.url);
+										$(_this).attr("target","_blank");
+										// var tarLink = $(_this).one('click',function(e){e.stopPropagation();});
+										// _this.click();
+										//  e.stopPropagation();
+										$(".dialog_bind").hide();
+										$(".dialog_mask").hide();
+										jConfirm('<h2 class="title">请在新打开的页面上进行绑定。是否已完成绑定？</h2>',"提示",{
+											okButton : "完成绑定",
+											cancelButton : "出现问题"
+										},function(result){
+											if(result){
+												$(".bind-list").html("");
+												$.ajax({
+													url:"../../../xhadmin/basic/bindList.do?channeId="+$("#root").val(),
+													type:"GET",
+													success:function(data){
+														if(data.list[0]){
+															var source   = $("#listTemplate").html();  
+															var template = Handlebars.compile(source); 
+															$(".bind-list").append(template(data)); 
+															judge();
+															$(".beginBind").hide();
+														}else{
+															$(".beginBind").show();
+															$("#bindusername")[0].value=""; 
+															$("#bindpassword")[0].value="";  
+														}
+													}
+												})
+											}else{
+												$.ajax({
+													url:"../../../xhadmin/basic/getBindStatus.do",
+													type:"GET",
+													data:"ssoUserId="+$(_this).attr("data-id"),
+													success:function(magess){
+															if(magess.code==1){
+															$(".dialog_bind").show();
+															$(".dialog_mask").show();
+															$(".dialogbind_content").html("");
+															var dialogsource   = $("#dialogTemplate").html();  
+									    					var dialogtemplate = Handlebars.compile(dialogsource); 
+															$(".dialogbind_content").append(dialogtemplate(magess));
+															var obj={"sina":"10","souhu":"20", "tengxun":"30","wangyi":"40"};
+															var Judge=magess.bindInfo;
+															for(var key in obj){
+																for(var i in Judge){
+																	if(obj[key]==Judge[i]){
+																		$(".twitterList .bloglist").each(function(){
+																			if($(this).attr("data-blog")==key){
+																				$(this).addClass("Judge")
+																			}
+																		})
+																	}
+																}
+															}
+															
+															$('#ssousernamespan').text(ssoUserName);
+															$(".beginBind").hide(); 
+														}else{
+															jAlert("<h2>绑定失败！</h2><P>炫空间账号或密码输入错误，请重新输入。</p>","提示");
+														}
+													}
+												});
+
+												$(".bind-list").html("");
+												$.ajax({
+													url:"../../../xhadmin/basic/bindList.do?channeId="+$("#root").val(),
+													type:"GET",
+													success:function(data){
+														if(data.list[0]){
+															var source   = $("#listTemplate").html();  
+															var template = Handlebars.compile(source); 
+															$(".bind-list").append(template(data)); 
+															judge();
+															$(".beginBind").hide();
+														}else{
+															$(".beginBind").show();
+															$("#bindusername")[0].value=""; 
+															$("#bindpassword")[0].value="";  
+														}
+													}
+												})
+											}
+										});
+									}
+								})
+							}
+						})
+						$(".dialog_bind").on("click",".sureBindClose",function(){
+							$(".dialog_bind").hide();
+							$(".dialog_mask").hide();
+							$(".goBind").show();
+						})
+					})
+					/*炫空间微博绑定--end*/
+				}
+			})
+			require(["template-init","zTree","button","dialog","position","form-style"],function(T){
+				$(".select1").toSelect({
+					width: 120,
+					colorful: false
+				});
+				$(".select2,.select3,.select4,.select5").toSelect({
+					colorful: false
+				});
+				$("#commentCons").toSelect({
+					colorful:false
+				})
+				$(".collocate-right-cont input[type=checkbox]").toSwitch();
+
+
+				/*数据来源节点选择--start*/
+				T.init({
+					tmpl:"#data-sources",
+					sourceUrl:URL.dataSource,
+					callback:function(){
+						var textareaList=$(".internal-node textarea");
+						var nodeList=$(".internal-node .internal-node-con");
+						var nodeTitle=$(".internal-node .internal-node-title");
+						var optionList=$("#data-origin option");
+						$(".internal-node .checkbox").each(function(){
+							for(var key in $(this).attr("data-id")){
+								if($(this).attr("data-id")[key]==$(this).attr("value")){
+									this.checked=true;
+								}
+							}
+						});
+						$(".checkbox").toCheckbox();
+						$(".type-select").toSelect();
+
+						textareaList.each(function(){
+							if($(this).html()==""){
+								$(this).parent().next().addClass("disNone")
+							}
+						});
+
+						var that=this;
+						that.now_value = {};
+						for (i = 0; i <nodeList.length; i++) {
+							that.now_value[i] = textareaList.eq(i).val();
+						};
+
+						$(".internal-node .node-edit").each(function(){
+							$(this).on("click",function(){
+								var nub = 0;
+								for (j = 0; j < nodeList.length; j++) {
+									if (!nodeList.eq(j).hasClass("disNone")) {
+										nub += 1
+									}
+								};
+								if (nub == 0) {
+									$(".internal-node").children("div").addClass("disN");
+									$(this).parent().prev().removeClass("disNone");
+									$(this).parent().prev().removeClass("disN");
+								};
+							})
+						});
+						$(".internal-node .calloff").each(function(){
+							$(this).on("click",function(){
+								var index_de = $(".internal-node").find(".calloff").index(this);
+								$(this).parent().parent().addClass("disNone");
+								$(this).parent().parent().next().removeClass("disNone");
+								$(".internal-node").children("div").removeClass("disN");
+								$("textarea", $(this).parent().parent()).val(that.now_value[index_de]);
+							});
+						});
+
+						$(".internal-node .ensure").each(function(){
+							$(this).on("click", function(){
+								var index_de = $(".internal-node").find(".ensure").index(this);
+								$(this).parent().parent().addClass("disNone");
+								$(this).parent().parent().next().removeClass("disNone");
+								$(".internal-node").children("div").removeClass("disN");
+								for (i = 0; i <nodeList.length; i++) {
+									that.now_value[i] = textareaList.eq(i).val();
+								};
+							});
+						});
+
+						$("font", nodeTitle).each(function(){
+							$(this).on("click",function(){
+								var index_dele = $("font", nodeTitle).index(this);
+								$(this).parent().parent().addClass("disNone");
+								textareaList[index_dele].value = "";
+								if($(this).hasClass("mark-5-9")){
+									$(".internal-node .type-select").val("1").trigger('selectVal');
+									$(".internal-node .Grabfew").val("10");
+								}
+							})
+						});
+
+						$(".new-node").on("click",function(){
+							var dis = 0
+							for (i = 0; i < nodeList.length; i++) {
+								if (!nodeList.eq(i).hasClass("disNone")) {
+									dis += 1
+								}
+							}
+							for (i = 0; i < textareaList.length; i++) {
+								if (optionList[i + 1].selected&&nodeTitle.eq(i).is(":visible") == false && dis == 0) {
+									$(".internal-node").children("div").addClass("disN")
+									nodeList.eq(i).removeClass("disNone");
+									nodeList.eq(i).removeClass("disN");
+								}
+							}
+						})
+					}
+				})
+				/*数据来源节点选择--end*/
+
+
+				/*dialog-Tree --start*/
+				//上级栏目
+				$('#parentId_cont').dialog({
+					appendTo:".collocate-cont",
+					position:{my: "left top", at: "left bottom", of: $(".collocate_up").parent()},
+					width: 250,
+					height:400,
+					modal: false,
+					showTitle:false,
+					autoOpen:false,
+					create:function(){
+						$("#parentId_cont").addClass("ztree");
+						var setting = {
+							async: {
+								url:'../../../xhadmin/content/tree.do',
+								enable: true,
+								autoParam: ["id"]
+							},
+							callback: {
+								onClick: onClick
+							}
+					    };
+
+						var log, className = "dark";
+						function onClick(event, treeId, treeNode, clickFlag) {
+								$(".collocate_up").attr("data-id",treeNode.id);
+								$(".collocate_up").val(treeNode.name);
+								$(".collocate_up").focus();
+								$("#parentId_cont").dialog("close");
+								$(".upcollocate").val($(".collocate_up").attr("data-id"))
+						}
+						
+						$.fn.zTree.init($("#parentId_cont"), setting);
+					},
+					buttons:[
+								{
+									text:'取消',
+									icons:{primary: "ui-cancel"},
+									className:'button-cancel',
+									click:function(){$("#parentId_cont").dialog("close");}
+								}
+							]
+				});
+				
+				$('.collocate_up').focus(function(){
+					$(".collocate_up").blur();
+					$('#parentId_cont').dialog('open');
+				});
+
+
+				//栏目分类
+				$("#category_cont").dialog({
+					appendTo:".collocate-cont",
+					position:{my:"left top", at:"left,bottom", of: $(".category").parent()},
+					width: 250,
+					height:450,
+					modal: false,
+					showTitle:false,
+					autoOpen:false,
+					create:function(){
+						$("#category_cont").addClass("ztree");
+						var setting={
+							async:{
+								url:'../../../xhadmin/content/tree.do',
+								enable: true,
+								autoParam: ["id"]
+							},
+							callback:{
+								onClick: onClick
+							}
+						};
+						var log, className = "dark";
+						function onClick(event,treeId,treeNode,clickFlag){
+							$(".category").attr("data-id",treeNode.id);
+							$(".category").val(treeNode.name);
+							$(".category").focus();
+							$("#category_cont").dialog("close");
+							$("#catelog").val($(".category").attr("data-id"))
+						}
+
+						$.fn.zTree.init($("#category_cont"), setting);
+					},
+					buttons:[
+								{
+									text:'取消',
+									icons:{primary: "ui-cancel"},
+									className:'button-cancel',
+									click:function(){$("#category_cont").dialog("close");}
+								}
+							]
+
+				})
+				$('.category').focus(function(){
+					$(".category").blur();
+					$('#category_cont').dialog('open');
+				});		
+				/*dialog-Tree --end*/
+
+
+				/*新华网节点选择--start*/
+				require(["underscore"],function(){
+					$('#id_open').on('click',function(){
+						$('#id_open').blur();
+						var _node = $('#id_open'),
+							_node_val = _node.val();
+						var logs, className = "dark";
+						var logs = $("#logs");
+						var redo="<i>—</i>";
+						if((",").indexOf(_node_val.substring(_node_val.length-1,_node_val.length))==-1){	
+								_node_val = _node_val.substring(0,_node_val.length);
+						}else{
+							_node_val = _node_val.substring(0,_node_val.length-1);
+						}
+
+						$.ajax({
+							url : "../../../xhadmin/content/getNodeName.do?data="+_node_val,
+							dataType : "json",
+							success: function(data){
+								logs.html("");
+								for(var key in data){
+									var re="<li"+" "+"data-id="+"'"+data[key]["id"]+"'>"+data[key]["name"]+"</li>";
+									logs.append(re);
+								}
+							}
+						});
+						var dataAll;
+						$.ajax({
+					    	url : "../../../xhadmin/content/getUsedNode.do",
+							dataType : "json",
+							success:function(datas){
+							    dataAll = _.groupBy( datas , "cnodeId" );
+								for (var i in dataAll) {
+									dataAll[i] = _.pluck( dataAll[i], 'channelName' ).join(",");
+									
+								};
+							}
+						});
+						$('.dialog_wrap').css({'display':'block'});
+						$('.dialog_mask').css({'display':'block'});
+						$("#stage").addClass("ztree");
+						var setting = {
+							async: {
+								url:'../../../xhadmin/content/getNode.do',
+								enable: true,
+								autoParam: ["id", "level=lv"],
+								dataFilter:function(id, parent, data){
+									for (var i = 0; i < data.length; i++) {
+										for(var key in dataAll){
+											if(key==data[i]["id"]){
+												(function(d){
+													d.target = dataAll[key];
+												})(data[i]);
+											}
+										}
+									};
+									return data;
+								},
+							},
+							callback: {
+								onClick: onClick,
+								onAsyncSuccess: zTreeOnAsyncSuccess
+							}
+						};
+
+						function onClick(event, treeId, treeNode, clickFlag) {
+							var count=0;
+							for(i=0; i< logs.find("li").length; i++){
+								if(logs.find("li").eq(i).attr("data-id")==treeNode.id){
+									count+=1;
+								}
+							}
+							if(count==0){
+								var re="<li"+" "+"data-id="+"'"+treeNode.id+"'>"+treeNode.name+"</li>";
+								logs.append(re);
+							}
+						};
+						function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+							var title=$("<span class='titleNode'><i>已选</i><strong></strong><span class='titleNodeTip'></span></span>")
+						
+						    $("#stage a").each(function(i){
+						    	var _this = $(this), _t = $(this).attr("target");
+					    		if( _t != "_blank"){
+					    			title.children(':last').html("已被"+ _t +"选用").hide();
+					    			title.find("strong").hide();
+					    			title.clone().appendTo( _this );
+					    			_this.parent().hover(function(){
+					    				_this.find("strong").show();
+					    				_this.find('.titleNodeTip').show();
+					    			},function(){
+					    				_this.find("strong").hide();
+					    				_this.find('.titleNodeTip').hide();
+					    			})
+					    			
+					    		}
+						    })
+						};
+						
+						logs.on("mouseenter","li",function(){
+							if($("this:has(i)").length==0){
+								$(this).append(redo);
+								$(this).find("i").click(function(){
+									$(this).parent().remove();
+								})
+							}
+						})
+						logs.on("mouseleave","li",function(){
+								$(this).find("i").remove();
+						});
+
+						$('#finish_selected').on('click',function(){
+							$('.dialog_wrap').css({'display':'none'});
+							$('.dialog_mask').css({'display':'none'});
+							var arrcount=[];
+							for(i=0; i< logs.find("li").length; i++){
+								arrcount.push(logs.find("li").eq(i).attr("data-id"));
+							}
+							if(arrcount[0]){
+								var strcount=arrcount.join()+",";
+							}else{
+								var strcount="";
+							}
+							$('#id_open').val(strcount);
+					
+						});
+						$.fn.zTree.init($("#stage"), setting);
+					});
+
+					$('.dialog_close_btn').on('click',function(){
+						$('.dialog_wrap').css({'display':'none'});
+						$('.dialog_mask').css({'display':'none'});
+					});
+				});
+				/*新华网节点选择--end*/
+			});
+				
+			/*提交*/
+			require(["alerts"],function(){
+				$("#jvForm").on("submit",function(e){
+					$.ajax({
+						url:"../json/success.json",
+						data:$(this).serializeArray(),
+						dataType:"json",
+						type:"post",
+						success:function(){
+							jAlert('<p class="delete_content">保存成功</p>');
+						}
+					})
+					e.preventDefault();
+				})
+			})
+		})()
+
+	</script>
+</body>
+</html>
